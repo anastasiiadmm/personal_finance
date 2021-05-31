@@ -1,7 +1,6 @@
 'use strict';
 const {Model} = require('sequelize');
 const bcrypt = require("bcrypt");
-const {nanoid} = require('nanoid');
 
 
 const SALT_WORK_FACTOR = 10;
@@ -23,10 +22,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       token: {
         type: DataTypes.JSON,
-        set() {
-          const token = {id: nanoid(), date: new Date(), device: null}
-          this.setDataValue('token', JSON.stringify([token]));
-        }
       },
       avatar: DataTypes.STRING,
       preferences: {
