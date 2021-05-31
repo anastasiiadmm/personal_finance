@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       token: {
         type: DataTypes.JSON,
+        set() {
+          const token = {id: nanoid(), date: new Date(), device: null}
+          this.setDataValue('token', JSON.stringify([token]));
+        }
       },
       avatar: DataTypes.STRING,
       preferences: {
@@ -34,15 +38,6 @@ module.exports = (sequelize, DataTypes) => {
         beforeCreate: (user) => {
           const salt = bcrypt.genSaltSync(SALT_WORK_FACTOR);
           user.password = bcrypt.hashSync(user.password, salt);
-        }
-      },
-      instanceMethods: {
-        validPassword(password) {
-          return bcrypt.compare(password, this.password);
-        },
-        setToken: (user) => {
-          const token = {id: nanoid(), date: new Date(), device: null}
-          user.token = JSON.stringify([token]);
         }
       },
       privateColumns: ['password'],

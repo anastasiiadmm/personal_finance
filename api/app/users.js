@@ -15,10 +15,10 @@ router.post('/signup/', upload.single('avatar'), verifySignUp.checkDuplicateEmai
       email: req.body.email,
       displayName: req.body.displayName,
       password: req.body.password,
-      avatar: req.file ? req.file.filename : null
+      avatar: req.file ? req.file.filename : null,
+      token: ''
     });
 
-    user.setToken();
 
     const userData = user.toJSON();
     delete userData.password;
@@ -49,6 +49,8 @@ router.post('/login/', async (req, res) => {
         message: "Invalid Password!"
       });
     }
+
+    user.token = '';
 
     const userData = user.toJSON();
     delete userData.password;
