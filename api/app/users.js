@@ -18,60 +18,47 @@ router.post('/signup/', upload.single('avatar'), verifySignUp.checkDuplicateEmai
       avatar: req.file ? req.file.filename : null
     });
 
-    const token = jwt.sign({id: user.id}, config.secret, {
-      expiresIn: 86400 // 24 hours
-    });
+    user.setToken();
+
     const userData = user.toJSON();
     delete userData.password;
-    res.status(200).send({
-      ...userData,
-      accessToken: token
-    });
+    res.status(200).send({userData});
 
   } catch (e) {
-    return res.status(400).send({message: err.message});
+    return res.status(400).send({message: e.message});
   }
 });
 
-router.post('/login/', (req, res) => {
-  User.findOne({
-    where: {
-      email: req.body.email
-    }
-  })
-    .then(user => {
-      if (!user) {
-        return res.status(404).send({message: "User Not found."});
+router.post('/login/', async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        email: req.body.email
       }
-
-      const passwordIsValid = bcrypt.compareSync(
-        req.body.password,
-        user.password
-      );
-
-      if (!passwordIsValid) {
-        return res.status(401).send({
-          accessToken: null,
-          message: "Invalid Password!"
-        });
-      }
-
-      const token = jwt.sign({id: user.id}, config.secret, {
-        expiresIn: 86400 // 24 hours
-      });
-
-      const userData = user.toJSON();
-      delete userData.password;
-
-      res.status(200).send({
-        ...userData,
-        accessToken: token
-      });
-
-    })
-    .catch(err => {
-      res.status(500).send({message: err.message});
     });
+    if (!user) {
+      return res.status(404).send({message: "User Not found."});
+    }
+    const passwordIsValid = bcrypt.compareSync(
+      req.body.password,
+      user.password
+    );
+
+    if (!passwordIsValid) {
+      return res.status(401).send({
+        message: "Invalid Password!"
+      });
+    }
+
+    const userData = user.toJSON();
+    delete userData.password;
+
+    res.status(200).send({
+      ...userData,
+    });
+  } catch (e) {
+    return res.status(400).send({message: e.message});
+  }
 });
 
 

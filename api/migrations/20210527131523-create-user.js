@@ -24,9 +24,6 @@ module.exports = {
       avatar: {
         type: Sequelize.STRING
       },
-      devices: {
-        type: Sequelize.JSON
-      },
       preferences: {
         type: Sequelize.ENUM,
         values: ['KGS', 'USD', 'EURO'],

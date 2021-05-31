@@ -17,8 +17,8 @@ app.use('/users', users);
 const run = async () => {
   app.listen(port, async () => {
     console.log(`Server started on ${port} port!`);
-    await sequelize.sync();
-    await initial();
+    await sequelize.sync({force: true});
+    // await initial();
     console.log(`Database synced!`);
   });
   exitHook(async callback => {
