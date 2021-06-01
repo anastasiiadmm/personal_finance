@@ -25,8 +25,6 @@ const AppToolbar = () => {
   const classes = useStyles();
   const user = useSelector(state => state.users.user);
 
-
-
   return (
     <>
       <AppBar position="fixed" className={classes.appBar}>
