@@ -2,7 +2,7 @@ const path = require('path');
 
 const multer = require('multer');
 const {nanoid} = require('nanoid');
-const config = require('./config');
+const config = require('./config/config');
 const {tryToCreateDir} = require("./utils");
 
 

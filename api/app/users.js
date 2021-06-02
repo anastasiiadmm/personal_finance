@@ -1,7 +1,5 @@
 const express = require('express');
 const {User} = require('../models');
-const config = require('../config');
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const verifySignUp = require("../middleware/verifySignUp");
 const upload = require('../multer').avatar;
@@ -58,7 +56,7 @@ router.post('/login/', async (req, res) => {
     let unExisting = true;
     const token = nanoid();
 
-    user.token.map((device, i) => {
+    user.token.map((device) => {
       if (device.device === req.headers['user-agent']) {
         device.id = token;
         device.date = new Date();

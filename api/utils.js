@@ -1,7 +1,7 @@
 const fs = require('fs').promises;
 const axios = require("axios");
 const path = require('path');
-const config = require("./config");
+const config = require("./config/config");
 const {nanoid} = require('nanoid');
 
 
