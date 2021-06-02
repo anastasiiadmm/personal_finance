@@ -1,4 +1,5 @@
-const {User} = require('./user');
+
+const modelsUser = models.user;
 
 module.exports = (sequelize, DataTypes) => {
     const Group = sequelize.define('Group', {
@@ -16,10 +17,10 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Group.associate = function () {
-        Group.belongsToMany(User, {
+        Group.belongsToMany(modelsUser.User, {
             through: 'GroupUsers',
             as: 'users',
-            foreignKey: 'groupId'
+            foreignKey: 'userId'
         });
     }
 

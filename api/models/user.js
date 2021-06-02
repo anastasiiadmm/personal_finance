@@ -1,5 +1,7 @@
 'use strict';
 const {Model} = require('sequelize');
+const models = require('../models/index');
+const modelsGroup = models.group;
 const {Group} = require('./Group');
 
 const bcrypt = require("bcrypt");
@@ -43,10 +45,10 @@ module.exports = (sequelize, DataTypes) => {
     );
 
     User.associate = function () {
-        User.belongsToMany(Group, {
+        User.belongsToMany(modelsGroup.Group, {
             through: 'GroupUsers',
             as: 'groups',
-            foreignKey: 'userId'
+            foreignKey: 'groupId'
         });
     }
 

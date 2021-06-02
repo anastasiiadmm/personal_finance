@@ -1,5 +1,9 @@
-const {User} = require('./user');
-const {Group} = require('./Group');
+const models = require('../models/index');
+const modelsUser = models.user;
+const modelsGroup = models.group;
+
+// const {User} = require('./user');
+// const {Group} = require('./Group');
 
 module.exports = (sequelize, DataTypes) => {
     const GroupUsers = sequelize.define('GroupUsers', {
@@ -21,11 +25,11 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
 
-    GroupUsers.belongsTo(User, {
+    GroupUsers.belongsTo(modelsUser.User, {
         as: 'User',
         foreignKey: 'userId'
     });
-    GroupUsers.belongsTo(Group, {
+    GroupUsers.belongsTo(modelsGroup.Group, {
         as: 'Group',
         foreignKey: 'groupId'
     });
