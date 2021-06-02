@@ -50,6 +50,14 @@ module.exports = {
       },
       avatarGroup: {
         type: Sequelize.STRING
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       }
     });
     await queryInterface.createTable('groupUsers', {
@@ -78,6 +86,14 @@ module.exports = {
           model: 'group',
           key: 'id'
         }
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       }
     });
   },

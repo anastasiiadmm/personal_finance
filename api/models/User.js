@@ -7,6 +7,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
+        validate: {
+          isEmail: true
+        }
       },
       displayName: {
         type: DataTypes.STRING,
@@ -31,15 +34,16 @@ module.exports = (sequelize, DataTypes) => {
           user.password = bcrypt.hashSync(user.password, salt);
         }
       },
-      sequelize,
+
       tableName: 'user',
       modelName: 'User',
+      sequelize,
     }
   );
 
   User.associate = (models) => {
     User.belongsToMany(models.Group, {
-      through: 'GroupUsers',
+      through: models.GroupUsers,
       as: 'groups',
       foreignKey: 'userId'
     });

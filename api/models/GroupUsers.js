@@ -21,8 +21,9 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   }, {
-    sequelize,
+
     tableName: 'groupUsers',
     modelName: 'GroupUsers',
+    sequelize,
   });
 };

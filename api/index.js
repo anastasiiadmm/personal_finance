@@ -3,6 +3,8 @@ const express = require('express');
 const {sequelize} = require('./models');
 const cors = require("cors");
 const users = require('./app/users');
+const groups = require('./app/groups');
+
 const exitHook = require('async-exit-hook');
 
 const app = express();
@@ -13,6 +15,7 @@ app.use(cors());
 const port = 8000;
 
 app.use('/users', users);
+app.use('/groups', groups);
 
 const run = async () => {
   app.listen(port, async () => {

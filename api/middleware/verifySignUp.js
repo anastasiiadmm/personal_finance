@@ -2,7 +2,6 @@ const {User} = require('../models');
 
 
 checkDuplicateEmail = (req, res, next) => {
-  console.log(req)
   if(!req.body.email){
     res.status(400).send({
       message: "No email"
