@@ -36,11 +36,11 @@ const useStyles = makeStyles(theme => ({
 const Login = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const error = useSelector(state => state.users.loginError);
+  const loading = useSelector(state => state.users.loginLoading);
   const [user, setUser] = useState({
     email: '', password: ''
   });
-  const error = useSelector(state => state.users.loginError);
-  const loading = useSelector(state => state.users.loginLoading);
 
   const inputChangeHandler = e => {
     const {name, value} = e.target;

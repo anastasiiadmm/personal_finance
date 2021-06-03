@@ -6,6 +6,7 @@ const users = require('./app/users');
 const groups = require('./app/groups');
 const accounts = require('./app/accounts');
 const exitHook = require('async-exit-hook');
+const transactions = require('./app/transactions');
 
 const app = express();
 app.use(express.static('public/uploads'));
@@ -16,6 +17,7 @@ const port = 8000;
 
 app.use('/users', users);
 app.use('/groups', groups);
+app.use('transactions', transactions);
 app.use('/accounts', accounts)
 
 const run = async () => {

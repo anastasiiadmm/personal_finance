@@ -30,16 +30,12 @@ module.exports = (sequelize, DataTypes) => {
     sumIn: {
       type: DataTypes.INTEGER,
     },
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
-    },
     description: DataTypes.STRING,
     cashierCheck: DataTypes.STRING,
     uuid: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
+      autoIncrement: true,
       primaryKey: true
     }
   }, {

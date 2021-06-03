@@ -26,8 +26,10 @@ const createMulter = dirName => {
 
 const avatar = createMulter('avatar');
 const group = createMulter('group');
+const cashierCheck = createMulter('cashierCheck');
 
 module.exports = {
   avatar,
-  group
+  group,
+  cashierCheck
 };
