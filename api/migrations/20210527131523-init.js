@@ -96,6 +96,53 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
+    await queryInterface.createTable('account', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'User',
+          key: 'id'
+        }
+      },
+      groupId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Group',
+          key: 'id'
+        }
+      },
+      accountName: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      count: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      preferences: {
+        type: Sequelize.ENUM,
+        allowNull: false,
+        values: ['KGS', 'USD', 'EURO'],
+      },
+      accountAvatar: {
+        type: Sequelize.STRING,
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
+    });
   },
   down: async (queryInterface) => {
     await queryInterface.dropAllTables();
