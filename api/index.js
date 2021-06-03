@@ -5,6 +5,7 @@ const cors = require("cors");
 const users = require('./app/users');
 const groups = require('./app/groups');
 const accounts = require('./app/accounts');
+const categories = require('./app/categories');
 const exitHook = require('async-exit-hook');
 const transactions = require('./app/transactions');
 
@@ -19,6 +20,7 @@ app.use('/users', users);
 app.use('/groups', groups);
 app.use('transactions', transactions);
 app.use('/accounts', accounts)
+app.use('/categories', categories);
 
 const run = async () => {
   app.listen(port, async () => {

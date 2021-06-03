@@ -27,9 +27,11 @@ const createMulter = dirName => {
 const avatar = createMulter('avatar');
 const group = createMulter('group');
 const cashierCheck = createMulter('cashierCheck');
+const categoryIcon = createMulter('categoryIcon');
 
 module.exports = {
   avatar,
   group,
-  cashierCheck
+  cashierCheck,
+  categoryIcon
 };

@@ -141,6 +141,49 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+    });
+    await queryInterface.createTable('category', {
+      id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      icon: Sequelize.STRING,
+      categoryType: {
+        type: Sequelize.ENUM,
+        allowNull: false,
+        default: 'income',
+        values: ['income', 'expenditure']
+      },
+      category: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'category',
+          key: 'id'
+        }
+      },
+      user: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'user',
+          key: 'id'
+        }
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       }
     });
   },

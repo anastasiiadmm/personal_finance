@@ -50,6 +50,12 @@ module.exports = (sequelize, DataTypes) => {
       as: "accounts",
       foreignKey: 'userId'
     });
+    User.hasMany(models.Category, {
+        foreignKey: {
+            name: 'user',
+            allowNull: false
+        }
+    });
   };
 
   return User;
