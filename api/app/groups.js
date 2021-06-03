@@ -27,11 +27,9 @@ router.post('/addUsersGroup', async (req, res) => {
     try {
         const group = await GroupUsers.create({
             userId: req.body.userId,
-            groupId: req.body.group,
+            groupId: req.body.groupId,
             role: req.body.role
         });
-
-        console.log(group)
 
         // const user = await User.findOne({email: req.body.email});
         //
