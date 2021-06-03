@@ -34,7 +34,6 @@ module.exports = (sequelize, DataTypes) => {
           user.password = bcrypt.hashSync(user.password, salt);
         }
       },
-
       tableName: 'user',
       modelName: 'User',
       sequelize,
@@ -45,6 +44,10 @@ module.exports = (sequelize, DataTypes) => {
     User.belongsToMany(models.Group, {
       through: models.GroupUsers,
       as: 'groups',
+      foreignKey: 'userId'
+    });
+    User.hasMany(models.Account, {
+      as: "accounts",
       foreignKey: 'userId'
     });
   };

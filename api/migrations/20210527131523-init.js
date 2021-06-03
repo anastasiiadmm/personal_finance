@@ -107,14 +107,14 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'User',
+          model: 'user',
           key: 'id'
         }
       },
       groupId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Group',
+          model: 'group',
           key: 'id'
         }
       },
