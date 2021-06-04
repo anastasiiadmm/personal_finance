@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/', upload.single('cashierCheck'), async (req, res) => {
+router.post('/expense', upload.single('cashierCheck'), async (req, res) => {
   console.log(req.body);
   try {
     const transactionData = {
@@ -32,6 +32,23 @@ router.post('/', upload.single('cashierCheck'), async (req, res) => {
       transactionData.accountIn = null;
       transactionData.sumIn = null;
     }
+
+    const transaction = await Transaction.create(transactionData);
+    res.status(200).send(transaction.toJSON());
+  } catch (e) {
+    return res.status(400).send({message: e.message});
+  }
+});
+
+router.post('/income', upload.single('cashierCheck'), async (req, res) => {
+  console.log(req.body);
+  try {
+    const transactionData = {
+      userId: req.body.userId,
+      categoryId: req.body.categoryId,
+      description: req.body.description,
+      cashierCheck: req.file ? req.file.filename : null,
+    };
 
     if (req.body.accountIn) {
       transactionData.accountIn =  req.body.accountIn;
