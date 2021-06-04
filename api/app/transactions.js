@@ -16,40 +16,36 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/expense', upload.single('cashierCheck'), async (req, res) => {
+router.post('/', upload.single('cashierCheck'), async (req, res) => {
+  console.log(req.body);
   try {
-    const transaction = await Transaction.create({
+    const transactionData = {
       userId: req.body.userId,
-      accountOut: req.body.accountOut,
-      accountIn: null,
-      sumOut: req.body.sumOut,
-      sumIn: null,
+      categoryId: req.body.categoryId,
       description: req.body.description,
       cashierCheck: req.file ? req.file.filename : null,
-    });
+    };
 
+    if (req.body.accountOut) {
+      transactionData.accountOut =  req.body.accountOut;
+      transactionData.sumOut = req.body.sumOut;
+      transactionData.accountIn = null;
+      transactionData.sumIn = null;
+    }
+
+    if (req.body.accountIn) {
+      transactionData.accountIn =  req.body.accountIn;
+      transactionData.sumIn = req.body.sumIn;
+      transactionData.accountOut = null;
+      transactionData.sumOut = null;
+    }
+
+    const transaction = await Transaction.create(transactionData);
     res.status(200).send(transaction.toJSON());
   } catch (e) {
     return res.status(400).send({message: e.message});
   }
 });
 
-router.post('/income', upload.single('cashierCheck'), async (req, res) => {
-  try {
-    const transaction = await Transaction.create({
-      userId: req.body.userId,
-      accountOut: null,
-      accountIn: req.body.accountIn,
-      sumOut: null,
-      sumIn: req.body.sumIn,
-      description: req.body.description,
-      cashierCheck: req.file ? req.file.filename : null,
-    });
-
-    res.status(200).send(transaction.toJSON());
-  } catch (e) {
-    return res.status(400).send({message: e.message});
-  }
-});
 
 module.exports = router;
