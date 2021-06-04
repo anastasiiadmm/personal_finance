@@ -1,6 +1,6 @@
 const express = require('express');
-const {Account, User, Group} = require('../models');
-const upload = require('../multer').avatar;
+const {Account, Group} = require('../models');
+const upload = require('../multer').accountIcon;
 
 
 const router = express.Router();
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 
 });
 
-router.post('/', upload.single('avatar'), async (req, res) => {
+router.post('/', upload.single('accountIcon'), async (req, res) => {
 
   try {
     const account = await Account.create({
@@ -24,7 +24,7 @@ router.post('/', upload.single('avatar'), async (req, res) => {
       groupId: req.body.groupId,
       count: req.body.count,
       preferences: req.body.preferences,
-      accountAvatar: req.file ? req.file.filename : null,
+      accountIcon: req.file ? req.file.filename : null,
     });
     console.log(account);
     res.status(200).send(account.toJSON());
@@ -35,25 +35,31 @@ router.post('/', upload.single('avatar'), async (req, res) => {
 
 });
 
-router.put('/:id', upload.single('avatar'), async (req, res) => {
-  // const accountData = req.body;
-  // accountData.user = req.body.user.id;
-  // if (accountData.user === req.body.user.id) {
+router.put('/:id', upload.single('accountIcon'), async (req, res) => {
+
   try {
-    const account = await Account.create({
-      accountName: req.body.accountName,
-      count: req.body.count,
-      accountAvatar: req.file ? req.file.filename : null
+     await Account.findOne({
+      where: {
+        id: req.body.id
+      }
     });
 
+    const accountData = await Account.update({
+      accountName: req.body.accountName,
+      count: req.body.count,
+      preferences: req.body.preferences,
+    },
+        {
+          where: {
+          id: req.body.id
+    }
+        });
 
-    res.status(200).send(account.toJSON());
+    res.status(200).send(accountData.toJSON());
   } catch (e) {
     return res.status(400).send({message: e.message});
   }
-  // } else {
-  //     res.status(401).send('Please Login!')
-  // }
+
 });
 
 router.delete('/:id', async (req, res) => {
@@ -61,11 +67,12 @@ router.delete('/:id', async (req, res) => {
   // accountData.user = req.user.id;
   // if (accountData.user === req.body.user.id) {
   try {
-    await Account.destroy({
+   const account = await Account.findOne({
       where: {
         id: req.body.id
       }
     });
+   account.destroy();
     res.send("Account deleted!");
   } catch (e) {
     res.status(400).send('Not deleted!')

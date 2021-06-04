@@ -28,10 +28,12 @@ const avatar = createMulter('avatar');
 const group = createMulter('group');
 const cashierCheck = createMulter('cashierCheck');
 const categoryIcon = createMulter('categoryIcon');
+const accountIcon = createMulter('accountIcon');
 
 module.exports = {
   avatar,
   group,
   cashierCheck,
-  categoryIcon
+  categoryIcon,
+  accountIcon
 };

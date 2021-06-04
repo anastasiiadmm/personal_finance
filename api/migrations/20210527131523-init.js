@@ -131,7 +131,7 @@ module.exports = {
         allowNull: false,
         values: ['KGS', 'USD', 'EURO'],
       },
-      accountAvatar: {
+      accountIcon: {
         type: Sequelize.STRING,
       },
       createdAt: {
