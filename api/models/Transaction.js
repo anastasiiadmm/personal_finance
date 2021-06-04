@@ -1,35 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const Transaction = sequelize.define('Transaction', {
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'User',
-        key: 'id'
-      }
-    },
-    accountOut: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'Account',
-        key: 'id'
-      }
-    },
-    accountIn: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'Account',
-        key: 'id'
-      }
-    },
-    sumOut: {
-      type: DataTypes.INTEGER,
-    },
-    sumIn: {
-      type: DataTypes.INTEGER,
-    },
+    userId: DataTypes.INTEGER,
+    accountOut: DataTypes.INTEGER,
+    accountIn: DataTypes.INTEGER,
+    sumOut: DataTypes.INTEGER,
+    sumIn: DataTypes.INTEGER,
+    categoryId: DataTypes.INTEGER,
     description: DataTypes.STRING,
     cashierCheck: DataTypes.STRING,
     uuid: {
@@ -43,6 +19,32 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'Transaction',
     tableName:'transaction'
   });
+
+  Transaction.associate = (models) => {
+    Transaction.belongsTo(models.Category, {
+      foreignKey: {
+        name: 'categoryId',
+        as: 'category',
+        allowNull: false,
+      }
+    });
+
+    Transaction.belongsTo(models.User, {
+      foreignKey: {
+        name: 'userId',
+        as: 'user',
+        allowNull: false,
+      }
+    });
+
+    Transaction.belongsTo(models.Account, {
+      foreignKey: {
+        name: 'accountId',
+        as: 'account',
+        allowNull: false,
+      }
+    });
+  };
 
   return Transaction;
 };
