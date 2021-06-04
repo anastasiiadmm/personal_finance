@@ -18,7 +18,7 @@ const port = 8000;
 
 app.use('/users', users);
 app.use('/groups', groups);
-app.use('transactions', transactions);
+app.use('/transactions', transactions);
 app.use('/accounts', accounts)
 app.use('/categories', categories);
 
