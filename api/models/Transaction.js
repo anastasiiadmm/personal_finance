@@ -1,5 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const Transaction = sequelize.define('Transaction', {
+    id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true
+    },
     userId: DataTypes.INTEGER,
     accountOut: DataTypes.INTEGER,
     accountIn: DataTypes.INTEGER,
@@ -7,13 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     sumIn: DataTypes.INTEGER,
     categoryId: DataTypes.INTEGER,
     description: DataTypes.STRING,
-    cashierCheck: DataTypes.STRING,
-    uuid: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      autoIncrement: true,
-      primaryKey: true
-    }
+    cashierCheck: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Transaction',
