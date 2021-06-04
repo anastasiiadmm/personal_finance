@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       values: ['KGS', 'USD', 'EURO'],
     },
-    accountAvatar: {
+    accountIcon: {
       type: DataTypes.STRING,
     },
   }, {
