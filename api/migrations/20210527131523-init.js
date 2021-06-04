@@ -169,7 +169,7 @@ module.exports = {
           key: 'id'
         }
       },
-      user: {
+      userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
