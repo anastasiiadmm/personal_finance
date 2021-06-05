@@ -8,14 +8,32 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4
       },
-      userId: Sequelize.INTEGER,
-      accountOut: Sequelize.INTEGER,
-      accountIn: Sequelize.INTEGER,
-      sumOut: Sequelize.INTEGER,
-      sumIn: Sequelize.INTEGER,
-      categoryId: Sequelize.INTEGER,
-      description: Sequelize.STRING,
-      cashierCheck: Sequelize.STRING,
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      accountOut: {
+        type: Sequelize.INTEGER
+      },
+      accountIn: {
+        type: Sequelize.INTEGER
+      },
+      sumOut: {
+        type: Sequelize.INTEGER
+      },
+      sumIn: {
+        type: Sequelize.INTEGER
+      },
+      categoryId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      description: {
+        type: Sequelize.STRING
+      },
+      cashierCheck: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
