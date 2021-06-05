@@ -25,25 +25,29 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'category',
         modelName: 'Category',
     });
+
     /////////////////////RELATIONSHIPS
 
     Category.associate = (models) => {
-        Category.hasMany(models.Transaction, {
+        Category.belongsTo(models.User, {
             foreignKey: {
-                name: 'category',
-                allowNull: false,
-            }
+                name: 'userId'
+            },
+            as: 'user'
         });
-    };
-
-    Category.associate = (models) => {
-        Category.belongsTo(models.User);
 
         Category.hasMany(Category, {
             foreignKey: {
                 name: 'category',
             },
             as: 'subCategory'
+        });
+
+        Category.hasMany(models.Transaction, {
+            foreignKey: {
+                name: 'category',
+                allowNull: false,
+            }
         });
     };
 

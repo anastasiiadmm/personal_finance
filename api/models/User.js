@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     User.hasMany(models.Category, {
         foreignKey: {
-            name: 'user',
+            name: 'userId',
             allowNull: false
         }
     });

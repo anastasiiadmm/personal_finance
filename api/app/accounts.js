@@ -38,24 +38,15 @@ router.post('/', upload.single('accountIcon'), async (req, res) => {
 router.put('/:id', upload.single('accountIcon'), async (req, res) => {
 
   try {
-     await Account.findOne({
-      where: {
-        id: req.body.id
-      }
-    });
-
-    const accountData = await Account.update({
+    await Account.update({
       accountName: req.body.accountName,
       count: req.body.count,
       preferences: req.body.preferences,
-    },
-        {
-          where: {
-          id: req.body.id
-    }
-        });
 
-    res.status(200).send(accountData.toJSON());
+    },
+        {where: {id: req.params.id}});
+
+    res.status(200).send("Изменен");
   } catch (e) {
     return res.status(400).send({message: e.message});
   }
@@ -63,9 +54,7 @@ router.put('/:id', upload.single('accountIcon'), async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-  // const accountData = req.body;
-  // accountData.user = req.user.id;
-  // if (accountData.user === req.body.user.id) {
+
   try {
    const account = await Account.findOne({
       where: {
@@ -77,9 +66,7 @@ router.delete('/:id', async (req, res) => {
   } catch (e) {
     res.status(400).send('Not deleted!')
   }
-  // } else {
-  //     res.status(401).send('Please Login!')
-  // }
+
 });
 
 
