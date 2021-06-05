@@ -36,18 +36,17 @@ router.post('/', upload.single('accountIcon'), async (req, res) => {
 });
 
 router.put('/:id', upload.single('accountIcon'), async (req, res) => {
-  const accountId = req.body
-  console.log(accountId)
+
   try {
     await Account.update({
       accountName: req.body.accountName,
       count: req.body.count,
       preferences: req.body.preferences,
-      id: req.body.id
-    },
-        {where: {id: req.body.id}});
 
-    res.status(200).send("Created");
+    },
+        {where: {id: req.params.id}});
+
+    res.status(200).send("Изменен");
   } catch (e) {
     return res.status(400).send({message: e.message});
   }
