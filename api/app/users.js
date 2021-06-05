@@ -4,18 +4,25 @@ const bcrypt = require("bcrypt");
 const verifySignUp = require("../middleware/verifySignUp");
 const upload = require('../multer').avatar;
 const {nanoid} = require('nanoid');
+const geoip = require('geoip-lite');
 
 
 const router = express.Router();
 
 router.post('/signup/', upload.single('avatar'), verifySignUp.checkDuplicateEmail, async (req, res) => {
   try {
+
     const user = await User.create({
       email: req.body.email,
       displayName: req.body.displayName,
       password: req.body.password,
       avatar: req.file ? req.file.filename : null,
-      token: [{id: nanoid(), date: new Date(), device: req.headers['user-agent']}]
+      token: [{
+        id: nanoid(),
+        date: new Date(),
+        location: req.ip === '::1' ? geoip.lookup('92.62.73.100').country : geoip.lookup(req.ip).country,
+        device: req.device.type.toUpperCase()
+      }]
     });
 
     const userData = user.toJSON();
