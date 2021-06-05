@@ -4,14 +4,45 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       allowNull: false,
       autoIncrement: true,
-      primaryKey: true
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4
     },
-    userId: DataTypes.INTEGER,
-    accountOut: DataTypes.INTEGER,
-    accountIn: DataTypes.INTEGER,
-    sumOut: DataTypes.INTEGER,
-    sumIn: DataTypes.INTEGER,
-    categoryId: DataTypes.INTEGER,
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'User',
+        key: 'id'
+      }
+    },
+    accountOut: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Account',
+        key: 'id'
+      }
+    },
+    accountIn: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Account',
+        key: 'id'
+      }
+    },
+    sumOut: {
+      type: DataTypes.INTEGER,
+    },
+    sumIn: {
+      type: DataTypes.INTEGER,
+    },
+    categoryId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Category',
+        key: 'id'
+      }
+    },
     description: DataTypes.STRING,
     cashierCheck: DataTypes.STRING
   }, {
@@ -24,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
     Transaction.belongsTo(models.Category, {
       foreignKey: {
         name: 'categoryId',
-        as: 'category',
+        as: 'categoryId',
         allowNull: false,
       }
     });
@@ -32,18 +63,12 @@ module.exports = (sequelize, DataTypes) => {
     Transaction.belongsTo(models.User, {
       foreignKey: {
         name: 'userId',
-        as: 'user',
+        as: 'userId',
         allowNull: false,
       }
     });
 
-    Transaction.belongsTo(models.Account, {
-      foreignKey: {
-        name: 'accountId',
-        as: 'account',
-        allowNull: false,
-      }
-    });
+    Transaction.belongsTo(models.Account);
   };
 
   return Transaction;
