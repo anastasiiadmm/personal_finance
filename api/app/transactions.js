@@ -85,7 +85,4 @@ router.post('/income', upload.single('cashierCheck'), async (req, res) => {
   }
 });
 
-
-
-
 module.exports = router;
