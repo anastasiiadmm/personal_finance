@@ -15,20 +15,8 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
-    accountOut: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Account',
-        key: 'id'
-      }
-    },
-    accountIn: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Account',
-        key: 'id'
-      }
-    },
+    accountFromId: DataTypes.INTEGER,
+    accountToId: DataTypes.INTEGER,
     sumOut: {
       type: DataTypes.INTEGER,
     },
@@ -46,9 +34,9 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     cashierCheck: DataTypes.STRING
   }, {
-    sequelize,
     modelName: 'Transaction',
-    tableName:'transaction'
+    tableName: 'transaction',
+    sequelize
   });
 
   Transaction.associate = (models) => {
@@ -66,16 +54,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     });
 
-    Transaction.belongsToMany(models.Account, {
-      through: 'AccountTransactions',
-      // as: 'accountOut',
-      foreignKey: 'accountOut',
+    Transaction.belongsTo(models.Account, {
+      as: 'AccountFrom'
     });
 
-    Transaction.belongsToMany(models.Account, {
-      through: 'AccountTransactions',
-      // as: 'accountIn',
-      foreignKey: 'accountIn',
+    Transaction.belongsTo(models.Account, {
+      as: 'AccountTo'
     });
 
   };

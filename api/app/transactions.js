@@ -6,16 +6,15 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    console.log('Tr' + req.body);
     const transactions = await Transaction.findAll({
-      include: [
-        {model: User, as: 'user'},
-        {model: Account},
-        {model: Category, as: 'category'}
-      ]
+      include: [{
+        model: Account,
+        as: 'AccountFrom',
+      }, {
+        model: Account,
+        as: 'AccountTo',
+      }],
     });
-
-    console.log('Tr' + req.body);
 
     res.status(200).send(transactions);
   } catch (e) {
@@ -23,13 +22,12 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/transfer', async (req, res) => {
-  console.log(req.body);
+router.post('/transfer', upload.single('cashierCheck'), async (req, res) => {
   try {
     const transactionData = {
       userId: req.body.userId,
-      accountOut: req.body.accountOut,
-      accountIn: req.body.accountIn,
+      accountToId: req.body.accountToId,
+      accountFromId: req.body.accountFromId,
       sumOut: req.body.sumOut,
       sumIn: req.body.sumIn,
       categoryId: req.body.categoryId,

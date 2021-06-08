@@ -196,12 +196,24 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'user',
+          key: 'id'
+        }
       },
-      accountOut: {
-        type: Sequelize.INTEGER
+      accountToId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'account',
+          key: 'id'
+        }
       },
-      accountIn: {
-        type: Sequelize.INTEGER
+      accountFromId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'account',
+          key: 'id'
+        }
       },
       sumOut: {
         type: Sequelize.INTEGER

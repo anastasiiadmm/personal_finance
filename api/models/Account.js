@@ -52,18 +52,6 @@ module.exports = (sequelize, DataTypes) => {
       targetKey: 'id',
       foreignKey: 'groupId'
     });
-    Account.belongsToMany(models.Transaction, {
-      through: 'AccountTransactions',
-      // as: 'transactions',
-      foreignKey: 'accountOut'
-    });
-
-    Account.belongsToMany(models.Transaction, {
-      through: 'AccountTransactions',
-      // as: 'transactions',
-      foreignKey: 'accountIn'
-    });
-
   }
 
   return Account;
