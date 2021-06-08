@@ -1,14 +1,21 @@
 const express = require('express');
-const {Transaction} = require('../models');
 const upload = require('../multer').cashierCheck;
-const Account = null;
-const Category = null;
+const {Account, Category, User, Group, Transaction} = require('../models');
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    const transactions = await Transaction.findAll({include: [{model: Account, required: true}, {model: Category, required: true}]});
+    console.log('Tr' + req.body);
+    const transactions = await Transaction.findAll({
+      include: [
+        {model: User, as: 'user'},
+        {model: Account},
+        {model: Category, as: 'category'}
+      ]
+    });
+
+    console.log('Tr' + req.body);
 
     res.status(200).send(transactions);
   } catch (e) {
@@ -38,7 +45,6 @@ router.post('/transfer', async (req, res) => {
 });
 
 router.post('/expense', upload.single('cashierCheck'), async (req, res) => {
-  console.log(req.body)
   try {
     const transactionData = {
       userId: req.body.userId,
@@ -48,7 +54,7 @@ router.post('/expense', upload.single('cashierCheck'), async (req, res) => {
     };
 
     if (req.body.accountOut) {
-      transactionData.accountOut =  req.body.accountOut;
+      transactionData.accountOut = req.body.accountOut;
       transactionData.sumOut = req.body.sumOut;
       transactionData.accountIn = null;
       transactionData.sumIn = null;
@@ -62,7 +68,6 @@ router.post('/expense', upload.single('cashierCheck'), async (req, res) => {
 });
 
 router.post('/income', upload.single('cashierCheck'), async (req, res) => {
-  console.log(req.body)
   try {
     const transactionData = {
       userId: req.body.userId,
@@ -72,7 +77,7 @@ router.post('/income', upload.single('cashierCheck'), async (req, res) => {
     };
 
     if (req.body.accountIn) {
-      transactionData.accountIn =  req.body.accountIn;
+      transactionData.accountIn = req.body.accountIn;
       transactionData.sumIn = req.body.sumIn;
       transactionData.accountOut = null;
       transactionData.sumOut = null;
@@ -82,6 +87,14 @@ router.post('/income', upload.single('cashierCheck'), async (req, res) => {
     res.status(200).send(transaction.toJSON());
   } catch (e) {
     return res.status(400).send({message: e.message});
+  }
+});
+
+router.put('/:id', upload.single('cashierCheck'), async (req, res) => {
+  try {
+
+  } catch (e) {
+
   }
 });
 

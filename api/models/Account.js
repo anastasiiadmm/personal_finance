@@ -47,11 +47,21 @@ module.exports = (sequelize, DataTypes) => {
     Account.belongsTo(models.User, {
       targetKey: 'id',
       foreignKey: 'userId'
-    })
+    });
     Account.belongsTo(models.Group, {
       targetKey: 'id',
       foreignKey: 'groupId'
-    })
+    });
+    Account.hasMany(models.Transaction, {
+      targetKey: 'id',
+      foreignKey: 'accountOut'
+    });
+
+    Account.hasMany(models.Transaction, {
+      targetKey: 'id',
+      foreignKey: 'accountIn'
+    });
+
   }
 
   return Account;
