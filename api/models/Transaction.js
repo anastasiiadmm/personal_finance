@@ -66,13 +66,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     });
 
-    Transaction.belongsTo(models.Account, {
-      targetKey: 'id',
+    Transaction.belongsToMany(models.Account, {
+      through: 'AccountTransactions',
+      // as: 'accountOut',
       foreignKey: 'accountOut',
     });
 
-    Transaction.belongsTo(models.Account, {
-      targetKey: 'id',
+    Transaction.belongsToMany(models.Account, {
+      through: 'AccountTransactions',
+      // as: 'accountIn',
       foreignKey: 'accountIn',
     });
 

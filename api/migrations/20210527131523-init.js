@@ -228,6 +228,28 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
+    await queryInterface.createTable('AccountTransactions', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      accountId: {
+        type: Sequelize.STRING
+      },
+      transactionId: {
+        type: Sequelize.STRING
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
+    });
   },
   down: async (queryInterface) => {
     await queryInterface.dropAllTables();
