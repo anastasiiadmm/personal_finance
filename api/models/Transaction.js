@@ -55,11 +55,11 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Transaction.belongsTo(models.Account, {
-      as: 'AccountFrom'
+      as: 'accountFrom'
     });
 
     Transaction.belongsTo(models.Account, {
-      as: 'AccountTo'
+      as: 'accountTo'
     });
 
   };

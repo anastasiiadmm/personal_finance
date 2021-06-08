@@ -9,10 +9,10 @@ router.get('/', async (req, res) => {
     const transactions = await Transaction.findAll({
       include: [{
         model: Account,
-        as: 'AccountFrom',
+        as: 'accountFrom',
       }, {
         model: Account,
-        as: 'AccountTo',
+        as: 'accountTo',
       }],
     });
 
