@@ -28,6 +28,7 @@ const createMulter = (dirName, field) => {
 
 const avatar = createMulter('avatar', 'email');
 const group = createMulter('group');
+const toJson = createMulter('anything');
 const cashierCheck = createMulter('cashierCheck');
 const categoryIcon = createMulter('categoryIcon');
 const accountIcon = createMulter('accountIcon');
@@ -37,5 +38,6 @@ module.exports = {
   group,
   cashierCheck,
   categoryIcon,
-  accountIcon
+  accountIcon,
+  toJson
 };

@@ -1,5 +1,5 @@
 const express = require('express');
-const {User} = require('../models');
+const {User, Group} = require('../models');
 const bcrypt = require("bcrypt");
 const upload = require('../multer').avatar;
 const {nanoid} = require('nanoid');
@@ -22,23 +22,28 @@ router.post('/signup/', upload.single('avatar'), async (req, res) => {
         device: req.device.type
       }]
     });
+
+    const group = await Group.create({
+      nameGroup: 'personal',
+    });
+    await user.addGroup(group.id, {through: {role: 'owner'}});
     const userData = user.toJSON();
-    // delete userData.password;
+    delete userData.password;
+
     res.status(200).send({
       ...userData,
-      // token: user.token[0].id
+      token: user.token[0].id
     });
-
   } catch (e) {
     return res.status(400).send({message: e.message});
   }
 });
+
 router.get('/', async (req, res) => {
   try {
     const users = await User.findAll();
-    // delete userData.password;
     res.status(200).send(
-      users
+      users,
     );
 
   } catch (e) {
