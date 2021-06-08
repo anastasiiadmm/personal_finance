@@ -52,13 +52,15 @@ module.exports = (sequelize, DataTypes) => {
       targetKey: 'id',
       foreignKey: 'groupId'
     });
-    Account.hasMany(models.Transaction, {
-      targetKey: 'id',
+    Account.belongsToMany(models.Transaction, {
+      through: models.AccountTransactions,
+      as: 'transactions',
       foreignKey: 'accountOut'
     });
 
-    Account.hasMany(models.Transaction, {
-      targetKey: 'id',
+    Account.belongsToMany(models.Transaction, {
+      through: models.AccountTransactions,
+      as: 'transactions',
       foreignKey: 'accountIn'
     });
 
