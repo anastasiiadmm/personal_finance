@@ -11,13 +11,12 @@ module.exports = (sequelize, DataTypes) => {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
         },
         icon: DataTypes.STRING,
         categoryType: {
             type: DataTypes.ENUM,
             allowNull: false,
-            default: 'income',
+            defaultValue: 'income',
             values: ['income', 'expenditure']
         },
     }, {

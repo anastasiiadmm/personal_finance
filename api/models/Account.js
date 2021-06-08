@@ -25,13 +25,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    count: {
-      type: DataTypes.STRING,
+    balance: {
+      type: DataTypes.INTEGER,
       allowNull: false,
+      defaultValue: 0,
+
     },
     preferences: {
       type: DataTypes.ENUM,
       allowNull: false,
+      defaultValue: 'KGS',
       values: ['KGS', 'USD', 'EURO'],
     },
     accountIcon: {

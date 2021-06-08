@@ -11,9 +11,9 @@ const exitHook = require('async-exit-hook');
 const transactions = require('./app/transactions');
 
 const app = express();
-app.use(device.capture());
 app.use(express.static('public/uploads'));
 app.use(express.json());
+app.use(device.capture());
 app.use(cors());
 
 const port = 8000;

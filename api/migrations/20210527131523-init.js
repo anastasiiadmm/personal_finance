@@ -27,6 +27,7 @@ module.exports = {
       avatar: Sequelize.STRING,
       preferences: {
         type: Sequelize.ENUM,
+        defaultValue: 'KGS',
         values: ['KGS', 'USD', 'EURO'],
       },
       createdAt: {
@@ -122,13 +123,16 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      count: {
+      balance: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+
       },
       preferences: {
         type: Sequelize.ENUM,
         allowNull: false,
+        defaultValue: 'KGS',
         values: ['KGS', 'USD', 'EURO'],
       },
       accountIcon: {
@@ -153,13 +157,12 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
       icon: Sequelize.STRING,
       categoryType: {
         type: Sequelize.ENUM,
         allowNull: false,
-        default: 'income',
+        defaultValue: 'income',
         values: ['income', 'expenditure']
       },
       category: {
@@ -188,10 +191,10 @@ module.exports = {
     });
     await queryInterface.createTable('transaction', {
       id: {
+        type: Sequelize.INTEGER,
         allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4
       },
       userId: {
         type: Sequelize.INTEGER,

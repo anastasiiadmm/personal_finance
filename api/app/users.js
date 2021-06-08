@@ -23,11 +23,23 @@ router.post('/signup/', upload.single('avatar'), async (req, res) => {
       }]
     });
     const userData = user.toJSON();
-    delete userData.password;
+    // delete userData.password;
     res.status(200).send({
       ...userData,
-      token: user.token[0].id
+      // token: user.token[0].id
     });
+
+  } catch (e) {
+    return res.status(400).send({message: e.message});
+  }
+});
+router.get('/', async (req, res) => {
+  try {
+    const users = await User.findAll();
+    // delete userData.password;
+    res.status(200).send(
+      users
+    );
 
   } catch (e) {
     return res.status(400).send({message: e.message});

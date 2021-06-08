@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       avatar: DataTypes.STRING,
       preferences: {
         type: DataTypes.ENUM,
+        defaultValue: 'KGS',
         values: ['KGS', 'USD', 'EURO'],
       },
     }, {
