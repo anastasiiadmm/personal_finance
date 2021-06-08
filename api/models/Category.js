@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
 
         Category.hasMany(models.Transaction, {
             foreignKey: {
-                name: 'category',
+                name: 'categoryId',
                 allowNull: false,
             }
         });

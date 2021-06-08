@@ -25,13 +25,21 @@ router.post('/', upload.single('group'), async (req, res) => {
 
 router.post('/addUsersGroup', async (req, res) => {
     try {
-        const group = await GroupUsers.create({
+        const groupData = {
             userId: req.body.userId,
             groupId: req.body.groupId,
-            role: req.body.role
-        });
+        };
+
+        if (req.body.role === 'owner') {
+            return groupData;
+        }
+
+        groupData.role = req.body.role;
+
+        const group = await GroupUsers.create(groupData);
 
         return res.status(200).send(group.toJSON());
+
     } catch (e) {
         return res.status(400).send({message: e.message});
     }
@@ -53,6 +61,7 @@ router.get('/:id', async (req, res) => {
         const group = await Group.findOne({where: {id: req.params.id}, include: [{model: User, as: 'users'}]});
 
         return res.status(200).send(group);
+
     } catch (e) {
         return res.status(400).send({message: e.message});
     }
@@ -60,9 +69,9 @@ router.get('/:id', async (req, res) => {
 
 router.put('/:id', upload.single('group'), async (req, res) => {
     try {
-        const group = await Group.findOne({where: {id: req.params.id}, include: [{model: User, as: 'users'}]});
+        const groupData = await Group.findOne({where: {id: req.params.id}, include: [{model: User, as: 'users'}]});
 
-        const groupUser = group.users.map(res => {
+        const groupUser = groupData.users.map(res => {
             return res.GroupUsers.role;
         });
 
@@ -83,7 +92,6 @@ router.put('/:id', upload.single('group'), async (req, res) => {
         } else {
             return res.sendStatus(403).send({message: 'You do not have permission to edit group!'})
         }
-
     } catch (e) {
         return res.status(400).send({message: e.message});
     }

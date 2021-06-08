@@ -33,6 +33,7 @@ const run = async () => {
       console.log('Server problem: ' + e);
     }
   });
+
   exitHook(async callback => {
     await sequelize.close();
     console.log('Sequelize disconnected');

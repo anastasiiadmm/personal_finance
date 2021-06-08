@@ -53,22 +53,29 @@ module.exports = (sequelize, DataTypes) => {
 
   Transaction.associate = (models) => {
     Transaction.belongsTo(models.Category, {
-      foreignKey: {
-        name: 'categoryId',
-        as: 'categoryId',
-        allowNull: false,
-      }
+      targetKey: 'id',
+      foreignKey: 'categoryId',
+      as: 'category',
+      allowNull: false,
     });
 
     Transaction.belongsTo(models.User, {
-      foreignKey: {
-        name: 'userId',
-        as: 'userId',
-        allowNull: false,
-      }
+      targetKey: 'id',
+      foreignKey: 'userId',
+      as: 'user',
+      allowNull: false,
     });
 
-    Transaction.belongsTo(models.Account);
+    Transaction.belongsTo(models.Account, {
+      targetKey: 'id',
+      foreignKey: 'accountOut',
+    });
+
+    Transaction.belongsTo(models.Account, {
+      targetKey: 'id',
+      foreignKey: 'accountIn',
+    });
+
   };
 
   return Transaction;

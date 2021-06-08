@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('GroupUsers', {
+    const GroupUsers = sequelize.define('GroupUsers', {
         userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -27,4 +27,6 @@ module.exports = (sequelize, DataTypes) => {
         modelName: 'GroupUsers',
         sequelize,
     });
+
+    return GroupUsers;
 };
