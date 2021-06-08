@@ -1,30 +1,15 @@
 const {User} = require('../models');
 
-
-checkDuplicateEmail = (req, res, next) => {
-  if(!req.body.email){
-    res.status(400).send({
-      message: "No email"
-    });
-    return;
+checkBeforeUpload = async (body, field) => {
+  if (field) {
+    return !await User.findOne({where: {[field]: body[field]}});
+  } else {
+    return true;
   }
-
-  User.findOne({
-    where: {
-      email: req.body.email
-    }
-  }).then(user => {
-    if (user) {
-      res.status(400).send({
-        message: "Failed! Email is already in use!"
-      });
-      return;
-    }
-    next();
-  });
 };
+
 const verifySignUp = {
-  checkDuplicateEmail: checkDuplicateEmail,
+  checkBeforeUpload: checkBeforeUpload
 };
 
 module.exports = verifySignUp;

@@ -8,7 +8,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
         validate: {
-          isEmail: true
+          isEmail: {
+            msg: 'Please submit valid email'
+          },
+          notNull: {
+            msg: 'Please submit valid email'
+          },
         }
       },
       displayName: {
@@ -51,10 +56,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId'
     });
     User.hasMany(models.Category, {
-        foreignKey: {
-            name: 'userId',
-            allowNull: false
-        }
+      foreignKey: {
+        name: 'userId',
+        allowNull: false
+      }
     });
     User.hasMany(models.Transaction, {
       foreignKey: {

@@ -1,7 +1,6 @@
 const express = require('express');
 const {User} = require('../models');
 const bcrypt = require("bcrypt");
-const verifySignUp = require("../middleware/verifySignUp");
 const upload = require('../multer').avatar;
 const {nanoid} = require('nanoid');
 const geoip = require('geoip-lite');
@@ -9,9 +8,8 @@ const geoip = require('geoip-lite');
 
 const router = express.Router();
 
-router.post('/signup/', upload.single('avatar'), verifySignUp.checkDuplicateEmail, async (req, res) => {
+router.post('/signup/', upload.single('avatar'), async (req, res) => {
   try {
-
     const user = await User.create({
       email: req.body.email,
       displayName: req.body.displayName,
@@ -21,13 +19,11 @@ router.post('/signup/', upload.single('avatar'), verifySignUp.checkDuplicateEmai
         id: nanoid(),
         date: new Date(),
         location: req.ip === '::1' ? geoip.lookup('92.62.73.100').country : geoip.lookup(req.ip).country,
-        device: req.device.type.toUpperCase()
+        device: req.device.type
       }]
     });
-
     const userData = user.toJSON();
     delete userData.password;
-    delete userData.token;
     res.status(200).send({
       ...userData,
       token: user.token[0].id

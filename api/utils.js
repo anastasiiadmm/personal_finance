@@ -14,18 +14,8 @@ const downloadAvatar = async url => {
   return avatarFileName;
 };
 
-const serializeForm = form => {
-  const obj = {};
-  const formData = new FormData(form);
-  for (const key of formData.keys()) {
-    obj[key] = formData.get(key);
-  }
-  return obj;
-};
-
 const tryToCreateDir = async dirName => {
   const dirPath = path.join(config.uploadPath, dirName);
-
   try {
     await fs.access(dirPath);
   } catch (e) {
@@ -36,5 +26,4 @@ const tryToCreateDir = async dirName => {
 module.exports = {
   downloadAvatar,
   tryToCreateDir,
-  serializeForm
 };
