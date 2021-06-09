@@ -95,12 +95,18 @@ router.put('/:id', upload.single('cashierCheck'), async (req, res) => {
 
     res.status(200).send('Successfully updated!');
   } catch (e) {
-    res.status(400).send('Not updated!')
+    res.status(400).send('Not updated!');
   }
 });
 
 router.delete('/:id', async (req, res) => {
+  try {
+    await Transaction.destroy({where: {id: req.params.id}});
 
+    res.status(200).send('Successfully deleted!');
+  } catch (e) {
+    res.status(400).send('Not deleted!')
+  }
 });
 
 module.exports = router;
