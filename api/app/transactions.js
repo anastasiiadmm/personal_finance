@@ -6,15 +6,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    const transactions = await Transaction.findAll({
-      include: [{
-        model: Account,
-        as: 'accountFrom',
-      }, {
-        model: Account,
-        as: 'accountTo',
-      }],
-    });
+    const transactions = await Transaction.findAll();
 
     res.status(200).send(transactions);
   } catch (e) {
@@ -51,10 +43,10 @@ router.post('/expense', upload.single('cashierCheck'), async (req, res) => {
       cashierCheck: req.file ? req.file.filename : null,
     };
 
-    if (req.body.accountOut) {
-      transactionData.accountOut = req.body.accountOut;
+    if (req.body.accountFromId) {
+      transactionData.accountFromId = req.body.accountFromId;
       transactionData.sumOut = req.body.sumOut;
-      transactionData.accountIn = null;
+      transactionData.accountToId = null;
       transactionData.sumIn = null;
     }
 
@@ -74,10 +66,10 @@ router.post('/income', upload.single('cashierCheck'), async (req, res) => {
       cashierCheck: req.file ? req.file.filename : null,
     };
 
-    if (req.body.accountIn) {
-      transactionData.accountIn = req.body.accountIn;
+    if (req.body.accountToId) {
+      transactionData.accountToId = req.body.accountToId;
       transactionData.sumIn = req.body.sumIn;
-      transactionData.accountOut = null;
+      transactionData.accountFromId = null;
       transactionData.sumOut = null;
     }
 
@@ -90,10 +82,25 @@ router.post('/income', upload.single('cashierCheck'), async (req, res) => {
 
 router.put('/:id', upload.single('cashierCheck'), async (req, res) => {
   try {
+    await Transaction.update(
+      {
+        categoryId: req.body.categoryId,
+        sumOut: req.body.sumOut ? req.body.sumOut : null,
+        sumIn: req.body.sumIn ? req.body.sumIn : null,
+        description: req.body.description,
+        cashierCheck: req.body.cashierCheck
+      },
+      {where: {id: req.params.id}}
+    );
 
+    res.status(200).send('Successfully updated!');
   } catch (e) {
-
+    res.status(400).send('Not updated!')
   }
+});
+
+router.delete('/:id', async (req, res) => {
+
 });
 
 module.exports = router;
