@@ -22,7 +22,7 @@ router.post('/', upload.single('accountIcon'), async (req, res) => {
       accountName: req.body.accountName,
       userId: req.body.userId,
       groupId: req.body.groupId,
-      count: req.body.count,
+      balance: req.body.balance,
       preferences: req.body.preferences,
       accountIcon: req.file ? req.file.filename : null,
     });
@@ -40,7 +40,7 @@ router.put('/:id', upload.single('accountIcon'), async (req, res) => {
   try {
     await Account.update({
       accountName: req.body.accountName,
-      count: req.body.count,
+      balance: req.body.balance,
       preferences: req.body.preferences,
 
     },
