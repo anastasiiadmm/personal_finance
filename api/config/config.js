@@ -8,6 +8,7 @@ module.exports = {
   google: {
     clientId: process.env.GOOGLE_CLIENT_ID,
   },
+  tokenDuration: 180 * 60 * 1000,
   development: {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,

@@ -21,14 +21,51 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      token: {
-        type: Sequelize.JSON,
-      },
       avatar: Sequelize.STRING,
       preferences: {
         type: Sequelize.ENUM,
         defaultValue: 'KGS',
         values: ['KGS', 'USD', 'EURO'],
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
+    });
+    await queryInterface.createTable('token', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'user',
+          key: 'id'
+        }
+      },
+      token: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      device: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      expirationDate: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      location: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

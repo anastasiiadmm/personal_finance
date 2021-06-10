@@ -1,6 +1,5 @@
 require('dotenv').config()
 const express = require('express');
-const device = require('express-device');
 const {sequelize} = require('./models');
 const cors = require("cors");
 const users = require('./app/users');
@@ -10,10 +9,10 @@ const categories = require('./app/categories');
 const exitHook = require('async-exit-hook');
 const transactions = require('./app/transactions');
 
+
 const app = express();
 app.use(express.static('public/uploads'));
 app.use(express.json());
-app.use(device.capture());
 app.use(cors());
 
 const port = 8000;

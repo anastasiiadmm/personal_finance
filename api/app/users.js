@@ -1,8 +1,9 @@
 const express = require('express');
-const {User, Group} = require('../models');
-const bcrypt = require("bcrypt");
+const {User, Group, Token} = require('../models');
 const upload = require('../multer').avatar;
+const config = require('../config/config');
 const {nanoid} = require('nanoid');
+const auth = require("../middleware/auth");
 const geoip = require('geoip-lite');
 
 
@@ -15,92 +16,88 @@ router.post('/signup/', upload.single('avatar'), async (req, res) => {
       displayName: req.body.displayName,
       password: req.body.password,
       avatar: req.file ? req.file.filename : null,
-      token: [{
-        id: nanoid(),
-        date: new Date(),
-        location: req.ip === '::1' ? geoip.lookup('92.62.73.100').country : geoip.lookup(req.ip).country,
-        device: req.device.type
-      }]
+    });
+
+    const token = await Token.create({
+      userId: user.id,
+      token: nanoid(),
+      expirationDate: new Date(new Date().getTime() + config.tokenDuration),
+      location: req.ip === '::1' ? geoip.lookup('92.62.73.100').country : geoip.lookup(req.ip).country,
+      device: req.headers['user-agent']
     });
 
     const group = await Group.create({
       nameGroup: 'personal',
     });
+
     await user.addGroup(group.id, {through: {role: 'owner'}});
     const userData = user.toJSON();
     delete userData.password;
-
     res.status(200).send({
       ...userData,
-      token: user.token[0].id
+      token: token.token
     });
   } catch (e) {
     return res.status(400).send({message: e.message});
   }
 });
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
-    const users = await User.findAll();
     res.status(200).send(
-      users,
+      req.user,
     );
-
   } catch (e) {
     return res.status(400).send({message: e.message});
   }
 });
-
 
 router.post('/login/', async (req, res) => {
-  try {
-    const user = await User.findOne({
-      where: {
-        email: req.body.email
-      }
-    });
-
-    if (!user) {
-      return res.status(404).send({message: "User Not found."});
-    }
-    const passwordIsValid = bcrypt.compare(
-      req.body.password,
-      user.password
-    );
-
-    if (!passwordIsValid) {
-      return res.status(401).send({
-        message: "Invalid Password!"
+    try {
+      const user = await User.findOne({
+        where: {email: req.body.email}, include: {model: Token, as: 'tokens'}
       });
-    }
 
-    let unExisting = true;
-    const token = nanoid();
-
-    user.token.map((device) => {
-      if (device.device === req.headers['user-agent']) {
-        device.id = token;
-        device.date = new Date();
-        unExisting = false;
+      if (!user) {
+        return res.status(404).send({message: "Invalid email or password"});
       }
-    });
 
-    if (unExisting) {
-      user.token.push({id: token, date: new Date(), device: req.headers['user-agent']});
+      if (!await user.validPassword(req.body.password)) {
+        return res.status(401).send({
+          message: "Invalid email or password"
+        });
+      }
+
+      const newToken = {
+        userId: user.id,
+        token: nanoid(),
+        expirationDate: new Date(new Date().getTime() + config.tokenDuration),
+        location: req.ip === '::1' ? geoip.lookup('92.62.73.100').country : geoip.lookup(req.ip).country,
+        device: req.headers['user-agent']
+      };
+
+      const existingToken = (user.tokens.find((token) => token.device === newToken.device && token.location === newToken.location));
+      if (!existingToken) {
+        await Token.create(newToken);
+      } else {
+        const token = await Token.findOne({where: {id: existingToken.toJSON().id}});
+        token.update(newToken);
+        token.save();
+      }
+
+      const userData = user.toJSON();
+      delete userData.password;
+      delete userData.tokens;
+      res.status(200).send({
+        ...userData,
+        token: {token: newToken.token, expirationDate: newToken.expirationDate}
+      });
+    } catch
+      (e) {
+      return res.status(400).send({message: e.message});
     }
-    user.save();
-    const userData = user.toJSON();
-    delete userData.password;
-    delete userData.token;
-
-    res.status(200).send({
-      ...userData,
-      token: token
-    });
-  } catch (e) {
-    return res.status(400).send({message: e.message});
   }
-});
+);
 
 
 module.exports = router;

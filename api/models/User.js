@@ -24,9 +24,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      token: {
-        type: DataTypes.JSON,
-      },
       avatar: DataTypes.STRING,
       preferences: {
         type: DataTypes.ENUM,
@@ -68,7 +65,15 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     });
+    User.hasMany(models.Token, {
+      as: 'tokens',
+      foreignKey: 'userId'
+    });
   };
+
+  User.prototype.validPassword = function (password) {
+    return bcrypt.compareSync(password, this.password);
+  }
 
   return User;
 };
