@@ -1,4 +1,5 @@
 const express = require('express');
+const {Op} = require('sequelize');
 const upload = require('../multer').cashierCheck;
 const {Account, Category, User, Group, Transaction} = require('../models');
 
@@ -82,26 +83,73 @@ router.post('/income', upload.single('cashierCheck'), async (req, res) => {
 
 router.put('/:id', upload.single('cashierCheck'), async (req, res) => {
   try {
-    await Transaction.update(
-      {
-        categoryId: req.body.categoryId,
-        sumOut: req.body.sumOut ? req.body.sumOut : null,
-        sumIn: req.body.sumIn ? req.body.sumIn : null,
-        description: req.body.description,
-        cashierCheck: req.body.cashierCheck
-      },
-      {where: {id: req.params.id}}
+    const transaction = await Transaction.findOne({
+        where: [{id: req.params.id}, {userId: req.body.userId}],
+        include: {
+          // model: User,
+          // as: 'userId',
+          // attributes: ['id'],
+          // where: {userId: req.body.userId},
+          include: {
+            model: Group,
+            include: [{
+              association: 'users',
+              attributes: ['displayName', 'id'],
+              where: {id: req.body.userId},
+              through: {
+                attributes: ['role'],
+                where: {
+                  [Op.or]: [
+                    {role: 'admin'},
+                    {role: 'owner'}
+                  ]
+                }
+              }
+            }]
+          }
+        }
+      }
     );
 
-    res.status(200).send('Successfully updated!');
+    console.log('hello' + transaction)
+
+    if (!transaction) {
+      return res.status(404).send({message: "No permission"});
+    }
+
+    await Transaction.update({
+      categoryId: req.body.categoryId,
+      sumIn: req.body.sumIn,
+      sumOut: req.body.sumOut,
+      description: req.body.description
+    },
+      {where: {id: req.params.id}});
+
+
+    if (req.file) {
+      await transaction.update({
+        cashierCheck: req.file.filename
+      })
+    }
+
+    res.status(200).send('Success');
   } catch (e) {
-    res.status(400).send('Not updated!');
+    res.status(400).send({message: e.message});
   }
 });
 
 router.delete('/:id', async (req, res) => {
   try {
-    await Transaction.destroy({where: {id: req.params.id}});
+    const transaction = await Transaction.findOne(
+      {where: {id: req.params.id}},
+
+    );
+
+    if (!transaction) {
+      return res.status(404).send({message: "No permission"});
+    }
+
+    await transaction.destroy();
 
     res.status(200).send('Successfully deleted!');
   } catch (e) {
