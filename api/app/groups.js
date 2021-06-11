@@ -1,4 +1,5 @@
 const express = require('express');
+const auth = require("../middleware/auth");
 const {Group, User, GroupUsers} = require('../models');
 const {Op} = require("sequelize");
 const upload = require('../multer').group;
@@ -58,10 +59,9 @@ router.post('/add', toJson.none(), async (req, res) => {
     }
 });
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     try {
         const groups = await Group.findAll({include: [{model: User, as: 'users'}]});
-        console.log(groups);
 
         return res.status(200).send(groups);
 

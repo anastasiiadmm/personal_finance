@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
 import {Link, useParams} from "react-router-dom";
 
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {groupsRequest} from "../../../store/actions/groupsActions";
 
 import {
     Accordion, AccordionDetails,
-    AccordionSummary, Avatar,
+    AccordionSummary,
     Drawer,
     Grid,
     makeStyles,
@@ -16,6 +16,7 @@ import {
     Typography
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import Groups from "../../../containers/Groups/Groups";
 
 const drawerWidth = 240;
 
@@ -52,7 +53,6 @@ const AppDrawer = () => {
     const params = useParams();
     const classes = useStyles();
     const dispatch = useDispatch();
-    const groups = useSelector(state => state.groups.groups);
 
     useEffect(() => {
         dispatch(groupsRequest());
@@ -88,23 +88,7 @@ const AppDrawer = () => {
                         </Grid>
                     </AccordionSummary>
                     <AccordionDetails className={classes.accordionDetails}>
-                        {groups.map(group => (
-                            <MenuItem
-                                key={group.id}
-                                component={Link}
-                                to={`/group/${group.id}`}
-                                selected={group.id === params.id}
-                            >
-                                <Grid container spacing={2}>
-                                    <Grid item>
-                                        <Avatar alt={group.nameGroup} src={'http://localhost:8000/uploads/' + group.avatarGroup} className={classes.small} />
-                                    </Grid>
-                                    <Grid item>
-                                        {group.nameGroup}
-                                    </Grid>
-                                </Grid>
-                            </MenuItem>
-                        ))}
+                        <Groups />
                     </AccordionDetails>
                 </Accordion>
             </MenuList>
