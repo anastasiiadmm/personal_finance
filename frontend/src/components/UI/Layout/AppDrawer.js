@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Link, useParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 import {useDispatch} from "react-redux";
 import {groupsRequest} from "../../../store/actions/groupsActions";
@@ -50,7 +50,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AppDrawer = () => {
-    const params = useParams();
     const classes = useStyles();
     const dispatch = useDispatch();
 
