@@ -18,7 +18,7 @@ const Groups = () => {
     const params = useParams();
     const dispatch = useDispatch();
     const groups = useSelector(state => state.groups.groups);
-
+    console.log(groups)
     useEffect(() => {
         dispatch(groupsRequest());
     }, [dispatch]);
