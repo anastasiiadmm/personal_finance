@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Link} from "react-router-dom";
 
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {groupsRequest} from "../../../store/actions/groupsActions";
 
 import {
@@ -52,6 +52,7 @@ const useStyles = makeStyles(theme => ({
 const AppDrawer = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const user = useSelector(state => state.users.user);
 
     useEffect(() => {
         dispatch(groupsRequest());
@@ -75,21 +76,24 @@ const AppDrawer = () => {
                     Home
                 </MenuItem>
 
-                <Accordion>
-                    <AccordionSummary>
-                        <Grid item container justify='space-evenly' alignItems='center'>
-                            <Grid item xs>
-                                <Typography className={classes.heading}>My Groups</Typography>
+                {user && (
+                    <Accordion>
+                        <AccordionSummary>
+                            <Grid item container justify='space-evenly' alignItems='center'>
+                                <Grid item xs>
+                                    <Typography className={classes.heading}>My Groups</Typography>
+                                </Grid>
+                                <Grid item xs>
+                                    <Button color="primary" component={Link} to="/groups/new">add</Button>
+                                </Grid>
                             </Grid>
-                            <Grid item xs>
-                                <Button color="primary" component={Link} to="/groups/new">add</Button>
-                            </Grid>
-                        </Grid>
-                    </AccordionSummary>
-                    <AccordionDetails className={classes.accordionDetails}>
-                        <Groups />
-                    </AccordionDetails>
-                </Accordion>
+                        </AccordionSummary>
+                        <AccordionDetails className={classes.accordionDetails}>
+                            <Groups />
+                        </AccordionDetails>
+                    </Accordion>
+                )}
+
             </MenuList>
         </Drawer>
     );

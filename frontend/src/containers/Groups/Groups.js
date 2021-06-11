@@ -3,6 +3,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {Link, useParams} from "react-router-dom";
 import {groupsRequest} from "../../store/actions/groupsActions";
 import {Avatar, Grid, makeStyles, MenuItem} from "@material-ui/core";
+import {apiURL} from "../../config";
+import GroupIcon from "../../assets/images/group-icon.png";
 
 const useStyles = makeStyles(theme => ({
     small: {
@@ -16,7 +18,6 @@ const Groups = () => {
     const params = useParams();
     const dispatch = useDispatch();
     const groups = useSelector(state => state.groups.groups);
-
 
     useEffect(() => {
         dispatch(groupsRequest());
@@ -33,7 +34,14 @@ const Groups = () => {
                 >
                     <Grid container spacing={2}>
                         <Grid item>
-                            <Avatar alt={group.nameGroup} src={'http://localhost:8000/uploads/' + group.avatarGroup} className={classes.small} />
+                            {group.avatarGroup ? (
+                                <Avatar alt={group.nameGroup} src={apiURL + '/' + group.avatarGroup} className={classes.small} />
+                            ) : (
+                                <Avatar alt={group.nameGroup}
+                                        src={GroupIcon}
+                                        className={classes.small}
+                                />
+                            )}
                         </Grid>
                         <Grid item>
                             {group.nameGroup}
