@@ -26,7 +26,7 @@ export function* registerUser({payload: userData}) {
 export function* loginUser({payload: userData}) {
   try {
     const response = yield axiosApi.post('/users/login', userData);
-    yield put(loginSuccess(response.data.user));
+    yield put(loginSuccess(response.data));
     yield put(historyPush('/'));
     yield put(addNotification({message: 'Login successful', options: {variant: 'success'}}));
   } catch (error) {

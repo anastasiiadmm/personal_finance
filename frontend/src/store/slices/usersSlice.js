@@ -42,7 +42,8 @@ const usersSlice = createSlice({
     googleLoginRequest: state => {
       state.loginLoading = true;
     },
-    logoutRequest: () => {},
+    logoutRequest: () => {
+    },
     logoutSuccess: state => {
       state.user = null;
     }

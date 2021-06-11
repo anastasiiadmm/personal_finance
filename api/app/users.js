@@ -35,7 +35,7 @@ router.post('/signup/', upload.single('avatar'), async (req, res) => {
     delete userData.password;
     res.status(200).send({
       ...userData,
-      token: token.token
+      token: {token: token.token, expirationDate: token.expirationDate}
     });
   } catch (e) {
     return res.status(400).send({message: e.message});
