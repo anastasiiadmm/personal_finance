@@ -1,6 +1,8 @@
 import axiosApi from "../../axiosApi";
 import {put, takeEvery} from "redux-saga/effects";
 import {
+    createGroupFailure, createGroupRequest,
+    createGroupSuccess,
     groupsFailure,
     groupsRequest,
     groupsSuccess, inviteFriendFailure, inviteFriendRequest, inviteFriendSuccess, singleGroupFailure,
@@ -9,7 +11,6 @@ import {
 } from "../actions/groupsActions";
 import {addNotification} from "../actions/notifierActions";
 import {historyPush} from "../actions/historyActions";
-
 
 export function* fetchGroups() {
     try {
@@ -31,6 +32,18 @@ export function* fetchSingleGroup({payload: groupId}) {
     }
 }
 
+export function* createGroup({payload: data}) {
+    try {
+        yield axiosApi.post('/groups', data);
+        yield put(createGroupSuccess());
+        yield put(historyPush('/'));
+        yield put(addNotification({message: 'Group created successful', options: {variant: 'success'}}));
+    } catch (e) {
+        yield put(createGroupFailure(e.response.data));
+        yield put(addNotification({message: 'Create group failed', options: {variant: 'error'}}));
+    }
+}
+
 export function* inviteFriend({payload: inviteData}) {
     try {
         yield axiosApi.post('/groups/add', inviteData);
@@ -45,6 +58,7 @@ export function* inviteFriend({payload: inviteData}) {
 const groupsSagas = [
     takeEvery(groupsRequest, fetchGroups),
     takeEvery(singleGroupRequest, fetchSingleGroup),
+    takeEvery(createGroupRequest, createGroup),
     takeEvery(inviteFriendRequest, inviteFriend)
 ];
 

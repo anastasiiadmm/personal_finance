@@ -37,6 +37,16 @@ const groupsSlice = createSlice({
         singleGroupFailure: state => {
             state.singleGroupLoading = false;
         },
+        createGroupRequest: state => {
+            state.createGroupLoading = true;
+        },
+        createGroupSuccess: state => {
+            state.createGroupLoading = false;
+        },
+        createGroupFailure: (state, {payload: error}) => {
+            state.createGroupLoading = false;
+            state.createGroupError = error;
+        },
         inviteFriendRequest: state => {
             state.inviteFriendLoading = true;
         },

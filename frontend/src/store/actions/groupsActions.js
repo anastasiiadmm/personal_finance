@@ -7,6 +7,9 @@ export const {
     singleGroupRequest,
     singleGroupSuccess,
     singleGroupFailure,
+    createGroupRequest,
+    createGroupSuccess,
+    createGroupFailure,
     inviteFriendRequest,
     inviteFriendSuccess,
     inviteFriendFailure
