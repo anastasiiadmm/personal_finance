@@ -7,6 +7,7 @@ import Login from "./containers/Login/Login";
 import Home from "./containers/Home/Home";
 import Account from "./containers/Account/Account";
 import NewAccount from "./containers/NewAccount/NewAccount";
+import SingleGroup from "./containers/Groups/SingleGroup/SingleGroup";
 
 const App = () => {
     return (
@@ -19,6 +20,7 @@ const App = () => {
                 <Route path="/" exact component={Home}/>
                 <Route path="/register" component={Register}/>
                 <Route path="/login" component={Login}/>
+                <Route path="/group/:id" exact component={SingleGroup}/>
                 <Route path="/accounts" exact component={Account}/>
                 <Route path="/accounts/new" component={NewAccount}/>
             </Switch>
