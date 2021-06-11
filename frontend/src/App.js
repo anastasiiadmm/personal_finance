@@ -8,6 +8,7 @@ import Home from "./containers/Home/Home";
 import Account from "./containers/Account/Account";
 import NewAccount from "./containers/NewAccount/NewAccount";
 import SingleGroup from "./containers/Groups/SingleGroup/SingleGroup";
+import NewGroup from "./containers/Groups/NewGroup/NewGroup";
 
 const App = () => {
     return (
@@ -20,6 +21,7 @@ const App = () => {
                 <Route path="/" exact component={Home}/>
                 <Route path="/register" component={Register}/>
                 <Route path="/login" component={Login}/>
+                <Route path="/groups/new" component={NewGroup}/>
                 <Route path="/group/:id" exact component={SingleGroup}/>
                 <Route path="/accounts" exact component={Account}/>
                 <Route path="/accounts/new" component={NewAccount}/>
