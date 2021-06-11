@@ -13,7 +13,6 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const users = await User.findAll({include: {model: Token, as: 'tokens'}});
-
     res.status(200).send({users});
   } catch (e) {
     return res.status(400).send({message: e.message});
@@ -110,42 +109,62 @@ router.post('/googleLogin', async (req, res) => {
       audience: config.google.clientId
     });
 
-    const {name, email, sub: ticketUserId} = ticket.getPayload();
+    const {name, email, picture, sub: ticketUserId} = ticket.getPayload();
 
     if (req.body.googleId !== ticketUserId) {
       return res.status(401).send({global: "User ID incorrect"});
     }
 
-    let user = await User.findOne({where: {email: req.body.email}});
-
-    if (!user) {
-      user = await User.create({
-        email,
-        password: nanoid(),
-        displayName: name,
-      });
-    }
-
-    const newToken = {
-      userId: user.id,
-      token: nanoid(),
-      expirationDate: new Date(new Date().getTime() + config.tokenDuration),
-      location: req.ip === '::1' ? geoip.lookup('92.62.73.100').country : geoip.lookup(req.ip).country,
-      device: req.headers['user-agent']
-    };
+    let user = await User.findOne({
+      where: {email: email}, include: {model: Token, as: 'tokens'}
+    });
 
     let token;
 
-    const existingToken = (user.tokens.find((token) => token.device === newToken.device && token.location === newToken.location));
-    if (!existingToken) {
-      token = await Token.create(newToken);
+    if (!user) {
+      user = await User.create({
+        email: email,
+        password: nanoid(),
+        displayName: name,
+      });
+      token = await Token.create({
+        userId: user.id,
+        token: nanoid(),
+        expirationDate: new Date(new Date().getTime() + config.tokenDuration),
+        location: req.ip === '::1' ? geoip.lookup('92.62.73.100').country : geoip.lookup(req.ip).country,
+        device: req.headers['user-agent']
+      });
+      const group = await Group.create({
+        nameGroup: 'personal',
+      });
+      await user.addGroup(group.id, {through: {role: 'owner'}});
     } else {
-      token = await Token.findOne({where: {id: existingToken.toJSON().id}});
-      await token.update(newToken);
-      await token.save();
+      const newToken = {
+        userId: user.id,
+        token: nanoid(),
+        expirationDate: new Date(new Date().getTime() + config.tokenDuration),
+        location: req.ip === '::1' ? geoip.lookup('92.62.73.100').country : geoip.lookup(req.ip).country,
+        device: req.headers['user-agent']
+      };
+      const existingToken = (user.tokens.find((token) => token.device === newToken.device && token.location === newToken.location));
+      if (!existingToken) {
+        token = await Token.create(newToken);
+      } else {
+        token = await Token.findOne({where: {id: existingToken.toJSON().id}});
+        await token.update(newToken);
+        await token.save();
+      }
     }
+    user.avatar = picture;
+    await user.save();
+    const userData = user.toJSON();
+    delete userData.password;
+    delete userData.tokens;
+    res.status(200).send({
+      ...userData,
+      token: {token: token.token, expirationDate: token.expirationDate}
+    });
 
-    res.send({message: 'Success', user});
   } catch (e) {
     res.status(500).send({global: 'Server error, please, try again '});
   }

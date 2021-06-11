@@ -13,7 +13,7 @@ const createMulter = (dirName, field) => {
     },
     filename: (req, file, cb) => {
       const filename = nanoid() + path.extname(file.originalname);
-      const filepath = path.join(dirName, filename);
+      const filepath = path.join(config.URL, dirName, filename);
       cb(null, filepath);
     }
   });

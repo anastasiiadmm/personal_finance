@@ -3,6 +3,7 @@ const rootPath = path.join(__dirname, '../');
 require('dotenv').config()
 
 module.exports = {
+  URL: 'http://localhost:8000/',
   rootPath,
   uploadPath: path.join(rootPath, 'public/uploads'),
   google: {

@@ -38,7 +38,7 @@ export function* googleLogin({payload: {tokenId, googleId}}) {
   try {
     const body = {tokenId, googleId};
     const response = yield axiosApi.post('/users/googleLogin', body);
-    yield put(loginSuccess(response.data.user));
+    yield put(loginSuccess(response.data));
     yield put(historyPush('/'));
     yield put(addNotification({message: 'Login successful', options: {variant: 'success'}}));
   } catch (error) {
