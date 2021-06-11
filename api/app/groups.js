@@ -7,7 +7,7 @@ const toJson = require('../multer').toJson;
 
 const router = express.Router();
 
-router.post('/', upload.single('avatarGroup'), async (req, res) => {
+router.post('/',auth, upload.single('avatarGroup'), async (req, res) => {
     try {
         const group = await Group.create({
             nameGroup: req.body.nameGroup,
