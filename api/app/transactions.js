@@ -113,8 +113,6 @@ router.put('/:id', upload.single('cashierCheck'), async (req, res) => {
       }
     );
 
-    console.log('hello' + transaction)
-
     if (!transaction) {
       return res.status(404).send({message: "No permission"});
     }
@@ -142,16 +140,41 @@ router.put('/:id', upload.single('cashierCheck'), async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const transaction = await Transaction.findOne(
-      {where: {id: req.params.id}},
-
+    const transaction = await Transaction.findOne({
+        where: {id: req.params.id},
+        include: {
+          association: 'user',
+          where: {id: req.body.userId},
+          include: {
+            association: 'groups',
+            through: {
+              attributes: ['userId'],
+              where: {userId: req.body.userId}
+            },
+            include: [{
+              association: 'users',
+              attributes: ['displayName', 'id'],
+              where: {id: req.body.userId},
+              through: {
+                attributes: ['role'],
+                where: {
+                  [Op.or]: [
+                    {role: 'admin'},
+                    {role: 'owner'}
+                  ]
+                }
+              }
+            }]
+          }
+        },
+      }
     );
 
     if (!transaction) {
       return res.status(404).send({message: "No permission"});
     }
 
-    await transaction.destroy();
+    await transaction.destroy({where: {id: req.params.id}});
 
     res.status(200).send('Successfully deleted!');
   } catch (e) {
