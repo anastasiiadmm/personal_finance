@@ -9,6 +9,9 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import {Avatar, Backdrop, CircularProgress, Fade, Modal, Typography} from "@material-ui/core";
+import {apiURL} from "../../../config";
+
+import GroupIcon from "../../../assets/images/group-icon.png";
 
 const useStyles = makeStyles(theme => ({
     progress: {
@@ -58,7 +61,7 @@ const SingleGroup = ({match}) => {
                     </Grid>
                 ) : (
                     <Grid item container alignItems="center">
-                        <Grid item sm={6} md={4} container alignItems='center' justify='space-evenly'>
+                        <Grid item sm={6} md={6} container alignItems='center' justify='space-evenly'>
                             <Grid item>
                                 <Typography variant="h4">{group.nameGroup}</Typography>
                             </Grid>
@@ -68,22 +71,28 @@ const SingleGroup = ({match}) => {
                                 </Button>
                             </Grid>
                         </Grid>
-                        {group.avatarGroup ? (
-                            <Grid item container sm={6} md={8} justify='flex-end'>
-                                <Grid item>
+
+                        <Grid item container sm={6} md={6} justify='flex-end'>
+                            <Grid item>
+                                {group.avatarGroup ? (
                                     <Avatar alt={group.nameGroup}
-                                            src={'http://localhost:8000/uploads/' + group.avatarGroup}
+                                            src={apiURL + '/' + group.avatarGroup}
                                             className={classes.large}
                                     />
-                                </Grid>
+                                ) : (
+                                    <Avatar alt={group.nameGroup}
+                                            src={GroupIcon}
+                                            className={classes.large}
+                                    />
+                                )}
                             </Grid>
-                        ) : null}
+                        </Grid>
 
                         <Grid item container spacing={2}>
                             {group.users && group.users.map(user => (
                                 <Grid item key={user.id}>
                                     <Avatar alt={user.displayName}
-                                            src={'http://localhost:8000/uploads/' + user.avatar}
+                                            src={apiURL + '/' + user.avatar}
                                             className={classes.small}
                                     />
                                 </Grid>

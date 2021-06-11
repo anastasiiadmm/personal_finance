@@ -7,7 +7,7 @@ const toJson = require('../multer').toJson;
 
 const router = express.Router();
 
-router.post('/',auth, upload.single('avatarGroup'), async (req, res) => {
+router.post('/', auth, upload.single('avatarGroup'), async (req, res) => {
     try {
         const group = await Group.create({
             nameGroup: req.body.nameGroup,
@@ -19,6 +19,7 @@ router.post('/',auth, upload.single('avatarGroup'), async (req, res) => {
             userId: req.body.userId,
             groupId: group.id
         });
+        console.log(req.body)
 
         return res.status(200).send(group.toJSON());
 
@@ -27,7 +28,7 @@ router.post('/',auth, upload.single('avatarGroup'), async (req, res) => {
     }
 });
 
-router.post('/add', toJson.none(), async (req, res) => {
+router.post('/add', toJson.none(), auth, async (req, res) => {
     try {
         const group = await Group.findOne({
             where: {id: req.body.groupId}, include: [{
@@ -61,7 +62,15 @@ router.post('/add', toJson.none(), async (req, res) => {
 
 router.get('/', auth, async (req, res) => {
     try {
-        const groups = await Group.findAll({include: [{model: User, as: 'users'}]});
+        const groups = await Group.findAll({
+            include: [{
+                association: 'users',
+                attributes: ['displayName', 'id', 'avatar'],
+                through: {
+                    attributes: ['id']
+                }
+            }]
+        });
 
         return res.status(200).send(groups);
 
