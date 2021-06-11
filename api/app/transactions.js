@@ -1,7 +1,7 @@
 const express = require('express');
 const {Op} = require('sequelize');
 const upload = require('../multer').cashierCheck;
-const {Account, Category, User, Group, Transaction} = require('../models');
+const {Transaction} = require('../models');
 
 const router = express.Router();
 
