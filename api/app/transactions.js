@@ -84,14 +84,16 @@ router.post('/income', upload.single('cashierCheck'), async (req, res) => {
 router.put('/:id', upload.single('cashierCheck'), async (req, res) => {
   try {
     const transaction = await Transaction.findOne({
-        where: [{id: req.params.id}, {userId: req.body.userId}],
+        where: {id: req.params.id},
         include: {
-          // model: User,
-          // as: 'userId',
-          // attributes: ['id'],
-          // where: {userId: req.body.userId},
+          association: 'user',
+          where: {id: req.body.userId},
           include: {
-            model: Group,
+            association: 'groups',
+            through: {
+              attributes: ['userId'],
+              where: {userId: req.body.userId}
+            },
             include: [{
               association: 'users',
               attributes: ['displayName', 'id'],
@@ -107,7 +109,7 @@ router.put('/:id', upload.single('cashierCheck'), async (req, res) => {
               }
             }]
           }
-        }
+        },
       }
     );
 
@@ -121,7 +123,7 @@ router.put('/:id', upload.single('cashierCheck'), async (req, res) => {
       categoryId: req.body.categoryId,
       sumIn: req.body.sumIn,
       sumOut: req.body.sumOut,
-      description: req.body.description
+      description: req.body.description,
     },
       {where: {id: req.params.id}});
 
