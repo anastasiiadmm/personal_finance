@@ -7,6 +7,7 @@ import {registerRequest} from "../../store/actions/usersActions";
 import FormElement from "../../components/UI/Form/FormElement";
 import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
 import FileInput from "../../components/UI/Form/FileInput";
+import GoogleLogin from "../../components/UI/GoogleLogin/GoogleLogin";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -133,6 +134,9 @@ const Register = () => {
             >
               Sign up
             </ButtonWithProgress>
+          </Grid>
+          <Grid item xs>
+            <GoogleLogin>Sign up with Google</GoogleLogin>
           </Grid>
           <Grid item container justify="flex-end">
             <Grid item>

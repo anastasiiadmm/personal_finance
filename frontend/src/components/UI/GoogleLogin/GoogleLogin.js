@@ -6,9 +6,8 @@ import GoogleLoginButton from "react-google-login";
 import {useDispatch} from "react-redux";
 import {googleLoginRequest} from "../../../store/actions/usersActions";
 
-const GoogleLogin = () => {
+const GoogleLogin = ({children}) => {
   const dispatch = useDispatch();
-
   const handleLogin = response => {
     dispatch(googleLoginRequest(response));
   };
@@ -24,7 +23,7 @@ const GoogleLogin = () => {
           startIcon={<GoogleIcon/>}
           onClick={props.onClick}
         >
-          Login with Google
+          {children}
         </Button>
       )}
       onSuccess={handleLogin}

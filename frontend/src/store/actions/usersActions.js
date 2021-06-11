@@ -8,7 +8,6 @@ export const {
   loginSuccess,
   loginFailure,
   logoutSuccess,
-  facebookLoginRequest,
   googleLoginRequest,
   logoutRequest,
 } = usersSlice.actions;

@@ -7,7 +7,6 @@ import {Alert, AlertTitle} from "@material-ui/lab";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import FormElement from "../../components/UI/Form/FormElement";
 import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
-import FacebookLogin from "../../components/UI/FacebookLogin/FacebookLogin";
 import GoogleLogin from "../../components/UI/GoogleLogin/GoogleLogin";
 import {loginRequest} from "../../store/actions/usersActions";
 
@@ -105,10 +104,7 @@ const Login = () => {
             </ButtonWithProgress>
           </Grid>
           <Grid item xs>
-            <FacebookLogin/>
-          </Grid>
-          <Grid item xs>
-            <GoogleLogin/>
+            <GoogleLogin>Sign in with Google</GoogleLogin>
           </Grid>
           <Grid item container justify="flex-end">
             <Grid item>

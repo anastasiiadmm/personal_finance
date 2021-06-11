@@ -39,7 +39,6 @@ module.exports = {
       bigNumberStrings: true,
     }
   },
-  secret: process.env.TOKEN_SECRET
 };
 
 

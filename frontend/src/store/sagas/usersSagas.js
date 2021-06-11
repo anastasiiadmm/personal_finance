@@ -1,7 +1,7 @@
 import {put, takeEvery} from 'redux-saga/effects';
 import axiosApi from "../../axiosApi";
 import {
-  facebookLoginRequest, googleLoginRequest,
+  googleLoginRequest,
   loginFailure, loginRequest,
   loginSuccess, logoutRequest,
   logoutSuccess,
@@ -27,17 +27,6 @@ export function* loginUser({payload: userData}) {
   try {
     const response = yield axiosApi.post('/users/sessions', userData);
     yield put(loginSuccess(response.data));
-    yield put(historyPush('/'));
-    yield put(addNotification({message: 'Login successful', options: {variant: 'success'}}));
-  } catch (error) {
-    yield put(loginFailure(error.response.data));
-  }
-}
-
-export function* facebookLogin({payload: data}) {
-  try {
-    const response = yield axiosApi.post('/users/facebookLogin', data);
-    yield put(loginSuccess(response.data.user));
     yield put(historyPush('/'));
     yield put(addNotification({message: 'Login successful', options: {variant: 'success'}}));
   } catch (error) {
@@ -71,7 +60,6 @@ export function* logout() {
 const usersSagas = [
   takeEvery(registerRequest, registerUser),
   takeEvery(loginRequest, loginUser),
-  takeEvery(facebookLoginRequest, facebookLogin),
   takeEvery(googleLoginRequest, googleLogin),
   takeEvery(logoutRequest, logout),
 ];

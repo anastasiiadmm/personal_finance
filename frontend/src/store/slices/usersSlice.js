@@ -36,9 +36,6 @@ const usersSlice = createSlice({
       state.loginLoading = false;
       state.loginError = error;
     },
-    facebookLoginRequest: state => {
-      state.loginLoading = true;
-    },
     googleLoginRequest: state => {
       state.loginLoading = true;
     },
