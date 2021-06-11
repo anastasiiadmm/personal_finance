@@ -25,7 +25,7 @@ export function* registerUser({payload: userData}) {
 
 export function* loginUser({payload: userData}) {
   try {
-    const response = yield axiosApi.post('/users/login', userData);
+    const response = yield axiosApi.post('/users/sessions', userData);
     yield put(loginSuccess(response.data));
     yield put(historyPush('/'));
     yield put(addNotification({message: 'Login successful', options: {variant: 'success'}}));
@@ -59,7 +59,7 @@ export function* googleLogin({payload: {tokenId, googleId}}) {
 
 export function* logout() {
   try {
-    yield axiosApi.delete('/users/login');
+    yield axiosApi.delete('/users/sessions');
     yield put(logoutSuccess());
     yield put(historyPush('/'));
     yield put(addNotification({message: 'Logged out', options: {variant: 'success'}}));

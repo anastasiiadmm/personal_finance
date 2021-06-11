@@ -28,6 +28,7 @@ store.subscribe(() => {
 
 axiosApi.interceptors.request.use(config => {
   try {
+    console.log(store.getState().users.user.token.token);
     config.headers['Authorization'] = store.getState().users.user.token.token;
   } catch (e) {
     // do nothing, no token exists

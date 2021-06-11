@@ -44,6 +44,13 @@ router.post('/signup/', upload.single('avatar'), async (req, res) => {
 
 router.get('/', auth, async (req, res) => {
   try {
+    // const users = await User.findAll({
+    //   include: {model: Token, as: 'tokens'}
+    // });
+    // res.status(200).send(
+    //   users
+    // );
+
     res.status(200).send(
       req.user,
     );
@@ -52,7 +59,7 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-router.post('/login/', async (req, res) => {
+router.post('/sessions/', async (req, res) => {
     try {
       const user = await User.findOne({
         where: {email: req.body.email}, include: {model: Token, as: 'tokens'}
@@ -76,13 +83,15 @@ router.post('/login/', async (req, res) => {
         device: req.headers['user-agent']
       };
 
+      let token;
+
       const existingToken = (user.tokens.find((token) => token.device === newToken.device && token.location === newToken.location));
       if (!existingToken) {
-        await Token.create(newToken);
+        token = await Token.create(newToken);
       } else {
-        const token = await Token.findOne({where: {id: existingToken.toJSON().id}});
-        token.update(newToken);
-        token.save();
+        token = await Token.findOne({where: {id: existingToken.toJSON().id}});
+        await token.update(newToken);
+        await token.save();
       }
 
       const userData = user.toJSON();
@@ -90,8 +99,31 @@ router.post('/login/', async (req, res) => {
       delete userData.tokens;
       res.status(200).send({
         ...userData,
-        token: {token: newToken.token, expirationDate: newToken.expirationDate}
+        token: {token: token.token, expirationDate: token.expirationDate}
       });
+    } catch
+      (e) {
+      return res.status(400).send({message: e.message});
+    }
+  }
+);
+
+
+router.delete('/sessions/', async (req, res) => {
+    try {
+      const authToken = req.get('Authorization');
+      const success = {message: 'Success'};
+      if (!authToken) return res.send(success);
+      const token = await Token.findOne({
+        where: {
+          token: authToken,
+          location: req.ip === '::1' ? geoip.lookup('92.62.73.100').country : geoip.lookup(req.ip).country,
+          device: req.headers['user-agent'],
+        }, include: {model: User, as: 'user'}
+      });
+      if (!token) return res.send(success);
+      await token.destroy();
+      res.send(success);
     } catch
       (e) {
       return res.status(400).send({message: e.message});
