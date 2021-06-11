@@ -52,6 +52,7 @@ const Account = () => {
                                 accountName={account.accountName}
                                 balance={account.balance}
                                 preferences={account.preferences}
+                                accountIcon={account.accountIcon}
                                 deleteAccount={() => onDeleteAccount(account.id)}
                             />
                         )

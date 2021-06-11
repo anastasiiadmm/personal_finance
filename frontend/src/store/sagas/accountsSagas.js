@@ -22,7 +22,7 @@ export function* createAccounts({payload: accountData}) {
     try {
         yield axiosApi.post('/accounts', accountData);
         yield put(createAccountsSuccess());
-        yield put(historyPush('/'));
+        yield put(historyPush('/accounts'));
     } catch (e) {
         yield put(createAccountsFailure(e.response.data));
     }
