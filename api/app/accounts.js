@@ -42,7 +42,6 @@ router.put('/:id', upload.single('accountIcon'), async (req, res) => {
       accountName: req.body.accountName,
       balance: req.body.balance,
       preferences: req.body.preferences,
-
     },
         {where: {id: req.params.id}});
 
