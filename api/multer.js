@@ -22,7 +22,6 @@ const createMulter = (dirName) => {
 
 const avatar = createMulter('avatar');
 const group = createMulter('group');
-const toJson = createMulter('anything');
 const cashierCheck = createMulter('cashierCheck');
 const categoryIcon = createMulter('categoryIcon');
 const accountIcon = createMulter('accountIcon');
@@ -33,5 +32,4 @@ module.exports = {
   cashierCheck,
   categoryIcon,
   accountIcon,
-  toJson
 };

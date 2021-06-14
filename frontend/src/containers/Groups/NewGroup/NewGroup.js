@@ -12,7 +12,6 @@ const NewGroup = () => {
     const loading = useSelector(state => state.groups.createGroupLoading);
 
     const onGroupFormSubmit = async groupData => {
-        console.log(groupData)
         dispatch(createGroupRequest(groupData));
     }
 

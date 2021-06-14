@@ -18,7 +18,7 @@ const Groups = () => {
     const params = useParams();
     const dispatch = useDispatch();
     const groups = useSelector(state => state.groups.groups);
-    console.log(groups)
+
     useEffect(() => {
         dispatch(groupsRequest());
     }, [dispatch]);
@@ -35,7 +35,7 @@ const Groups = () => {
                     <Grid container spacing={2}>
                         <Grid item>
                             {group.avatarGroup ? (
-                                <Avatar alt={group.nameGroup} src={apiURL + '/' + group.avatarGroup} className={classes.small} />
+                                <Avatar alt={group.nameGroup} src={group.avatarGroup} className={classes.small} />
                             ) : (
                                 <Avatar alt={group.nameGroup}
                                         src={GroupIcon}

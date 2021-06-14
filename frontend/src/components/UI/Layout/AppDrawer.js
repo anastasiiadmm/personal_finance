@@ -17,6 +17,7 @@ import {
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Groups from "../../../containers/Groups/Groups";
+import AccordionMenu from "./AccordionMenu/AccordionMenu";
 
 const drawerWidth = 240;
 
@@ -31,20 +32,12 @@ const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
     },
-    heading: {
-        fontSize: theme.typography.pxToRem(15),
-        fontWeight: theme.typography.fontWeightRegular,
-    },
     menuItem: {
         padding: 15
     },
     accordionSummary: {
         padding: 0,
 
-    },
-    accordionDetails: {
-        flexDirection: 'column',
-        paddingLeft: 4
     },
     small: {
         width: theme.spacing(3),
@@ -81,21 +74,7 @@ const AppDrawer = () => {
                 </MenuItem>
 
                 {user && (
-                    <Accordion>
-                        <AccordionSummary>
-                            <Grid item container justify='space-evenly' alignItems='center'>
-                                <Grid item xs>
-                                    <Typography className={classes.heading}>My Groups</Typography>
-                                </Grid>
-                                <Grid item xs>
-                                    <Button color="primary" component={Link} to="/groups/new">add</Button>
-                                </Grid>
-                            </Grid>
-                        </AccordionSummary>
-                        <AccordionDetails className={classes.accordionDetails}>
-                            <Groups />
-                        </AccordionDetails>
-                    </Accordion>
+                    <AccordionMenu />
                 )}
 
             </MenuList>

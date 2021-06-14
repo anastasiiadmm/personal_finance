@@ -1,9 +1,8 @@
 const express = require('express');
 const auth = require("../middleware/auth");
-const {Group, User, GroupUsers} = require('../models');
+const {Group, GroupUsers, User} = require('../models');
 const {Op} = require("sequelize");
 const upload = require('../multer').group;
-const toJson = require('../multer').toJson;
 
 const router = express.Router();
 
@@ -28,10 +27,10 @@ router.post('/', auth, upload.single('avatarGroup'), async (req, res) => {
     }
 });
 
-router.post('/add', toJson.none(), auth, async (req, res) => {
+router.post('/:id', auth, async (req, res) => {
     try {
         const group = await Group.findOne({
-            where: {id: req.body.groupId}, include: [{
+            where: {id: req.params.id}, include: [{
                 association: 'users',
                 attributes: ['displayName', 'id', 'email'],
                 where: {id: req.user.id},
@@ -51,7 +50,12 @@ router.post('/add', toJson.none(), auth, async (req, res) => {
             return res.status(404).send({message: "No permission"});
         }
 
-        await group.addUser(req.body.newUserId, {through: {role: 'user'}});
+        const user = await User.findOne({email: req.body.email});
+        console.log(user)
+
+        if (user) {
+            await group.addUser(user.id, {through: {role: 'user'}});
+        }
 
         return res.status(200).send(group);
 
@@ -145,7 +149,7 @@ router.put('/:id', upload.single('avatarGroup'), async (req, res) => {
     }
 });
 
-router.delete('/:id', toJson.none(), async (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
         const group = await Group.findOne({
             where: {id: req.params.id}, include: [{
