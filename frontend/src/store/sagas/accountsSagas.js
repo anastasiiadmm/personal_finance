@@ -9,6 +9,7 @@ import {
 } from "../actions/accountsActions";
 import {historyPush} from "../actions/historyActions";
 
+
 export function* fetchAccounts() {
     try {
         const response = yield axiosApi.get('/accounts');

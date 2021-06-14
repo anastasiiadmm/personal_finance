@@ -10,6 +10,7 @@ import {
     makeStyles
 } from "@material-ui/core";
 import BackspaceIcon from '@material-ui/icons/Backspace';
+import {apiURL} from "../../config";
 
 const useStyles = makeStyles(theme => ({
     progress: {
@@ -38,7 +39,7 @@ const AccountItem = ({accountName, preferences, balance, deleteAccount, accountI
         <Grid item>
             <Card className={classes.card}>
                 <img src="" alt=""/>
-                <Avatar  src={'http://localhost:8000/uploads/' + accountIcon} />
+                <Avatar  src={apiURL + '/' + accountIcon} />
                 <CardHeader title={accountName}/>
 
                 <CardContent className={classes.content}>
