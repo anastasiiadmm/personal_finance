@@ -8,12 +8,22 @@ import InviteFriend from "../InviteFriend/InviteFriend";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import {Avatar, Backdrop, CircularProgress, Fade, Modal, Typography} from "@material-ui/core";
+import {Avatar, Backdrop, CircularProgress, Fade, IconButton, Modal, Typography} from "@material-ui/core";
+import AddIcon from '@material-ui/icons/Add';
 import {apiURL} from "../../../config";
 
 import GroupIcon from "../../../assets/images/group-icon.png";
+import Transaction from "../../Transaction/Transaction";
 
 const useStyles = makeStyles(theme => ({
+    root: {
+        position: 'relative'
+    },
+    addBtn: {
+        position: 'absolute',
+        bottom: '0',
+        right: '0'
+    },
     progress: {
         height: 200
     },
@@ -52,7 +62,7 @@ const SingleGroup = ({match}) => {
 
     return (
         <PersonalLayout>
-            <Grid container direction="column" spacing={2}>
+            <Grid container direction="column" spacing={2} className={classes.root}>
                 {loading ? (
                     <Grid container justify="center" alignItems="center" className={classes.progress}>
                         <Grid item>
@@ -100,6 +110,13 @@ const SingleGroup = ({match}) => {
                         </Grid>
                     </Grid>
                 )}
+                <Grid item container spacing={2} justify="center" alignItems="center">
+                    <Transaction/>
+                </Grid>
+
+                <IconButton className={classes.addBtn}>
+                    <AddIcon/>
+                </IconButton>
             </Grid>
 
             <Modal
