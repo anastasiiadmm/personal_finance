@@ -23,7 +23,18 @@ const tryToCreateDir = async dirName => {
   }
 };
 
+const tryToDeleteFile = async (file, dir) => {
+  try {
+    const filename = file.split('/').pop().split('#')[0].split('?')[0];
+    await fs.unlink(config.uploadPath + '/' + dir + '/' + filename);
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+
 module.exports = {
   downloadAvatar,
   tryToCreateDir,
+  tryToDeleteFile
 };

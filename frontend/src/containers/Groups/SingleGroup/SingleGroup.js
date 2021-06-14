@@ -76,7 +76,7 @@ const SingleGroup = ({match}) => {
                             <Grid item>
                                 {group.avatarGroup ? (
                                     <Avatar alt={group.nameGroup}
-                                            src={apiURL + '/' + group.avatarGroup}
+                                            src={group.avatarGroup}
                                             className={classes.large}
                                     />
                                 ) : (
@@ -92,7 +92,7 @@ const SingleGroup = ({match}) => {
                             {group.users && group.users.map(user => (
                                 <Grid item key={user.id}>
                                     <Avatar alt={user.displayName}
-                                            src={apiURL + '/' + user.avatar}
+                                            src={user.avatar}
                                             className={classes.small}
                                     />
                                 </Grid>

@@ -1,11 +1,10 @@
 const path = require('path');
-const verifySignUp = require("./middleware/verifySignUp");
 const multer = require('multer');
 const {nanoid} = require('nanoid');
 const config = require('./config/config');
 const {tryToCreateDir} = require("./utils");
 
-const createMulter = (dirName, field) => {
+const createMulter = (dirName) => {
   const storage = multer.diskStorage({
     destination: async (req, file, cb) => {
       await tryToCreateDir(dirName);
@@ -13,22 +12,16 @@ const createMulter = (dirName, field) => {
     },
     filename: (req, file, cb) => {
       const filename = nanoid() + path.extname(file.originalname);
-      const filepath = path.join(config.URL, dirName, filename);
+      const filepath = path.join(dirName, filename);
       cb(null, filepath);
     }
   });
-  return multer({
-    storage: storage,
-    fileFilter: async (req, file, cb) => {
-      cb(null, await verifySignUp.checkBeforeUpload(req.body, field));
-    }
-  });
+  return multer({storage});
 };
 
 
-const avatar = createMulter('avatar', 'email');
+const avatar = createMulter('avatar');
 const group = createMulter('group');
-const toJson = createMulter('anything');
 const cashierCheck = createMulter('cashierCheck');
 const categoryIcon = createMulter('categoryIcon');
 const accountIcon = createMulter('accountIcon');
@@ -39,5 +32,4 @@ module.exports = {
   cashierCheck,
   categoryIcon,
   accountIcon,
-  toJson
 };

@@ -5,6 +5,7 @@ const config = require('../config/config');
 const {nanoid} = require('nanoid');
 const {OAuth2Client} = require('google-auth-library')
 const geoip = require('geoip-lite');
+const {tryToDeleteFile} = require('../utils');
 
 
 const googleClient = new OAuth2Client(config.google.clientId)
@@ -25,7 +26,7 @@ router.post('/signup/', upload.single('avatar'), async (req, res) => {
       email: req.body.email,
       displayName: req.body.displayName,
       password: req.body.password,
-      avatar: req.file ? req.file.filename : null,
+      avatar: req.file ? config.URL + req.file.filename : null,
     });
 
     const token = await Token.create({
@@ -48,6 +49,7 @@ router.post('/signup/', upload.single('avatar'), async (req, res) => {
       token: {token: token.token, expirationDate: token.expirationDate}
     });
   } catch (e) {
+    await tryToDeleteFile(req.file.filename, 'avatar');
     return res.status(400).send({message: e.message});
   }
 });
@@ -127,6 +129,7 @@ router.post('/googleLogin', async (req, res) => {
         password: nanoid(),
         displayName: name,
       });
+
       token = await Token.create({
         userId: user.id,
         token: nanoid(),
@@ -134,9 +137,11 @@ router.post('/googleLogin', async (req, res) => {
         location: req.ip === '::1' ? geoip.lookup('92.62.73.100').country : geoip.lookup(req.ip).country,
         device: req.headers['user-agent']
       });
+
       const group = await Group.create({
         nameGroup: 'personal',
       });
+
       await user.addGroup(group.id, {through: {role: 'owner'}});
     } else {
       const newToken = {
