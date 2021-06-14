@@ -6,6 +6,11 @@ const theme = createMuiTheme({
       variant: 'outlined',
       fullWidth: true,
     }
+  },
+  palette: {
+    white: {
+      main: '#fff'
+    }
   }
 });
 
