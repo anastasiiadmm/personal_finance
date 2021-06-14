@@ -35,6 +35,9 @@ const useStyles = makeStyles(theme => ({
         fontSize: theme.typography.pxToRem(15),
         fontWeight: theme.typography.fontWeightRegular,
     },
+    menuItem: {
+        padding: 15
+    },
     accordionSummary: {
         padding: 0,
 
@@ -72,6 +75,7 @@ const AppDrawer = () => {
                 <MenuItem
                     component={Link}
                     to="/"
+                    className={classes.menuItem}
                 >
                     Home
                 </MenuItem>

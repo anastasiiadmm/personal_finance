@@ -20,6 +20,7 @@ router.post('/', auth, upload.single('avatarGroup'), async (req, res) => {
             groupId: group.id
         });
 
+        console.log(group)
         return res.status(200).send(group);
 
     } catch (e) {
@@ -61,8 +62,7 @@ router.post('/add', toJson.none(), auth, async (req, res) => {
 
 router.get('/', auth, async (req, res) => {
     try {
-        const groups = await Group.findAll({where: {id: req.user.id}});
-        console.log(groups)
+        const groups = await Group.findAll({include: [{association: 'users', attributes: ['id'], where: {id: req.user.id}}]});
 
         return res.status(200).send(groups);
 

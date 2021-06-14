@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useDispatch} from "react-redux";
 import {Avatar, IconButton, makeStyles, Menu, MenuItem} from "@material-ui/core";
 import {logoutRequest} from "../../../../store/actions/usersActions";
+import {apiURL} from "../../../../config";
 
 const useStyles = makeStyles(theme => ({
   avatar: {

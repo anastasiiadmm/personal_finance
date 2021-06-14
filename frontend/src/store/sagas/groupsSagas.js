@@ -33,6 +33,7 @@ export function* fetchSingleGroup({payload: groupId}) {
 }
 
 export function* createGroup({payload: data}) {
+    console.log(data)
     try {
         yield axiosApi.post('/groups', data);
         yield put(createGroupSuccess());
