@@ -6,23 +6,16 @@ import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
 import Groups from "./containers/Groups/Groups";
 import Login from "./containers/Login/Login";
-import groupsSlice from "./store/slices/groupsSlice";
 import Register from "./containers/Register/Register";
+import UserProfile from "./containers/UserProfile/UserProfile";
 
 
 export const appRoutes = [
   {
-    path: "/login",
-    name: "login",
-    icon: Dashboard,
-    component: Login,
-    exact: false,
-    layout: "/",
-  },
-  {
     path: "/user",
-    name: "User Profile",
+    name: "My Profile",
     icon: Person,
+    component: UserProfile,
     layout: "/",
   },
   {
