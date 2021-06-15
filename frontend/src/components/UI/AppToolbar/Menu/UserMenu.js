@@ -32,7 +32,7 @@ const UserMenu = ({user}) => {
       >
         {user.avatar ?
           <Avatar
-            src={apiURL + '/' + user.avatar}
+            src={user.avatar}
             className={classes.avatar}
           />
           :

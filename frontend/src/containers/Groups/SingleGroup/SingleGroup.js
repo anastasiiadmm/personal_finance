@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
-import PersonalLayout from "../../../components/UI/Layout/PersonalLayout";
+import PersonalLayout from "../../../components/UI/Layout/ApplLayout";
 import {singleGroupRequest} from "../../../store/actions/groupsActions";
 import InviteFriend from "../InviteFriend/InviteFriend";
 

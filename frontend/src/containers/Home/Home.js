@@ -1,11 +1,11 @@
 import React from 'react';
-import PersonalLayout from "../../components/UI/Layout/PersonalLayout";
+import AppLayout from "../../components/UI/Layout/ApplLayout";
 
 const Home = () => {
   return (
-    <PersonalLayout>
+    <div>
       Home
-    </PersonalLayout>
+    </div>
   );
 };
 

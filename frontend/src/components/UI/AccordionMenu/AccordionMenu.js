@@ -2,7 +2,7 @@ import React from 'react';
 import {Accordion, AccordionDetails, AccordionSummary, Grid, makeStyles, Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {Link} from "react-router-dom";
-import Groups from "../../../../containers/Groups/Groups";
+import Groups from "../../../containers/Groups/Groups";
 
 const useStyles = makeStyles(theme => ({
     heading: {

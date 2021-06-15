@@ -5,7 +5,7 @@ import {Button} from "@material-ui/core";
 const AnonymousMenu = () => {
   return (
     <>
-      <Button component={Link} to="/register" color="inherit">Sign up</Button>
+      <Button component={Link} to="/signup" color="inherit">Sign up</Button>
       <Button component={Link} to="/login" color="inherit">Sign in</Button>
     </>
   );
