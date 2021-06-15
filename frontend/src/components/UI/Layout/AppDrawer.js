@@ -17,7 +17,7 @@ import {
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Groups from "../../../containers/Groups/Groups";
-import AccordionMenu from "./AccordionMenu/AccordionMenu";
+import AccordionMenu from "../AccordionMenu/AccordionMenu";
 
 const drawerWidth = 240;
 
@@ -72,10 +72,6 @@ const AppDrawer = () => {
                 >
                     Home
                 </MenuItem>
-
-                {user && (
-                    <AccordionMenu />
-                )}
 
             </MenuList>
         </Drawer>

@@ -9,6 +9,9 @@ import store from "./store/configureStore";
 import theme from './theme';
 import App from './App';
 
+import "./assets/css/material-dashboard-react.css";
+
+
 const app = (
   <Provider store={store}>
     <Router history={history}>

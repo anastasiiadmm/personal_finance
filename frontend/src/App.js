@@ -1,33 +1,21 @@
 import React from 'react';
-import {Route, Switch} from 'react-router-dom';
 import {Helmet} from "react-helmet";
-import Layout from "./components/UI/Layout/Layout";
-import Register from "./containers/Register/Register";
-import Login from "./containers/Login/Login";
-import Home from "./containers/Home/Home";
-import Account from "./containers/Account/Account";
-import NewAccount from "./containers/NewAccount/NewAccount";
-import SingleGroup from "./containers/Groups/SingleGroup/SingleGroup";
-import NewGroup from "./containers/Groups/NewGroup/NewGroup";
+import AppLayout from "./components/UI/Layout/ApplLayout";
+import {useSelector} from "react-redux";
+import LandingLayout from "./components/UI/Layout/LandingLayout";
 
 const App = () => {
-    return (
-        <Layout>
-            <Helmet
-                titleTemplate="%s - Finance Tracker"
-                defaultTitle="Finance Tracker"
-            />
-            <Switch>
-                <Route path="/" exact component={Home}/>
-                <Route path="/register" component={Register}/>
-                <Route path="/login" component={Login}/>
-                <Route path="/groups/new" component={NewGroup}/>
-                <Route path="/group/:id" exact component={SingleGroup}/>
-                <Route path="/accounts" exact component={Account}/>
-                <Route path="/accounts/new" component={NewAccount}/>
-            </Switch>
-        </Layout>
-    );
+  const user = useSelector(state => state.users.user);
+
+  return (
+    <>
+      <Helmet
+        titleTemplate="%s - Finance Tracker"
+        defaultTitle="Finance Tracker"
+      />
+      {user ? <AppLayout/> : <LandingLayout/>}
+    </>
+  );
 };
 
 export default App;

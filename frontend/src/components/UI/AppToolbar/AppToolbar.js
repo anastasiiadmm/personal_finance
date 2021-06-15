@@ -36,11 +36,7 @@ const AppToolbar = () => {
               </Typography>
             </Grid>
             <Grid item>
-              {user ? (
-                <UserMenu user={user}/>
-              ) : (
-                <AnonymousMenu/>
-              )}
+              <AnonymousMenu/>
             </Grid>
           </Grid>
         </Toolbar>
