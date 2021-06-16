@@ -11,24 +11,15 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Notifier from "../../../containers/Notifier/Notifier";
 import {Redirect, Route, Switch} from "react-router-dom";
 import {useSelector} from "react-redux";
+import Group from "../../../containers/Groups/Groups";
+import SingleGroup from "../../../containers/Groups/SingleGroup/SingleGroup";
+import Home from "../../../containers/Home/Home";
 
-
-const switchRoutes = <Switch>
-  {appRoutes.map((prop, key) => {
-    if (prop.layout === "/") {
-      return (
-        <Route
-          path={prop.path}
-          exact={prop.exact}
-          component={prop.component}
-          key={key}
-        />
-      );
-    }
-    return null;
-  })}
-  <Redirect to="/"/>
-</Switch>
+const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
+  return isAllowed ?
+    <Route {...props} /> :
+    <Redirect to={redirectTo}/>;
+};
 
 let ps;
 const useStyles = makeStyles(appStyle);
@@ -87,7 +78,26 @@ const AppLayout = () => {
             user={user}
           />
           <div className={classes.content}>
-            <div className={classes.container}>{switchRoutes}</div>
+            <div className={classes.container}>
+              <Switch>
+                <Route
+                  path="/"
+                  exact
+                  component={Home}
+                />
+                <ProtectedRoute
+                  path="/groups"
+                  exact
+                  component={Group}
+                  isAllowed={user}
+                  redirectTo="/login"
+                />
+                <Route
+                  path="/groups/:id"
+                  component={SingleGroup}
+                />
+              </Switch>
+            </div>
           </div>
         </div>
       </main>
