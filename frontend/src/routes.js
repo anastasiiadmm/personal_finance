@@ -6,6 +6,7 @@ import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
 import Login from "./containers/Login/Login";
 import Register from "./containers/Register/Register";
+import Groups from "./containers/Groups/Groups";
 
 export const appRoutes = [
   {
@@ -15,8 +16,9 @@ export const appRoutes = [
   },
   {
     path: "/groups",
-    name: "Table List",
-    icon: "content_paste",
+    name: "My Groups",
+    icon: BubbleChart,
+    component: Groups,
   },
   {
     path: "/typography",
