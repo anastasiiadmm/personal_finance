@@ -5,6 +5,7 @@ import ButtonWithProgress from "../../../components/UI/ButtonWithProgress/Button
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {useDispatch, useSelector} from "react-redux";
 import {inviteFriendRequest} from "../../../store/actions/groupsActions";
+import {useParams} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -13,14 +14,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const InviteFriend = () => {
+    const params = useParams();
     const classes = useStyles();
     const dispatch = useDispatch();
     const loading = useSelector(state => state.groups.inviteFriendLoading);
     const [email, setEmail] = useState('');
+    const groupId = params.id;
+    console.log(groupId)
 
     const addFriendHandler = (event) => {
         event.preventDefault();
-        dispatch(inviteFriendRequest({email: email}));
+        dispatch(inviteFriendRequest({groupId, email}));
         setEmail('');
     }
 

@@ -43,6 +43,18 @@ const dashboardStyle = {
   small: {
     width: 70,
     height: 70
+  },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  paper: {
+    width: 500,
+    backgroundColor: '#fff',
+    border: '1px solid #000',
+    boxShadow: '0px 3px 37px 3px rgba(0,0,0,0.96)',
+    padding: '20px',
   }
 };
 
