@@ -4,50 +4,39 @@ import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
 import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
-import Groups from "./containers/Groups/Groups";
 import Login from "./containers/Login/Login";
 import Register from "./containers/Register/Register";
-import UserProfile from "./containers/UserProfile/UserProfile";
-
 
 export const appRoutes = [
   {
     path: "/user",
     name: "My Profile",
     icon: Person,
-    component: UserProfile,
-    layout: "/",
   },
   {
-    path: "/table",
+    path: "/groups",
     name: "Table List",
     icon: "content_paste",
-    layout: "/",
-    component: Groups,
   },
   {
     path: "/typography",
     name: "Typography",
     icon: LibraryBooks,
-    layout: "/",
   },
   {
     path: "/icons",
     name: "Icons",
     icon: BubbleChart,
-    layout: "/",
   },
   {
     path: "/maps",
     name: "Maps",
     icon: LocationOn,
-    layout: "/",
   },
   {
     path: "/notifications",
     name: "Notifications",
     icon: Notifications,
-    layout: "/",
   }
 ];
 

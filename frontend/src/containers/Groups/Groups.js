@@ -3,9 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Link, useParams} from "react-router-dom";
 import {groupsRequest} from "../../store/actions/groupsActions";
 import {Avatar, Grid, makeStyles, MenuItem} from "@material-ui/core";
-import {apiURL} from "../../config";
 import GroupIcon from "../../assets/images/group-icon.png";
-import AccordionMenu from "../../components/UI/AccordionMenu/AccordionMenu";
 
 const useStyles = makeStyles(theme => ({
   small: {
@@ -30,7 +28,7 @@ const Groups = () => {
         <MenuItem
           key={group.id}
           component={Link}
-          to={`/group/${group.id}`}
+          to={`/groups/${group.id}`}
           selected={group.id === params.id}
         >
           <Grid container spacing={2}>
