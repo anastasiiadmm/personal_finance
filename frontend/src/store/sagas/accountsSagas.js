@@ -10,9 +10,9 @@ import {
 import {historyPush} from "../actions/historyActions";
 
 
-export function* fetchAccounts() {
+export function* fetchAccounts(id) {
     try {
-        const response = yield axiosApi.get('/accounts');
+        const response = yield axiosApi.get('/accounts/groups/'+ id);
         yield put(accountsSuccess(response.data));
     } catch (e) {
         yield put(accountsFailure());

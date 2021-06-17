@@ -6,9 +6,10 @@ const upload = require('../multer').accountIcon;
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/groups', async (req, res) => {
   try {
-    const accounts = await Account.findAll({include: {model: Group}});
+      console.log(req.params.id);
+      const accounts = await Account.findOne({include: {model: Group}, where: {id: req.params.id}});
     res.status(200).send(accounts);
   } catch (e) {
     return res.status(400).send({message: e.message});
@@ -23,9 +24,7 @@ router.post('/', auth, upload.single('accountIcon'), async (req, res) => {
     accountData.group = req.group.id
     console.log(accountData);
     try {
-
         const account = await Account.create({
-
             accountName: accountData.accountName,
             userId: accountData.user,
             groupId: accountData.group,
