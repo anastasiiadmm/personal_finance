@@ -7,16 +7,16 @@ import Button from "@material-ui/core/Button";
 import {NavLink} from "react-router-dom";
 
 const Categories = () => {
-
     const dispatch = useDispatch();
     const categories = useSelector(state => state.categories.categories);
 
     useEffect(() => {
         dispatch(fetchCategoriesRequest());
-    }, [])
+    }, [dispatch])
 
     return (
         <GridItem>
+            qwe
             {categories && categories.map(category => {
                 return <Category key={category.id} category={category}/>
             })}

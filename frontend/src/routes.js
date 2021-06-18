@@ -7,6 +7,7 @@ import Notifications from "@material-ui/icons/Notifications";
 import Login from "./containers/Login/Login";
 import Register from "./containers/Register/Register";
 import Groups from "./containers/Groups/Groups";
+import Categories from "./containers/Categories/Categories";
 
 
 export const appRoutes = [
@@ -40,7 +41,13 @@ export const appRoutes = [
     path: "/notifications",
     name: "Notifications",
     icon: Notifications,
-  }
+  },
+  {
+    path: "/categories",
+    name: "Categories",
+    icon: Notifications,
+    component: Categories
+  },
 ];
 
 export const landingRoutes = [
