@@ -11,6 +11,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 import GroupIcon from "../../../assets/images/group-icon.png";
 import Transaction from "../../Transaction/Transaction";
+import Account from "../../Account/Account";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -107,6 +108,9 @@ const SingleGroup = ({match}) => {
                         </Grid>
                     </Grid>
                 )}
+                <Grid item container spacing={2} justify="center" alignItems="center">
+                    <Account/>
+                </Grid>
                 <Grid item container spacing={2} justify="center" alignItems="center">
                     <Transaction/>
                 </Grid>

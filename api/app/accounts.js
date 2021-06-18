@@ -6,10 +6,10 @@ const upload = require('../multer').accountIcon;
 
 const router = express.Router();
 
-router.get('/groups', async (req, res) => {
+router.get('/groups/:id', async (req, res) => {
   try {
       console.log(req.params.id);
-      const accounts = await Account.findOne({include: {model: Group}, where: {id: req.params.id}});
+      const accounts = await Account.findAll({where: {groupId: req.params.id}});
     res.status(200).send(accounts);
   } catch (e) {
     return res.status(400).send({message: e.message});
@@ -17,47 +17,22 @@ router.get('/groups', async (req, res) => {
 
 });
 
-router.post('/', auth, upload.single('accountIcon'), async (req, res) => {
+router.post('/:id',auth ,upload.single('accountIcon'), async (req, res) => {
 
     const accountData = req.body;
     accountData.user = req.user.id;
-    accountData.group = req.group.id
-    console.log(accountData);
+    // console.log(accountData);
     try {
         const account = await Account.create({
-            accountName: accountData.accountName,
+            accountName: req.body.accountName,
             userId: accountData.user,
-            groupId: accountData.group,
-            balance: accountData.balance,
-            preferences: accountData.preferences,
+            groupId: req.params.id,
+            balance: req.body.balance,
+            preferences: req.body.preferences,
             accountIcon: req.file ? req.file.filename : null,
         });
-        //   include: {
-        //     association: 'user',
-        //         where: {id: req.body.userId},
-        //     include: {
-        //       association: 'groups',
-        //           through: {
-        //         attributes: ['userId'],
-        //             where: {userId: req.body.userId}
-        //       },
-        //       include: [{
-        //         association: 'users',
-        //         attributes: ['displayName', 'id'],
-        //         where: {id: req.body.userId},
-        //         through: {
-        //           attributes: ['role'],
-        //           where: {
-        //             [Op.or]: [
-        //               {role: 'admin'},
-        //               {role: 'owner'}
-        //             ]
-        //           }
-        //         }
-        //       }]
-        //     }
-        //   },
-        // }
+
+
         console.log(account);
         res.status(200).send(account.toJSON());
     } catch (e) {

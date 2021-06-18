@@ -1,39 +1,67 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {accountsRequest, deleteAccountsRequest} from "../../store/actions/accountsActions";
-import {CircularProgress, Grid, makeStyles, Typography} from "@material-ui/core";
+import {accountsRequest, createAccountsRequest, deleteAccountsRequest} from "../../store/actions/accountsActions";
+import {Backdrop, CircularProgress, Fade, Grid, makeStyles, Modal, Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import {Link, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import AccountItem from "./AccountItem";
+import AccountForm from "../../components/AccountForm/AccountForm";
 
 const useStyles = makeStyles(theme => ({
+    root: {
+        position: 'relative'
+    },
     progress: {
         height: 200
+    },
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    paper: {
+        width: 500,
+        backgroundColor: theme.palette.background.paper,
+        border: '1px solid #000',
+        boxShadow: theme.shadows[4],
+        padding: theme.spacing(2, 4, 3),
     }
 }));
 
 const Account = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const params = useParams();
     const loading = useSelector(state => state.accounts.accountsLoading);
+    const error = useSelector(state => state.accounts.createAccountsError);
+    const loadingAccountNew = useSelector(state => state.accounts.createAccountsLoading);
     const accounts = useSelector(state => state.accounts.accounts);
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        dispatch(accountsRequest(accounts.groupId));
+        console.log(params.id)
+        dispatch(accountsRequest(params.id));
     }, [dispatch]);
 
     const onDeleteAccount = id => {
         dispatch(deleteAccountsRequest(id));
     }
 
+    const onAccountFormSubmit = (e, data) => {
+        e.preventDefault();
+        dispatch(createAccountsRequest({data, id: params.id}));
+    }
     return (
+        <>
         <Grid container direction={'column'} spacing={2}>
             <Grid item container justify={'space-between'} alignItems={'center'}>
                 <Grid item>
                     <Typography variant="h4">Accounts</Typography>
                 </Grid>
                 <Grid item>
-                    <Button color="primary" component={Link} to="/accounts/new">Add new account</Button>
+                    <Button color="primary" onClick={() => setOpen(true)}>
+                        Add new account
+                    </Button>
                 </Grid>
             </Grid>
             <Grid item container direction="column" spacing={1}>
@@ -59,6 +87,29 @@ const Account = () => {
                     })}
             </Grid>
         </Grid>
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={open}
+                onClose={() => setOpen(false)}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={open}>
+                    <div className={classes.paper}>
+                        <AccountForm
+                            onSubmit={onAccountFormSubmit}
+                            loading={loadingAccountNew}
+                            error={error}
+                        />
+                    </div>
+                </Fade>
+            </Modal>
+            </>
     );
 };
 

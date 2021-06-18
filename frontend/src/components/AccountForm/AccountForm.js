@@ -67,22 +67,7 @@ const AccountForm = ({onSubmit, loading, error}) => {
                     onChange={inputChangeHandler}
                     error={getFieldError('preferences')}
                 />
-                {/*<FormElement*/}
-                {/*    required*/}
-                {/*    label="User"*/}
-                {/*    name="userId"*/}
-                {/*    value={state.userId}*/}
-                {/*    onChange={inputChangeHandler}*/}
-                {/*    error={getFieldError('userId')}*/}
-                {/*/>*/}
-                {/*<FormElement*/}
-                {/*    required*/}
-                {/*    label="Group"*/}
-                {/*    name="groupId"*/}
-                {/*    value={state.groupId}*/}
-                {/*    onChange={inputChangeHandler}*/}
-                {/*    error={getFieldError('groupId')}*/}
-                {/*/>*/}
+
                 <FileInput
                     name="accountIcon"
                     label="Account Icon"

@@ -10,9 +10,9 @@ import {
 import {historyPush} from "../actions/historyActions";
 
 
-export function* fetchAccounts(id) {
+export function* fetchAccounts({payload: id}) {
     try {
-        const response = yield axiosApi.get('/accounts/groups/'+ id);
+        const response = yield axiosApi.get('/accounts/groups/' + id);
         yield put(accountsSuccess(response.data));
     } catch (e) {
         yield put(accountsFailure());
@@ -21,9 +21,9 @@ export function* fetchAccounts(id) {
 
 export function* createAccounts({payload: accountData}) {
     try {
-        yield axiosApi.post('/accounts', accountData);
+        yield axiosApi.post('/accounts/' + accountData.id, accountData.data);
         yield put(createAccountsSuccess());
-        yield put(historyPush('/accounts'));
+        yield put(historyPush('/'));
     } catch (e) {
         yield put(createAccountsFailure(e.response.data));
     }
