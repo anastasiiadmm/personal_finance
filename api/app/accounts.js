@@ -1,6 +1,6 @@
 const express = require('express');
 const auth = require("../middleware/auth");
-const {Account, Group} = require('../models');
+const {Account} = require('../models');
 const upload = require('../multer').accountIcon;
 
 
@@ -21,7 +21,6 @@ router.post('/:id',auth ,upload.single('accountIcon'), async (req, res) => {
 
     const accountData = req.body;
     accountData.user = req.user.id;
-    // console.log(accountData);
     try {
         const account = await Account.create({
             accountName: req.body.accountName,
@@ -34,7 +33,7 @@ router.post('/:id',auth ,upload.single('accountIcon'), async (req, res) => {
 
 
         console.log(account);
-        res.status(200).send(account.toJSON());
+        res.status(200).send(account);
     } catch (e) {
         return res.status(400).send({message: e.message});
     }
@@ -62,16 +61,14 @@ router.put('/:id', auth, upload.single('accountIcon'), async (req, res) => {
 
 router.delete('/:id', auth, async (req, res) => {
 
+
     try {
-        const account = await Account.findOne({
-            where: {
-                id: req.body.id
-            }
-        });
+        const account = await Account.findOne({where: {id: req.params.id}});
+        console.log(req.params.id);
         account.destroy();
         res.send("Account deleted!");
     } catch (e) {
-        res.status(400).send('Not deleted!')
+        res.status(400).send({message: e.message})
     }
 
 });

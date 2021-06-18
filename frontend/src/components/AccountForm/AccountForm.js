@@ -9,7 +9,7 @@ const AccountForm = ({onSubmit, loading, error}) => {
         accountName: '',
         balance: '',
         preferences: '',
-        accountIcon: '',
+        accountIcon: ''
     });
 
     const inputChangeHandler = e => {
@@ -31,6 +31,7 @@ const AccountForm = ({onSubmit, loading, error}) => {
             [name]: file
         }));
     };
+
     const getFieldError = fieldName => {
         try {
             return error.errors[fieldName].message;
@@ -38,6 +39,7 @@ const AccountForm = ({onSubmit, loading, error}) => {
             return undefined;
         }
     };
+
 
     return (
         <form onSubmit={(e) => onSubmit(e, state)} noValidate>
@@ -70,7 +72,7 @@ const AccountForm = ({onSubmit, loading, error}) => {
 
                 <FileInput
                     name="accountIcon"
-                    label="Account Icon"
+                    label="Icon"
                     onChange={fileChangeHandler}
                     error={getFieldError('accountIcon')}
                 />
