@@ -2,24 +2,47 @@ import {put, takeEvery} from 'redux-saga/effects';
 import axiosApi from "../../axiosApi";
 import {
   googleLoginRequest,
-  loginFailure, loginRequest,
-  loginSuccess, logoutRequest,
+  loginFailure,
+  loginRequest,
+  loginSuccess,
+  logoutRequest,
   logoutSuccess,
   registerFailure,
   registerRequest,
-  registerSuccess
+  registerSuccess,
+  updateFailure,
+  updateRequest,
+  updateSuccess
 } from "../actions/usersActions";
 import {historyPush} from "../actions/historyActions";
-import API from "../../API";
 import {addNotification} from "../actions/notifierActions";
 
 export function* registerUser({payload: userData}) {
   try {
-    const response = yield API.registerUser(userData);
+    const data = new FormData();
+
+    Object.keys(userData).forEach(key => {
+      data.append(key, userData[key]);
+    });
+    const response = yield axiosApi.post('/users/signup', data);
     yield put(registerSuccess(response.data));
     yield put(historyPush('/'));
   } catch (error) {
     yield put(registerFailure(error.response.data));
+  }
+}
+
+export function* updateUser({payload: userData}) {
+  try {
+    const data = new FormData();
+
+    Object.keys(userData).forEach(key => {
+      data.append(key, userData[key]);
+    });
+    const response = yield axiosApi.put('/users/sessions', data);
+    yield put(updateSuccess(response.data));
+  } catch (error) {
+    yield put(updateFailure(error.response.data));
   }
 }
 
@@ -62,6 +85,7 @@ const usersSagas = [
   takeEvery(loginRequest, loginUser),
   takeEvery(googleLoginRequest, googleLogin),
   takeEvery(logoutRequest, logout),
+  takeEvery(updateRequest, updateUser),
 ];
 
 export default usersSagas;

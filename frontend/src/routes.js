@@ -32,7 +32,6 @@ export const appRoutes = [
     layout: "/groups",
     path: "/:id",
     name: "My Groups",
-    icon: BubbleChart,
     component: SingleGroup,
   },
   {
@@ -70,7 +69,6 @@ export const appRoutes = [
     layout: "/category",
     path: "/add",
     name: "Categories",
-    icon: Notifications,
     component: CategoryForm
   },
 ];

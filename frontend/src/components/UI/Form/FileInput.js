@@ -10,7 +10,7 @@ const useStyles = makeStyles({
   }
 });
 
-const FileInput = ({onChange, name, label}) => {
+const FileInput = ({onChange, name, label, avatar}) => {
   const classes = useStyles();
   const inputRef = useRef();
 
@@ -35,6 +35,7 @@ const FileInput = ({onChange, name, label}) => {
       <input
         type="file"
         name={name}
+        value={avatar}
         className={classes.input}
         onChange={onFileChange}
         ref={inputRef}

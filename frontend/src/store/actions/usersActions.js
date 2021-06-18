@@ -10,5 +10,8 @@ export const {
   logoutSuccess,
   googleLoginRequest,
   logoutRequest,
+  updateRequest,
+  updateSuccess,
+  updateFailure,
 } = usersSlice.actions;
 

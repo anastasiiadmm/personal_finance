@@ -1,18 +1,18 @@
-import React from "react";
+import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
 import GridItem from "../../template/Grid/GridItem.js";
 import GridContainer from "../../template/Grid/GridContainer.js";
-import CustomInput from "../../template/CustomInput/CustomInput.js";
-import Button from "../../template/CustomButtons/Button.js";
 import Card from "../../template/Card/Card.js";
 import CardHeader from "../../template/Card/CardHeader.js";
-import CardAvatar from "../../template/Card/CardAvatar.js";
 import CardBody from "../../template/Card/CardBody.js";
 import CardFooter from "../../template/Card/CardFooter.js";
-import {useSelector} from "react-redux";
-import {Avatar} from "@material-ui/core";
-import Person from "@material-ui/icons/Person";
+import {useDispatch, useSelector} from "react-redux";
+import {Grid} from "@material-ui/core";
+import FormElement from "../../components/UI/Form/FormElement";
+import {registerRequest, updateRequest} from "../../store/actions/usersActions";
+import FileInput from "../../components/UI/Form/FileInput";
+import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
+import {currencies} from "../../utils";
 
 const styles = {
   cardCategoryWhite: {
@@ -38,10 +38,64 @@ const useStyles = makeStyles(styles);
 const UserProfile = () => {
   const user = useSelector(state => state.users.user);
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const [state, setState] = useState({
+    displayName: user.displayName,
+    avatar: user.avatar,
+    preferences: user.preferences
+  });
+
+
+  const error = useSelector(state => state.users.registerError);
+  const loading = useSelector(state => state.users.registerLoading);
+
+  const inputChangeHandler = e => {
+    const {name, value} = e.target;
+    setState(prev => ({...prev, [name]: value}));
+  };
+
+  const fileChangeHandler = e => {
+    const name = e.target.name;
+    const file = e.target.files[0];
+
+    setState(prevState => ({
+      ...prevState,
+      [name]: file
+    }));
+  };
+
+  const submitFormHandler = e => {
+    e.preventDefault();
+    let userData = {};
+
+    if (state.displayName !== user.displayName) {
+      userData.displayName = state.displayName
+    }
+    if (state.avatar !== user.avatar) {
+      userData.avatar = state.avatar
+    }
+    if (state.preferences !== user.preferences) {
+      userData.preferences = state.preferences
+    }
+    if (Object.keys(userData).length !== 0 && userData.constructor === Object) {
+      dispatch(updateRequest(userData));
+    }
+  };
+
+  const getFieldError = fieldName => {
+    try {
+      return error.errors[fieldName].message;
+    } catch (e) {
+      return undefined;
+    }
+  }
+
   return (
     <div>
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={8}>
+      <Grid container component="form" onSubmit={submitFormHandler}
+            noValidate>
+        <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
@@ -49,136 +103,64 @@ const UserProfile = () => {
             </CardHeader>
             <CardBody>
               <GridContainer>
-                <GridItem xs={12} sm={12} md={5}>
-                  <CustomInput
-                    labelText="Company (disabled)"
-                    id="company-disabled"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                    inputProps={{
-                      disabled: true,
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={3}>
-                  <CustomInput
-                    labelText="Username"
-                    id="username"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Email address"
-                    id="email-address"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    labelText="First Name"
-                    id="first-name"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    labelText="Last Name"
-                    id="last-name"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="City"
-                    id="city"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Country"
-                    id="country"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Postal Code"
-                    id="postal-code"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-              <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
-                  <InputLabel style={{color: "#AAAAAA"}}>About me</InputLabel>
-                  <CustomInput
-                    labelText="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."
-                    id="about-me"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                    inputProps={{
-                      multiline: true,
-                      rows: 5,
-                    }}
-                  />
+                  <Grid spacing={3} container direction="column">
+                    <FormElement
+                      required
+                      label="Email"
+                      type="text"
+                      disabled
+                      onChange={inputChangeHandler}
+                      name="email"
+                      value={user.email}
+                      autoComplete="new-email"
+                      error={getFieldError('email')}
+                    />
+                    <FormElement
+                      required
+                      label="Display Name"
+                      type="text"
+                      onChange={inputChangeHandler}
+                      name="displayName"
+                      value={state.displayName}
+                      error={getFieldError('displayName')}
+                    />
+                    <FormElement
+                      required
+                      label="Preferred currency"
+                      value={state.preferences}
+                      select
+                      options={currencies}
+                      onChange={inputChangeHandler}
+                      name="preferences"
+                      error={getFieldError('preferences')}
+                    />
+                    <Grid item xs>
+                      <FileInput
+                        name="avatar"
+                        label="Avatar"
+                        onChange={fileChangeHandler}
+                        error={getFieldError('avatar')}
+                      />
+                    </Grid>
+                  </Grid>
                 </GridItem>
               </GridContainer>
             </CardBody>
             <CardFooter>
-              <Button color="primary">Update Profile</Button>
+              <ButtonWithProgress
+                type="submit"
+                fullWidth
+                color="primary"
+                loading={loading}
+                disabled={loading}
+              >
+                Update profile
+              </ButtonWithProgress>
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card profile>
-            <CardAvatar profile>
-              <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                {user.avatar ?
-                  <Avatar
-                    src={user.avatar}
-                  />
-                  :
-                  <Person className={classes.icons}/>
-                }
-              </a>
-            </CardAvatar>
-            <CardBody profile>
-              <h6 className={classes.cardCategory}>CEO / CO-FOUNDER</h6>
-              <h4 className={classes.cardTitle}>Alec Thompson</h4>
-              <p className={classes.description}>
-                Don{"'"}t be scared of the truth because we need to restart the
-                human foundation in truth And I love you like Kanye loves Kanye
-                I love Rick Owens’ bed design but the back is...
-              </p>
-              <Button color="primary" round>
-                Follow
-              </Button>
-            </CardBody>
-          </Card>
-        </GridItem>
-      </GridContainer>
+      </Grid>
     </div>
   );
 }

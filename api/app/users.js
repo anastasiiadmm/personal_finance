@@ -5,6 +5,7 @@ const config = require('../config/config');
 const {nanoid} = require('nanoid');
 const {OAuth2Client} = require('google-auth-library')
 const geoip = require('geoip-lite');
+const auth = require("../middleware/auth");
 const {tryToDeleteFile} = require('../utils');
 
 
@@ -49,7 +50,9 @@ router.post('/signup/', upload.single('avatar'), async (req, res) => {
       token: {token: token.token, expirationDate: token.expirationDate}
     });
   } catch (e) {
-    await tryToDeleteFile(req.file.filename, 'avatar');
+    if (!!req.file) {
+      await tryToDeleteFile(req.file.filename, 'avatar');
+    }
     return res.status(400).send({message: e.message});
   }
 });
@@ -104,6 +107,38 @@ router.post('/sessions/', async (req, res) => {
 );
 
 
+router.put('/sessions/', upload.single('avatar'), auth, async (req, res) => {
+    try {
+      const user = await User.findOne({where: {id: req.user.id}});
+
+      if (!!req.file) {
+        if (!!user.avatar) {
+          await tryToDeleteFile(req.user.avatar.replace(config.URL, ''), 'avatar');
+        }
+        user.avatar = config.URL + req.file.filename;
+      }
+      req.body.displayName ? user.displayName = req.body.displayName : false;
+      req.body.preferences ? user.preferences = req.body.preferences : false;
+
+      await user.save();
+
+      const userData = user.toJSON();
+      delete userData.password;
+      res.status(200).send({
+        ...userData,
+        token: {token: req.token.token, expirationDate: req.token.expirationDate}
+      });
+    } catch
+      (e) {
+      if (!!req.file) {
+        await tryToDeleteFile(req.file.filename, 'avatar');
+      }
+      return res.status(400).send({message: e.message});
+    }
+  }
+);
+
+
 router.post('/googleLogin', async (req, res) => {
   try {
     const ticket = await googleClient.verifyIdToken({
@@ -128,6 +163,7 @@ router.post('/googleLogin', async (req, res) => {
         email: email,
         password: nanoid(),
         displayName: name,
+        avatar: picture
       });
 
       token = await Token.create({
@@ -160,7 +196,6 @@ router.post('/googleLogin', async (req, res) => {
         await token.save();
       }
     }
-    user.avatar = picture;
     await user.save();
     const userData = user.toJSON();
     delete userData.password;
@@ -174,6 +209,7 @@ router.post('/googleLogin', async (req, res) => {
     res.status(500).send({global: 'Server error, please, try again '});
   }
 });
+
 
 router.delete('/sessions/', async (req, res) => {
     try {

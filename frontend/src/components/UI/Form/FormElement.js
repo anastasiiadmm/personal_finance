@@ -7,7 +7,7 @@ const FormElement = ({error, select, options, ...props}) => {
 
   if (select) {
     inputChildren = options.map(option => (
-      <MenuItem key={option._id} value={option._id}>
+      <MenuItem key={option.id} value={option.id}>
         {option.title}
       </MenuItem>
     ));

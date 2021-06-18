@@ -25,6 +25,17 @@ const usersSlice = createSlice({
       state.registerLoading = false;
       state.registerError = error;
     },
+    updateRequest: state => {
+      state.registerLoading = true;
+    },
+    updateSuccess: (state, {payload: user}) => {
+      state.registerLoading = false;
+      state.user = user;
+    },
+    updateFailure: (state, {payload: error}) => {
+      state.registerLoading = false;
+      state.registerError = error;
+    },
     loginRequest: state => {
       state.loginLoading = true;
     },

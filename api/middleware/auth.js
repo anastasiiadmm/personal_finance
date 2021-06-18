@@ -25,6 +25,7 @@ const auth = async (req, res, next) => {
   }
 
   req.user = token.toJSON().user;
+  req.token = token.toJSON();
 
   next();
 };

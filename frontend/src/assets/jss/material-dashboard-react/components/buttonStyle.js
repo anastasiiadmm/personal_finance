@@ -12,6 +12,13 @@ import {
 } from "../../material-dashboard-react";
 
 const buttonStyle = {
+  buttonProgress: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: '-10px',
+    marginLeft: '-10px',
+  },
   button: {
     minHeight: "auto",
     minWidth: "auto",
