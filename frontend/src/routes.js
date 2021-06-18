@@ -8,7 +8,7 @@ import Groups from "./containers/Groups/Groups";
 import Login from "./containers/Login/Login";
 import Register from "./containers/Register/Register";
 import UserProfile from "./containers/UserProfile/UserProfile";
-
+import Categories from "./containers/Categories/Categories";
 
 export const appRoutes = [
   {
@@ -48,6 +48,13 @@ export const appRoutes = [
     name: "Notifications",
     icon: Notifications,
     layout: "/",
+  },
+  {
+    path: "/categories",
+    name: "Categories",
+    icon: Notifications,
+    layout: "/",
+    component: Categories,
   }
 ];
 
