@@ -16,7 +16,6 @@ const Categories = () => {
 
     return (
         <GridItem>
-            qwe
             {categories && categories.map(category => {
                 return <Category key={category.id} category={category}/>
             })}

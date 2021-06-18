@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import Grid from "@material-ui/core/Grid";
-import FormElement from "../UI/Form/FormElement";
-import ButtonWithProgress from "../UI/ButtonWithProgress/ButtonWithProgress";
+import FormElement from "../../../components/UI/Form/FormElement";
+import ButtonWithProgress from "../../../components/UI/ButtonWithProgress/ButtonWithProgress";
 import {useDispatch} from "react-redux";
-import {createCategoryRequest} from "../../store/actions/categoriesActions";
-import FileInput from "../UI/Form/FileInput";
+import {createCategoryRequest} from "../../../store/actions/categoriesActions";
+import FileInput from "../../../components/UI/Form/FileInput";
 
 const CategoryForm = () => {
 

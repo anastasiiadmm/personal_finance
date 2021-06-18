@@ -11,15 +11,13 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Notifier from "../../../containers/Notifier/Notifier";
 import {Redirect, Route, Switch} from "react-router-dom";
 import {useSelector} from "react-redux";
-import Group from "../../../containers/Groups/Groups";
-import SingleGroup from "../../../containers/Groups/SingleGroup/SingleGroup";
-import Home from "../../../containers/Home/Home";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     return isAllowed ?
         <Route {...props} /> :
         <Redirect to={redirectTo}/>;
 };
+
 
 let ps;
 const useStyles = makeStyles(appStyle);
@@ -39,7 +37,6 @@ const AppLayout = () => {
         }
     };
 
-
     useEffect(() => {
         if (navigator.platform.indexOf("Win") > -1) {
             ps = new PerfectScrollbar(mainPanel.current, {
@@ -52,10 +49,41 @@ const AppLayout = () => {
         return function cleanup() {
             if (navigator.platform.indexOf("Win") > -1) {
                 ps.destroy();
+                ps = null;
+
             }
             window.removeEventListener("resize", resizeFunction);
         };
     }, [mainPanel]);
+
+
+    const switchRoutes = <Switch>
+        {appRoutes.map((prop, key) => {
+            if (prop.layout === "/") {
+                return (
+                    <ProtectedRoute
+                        path={prop.path}
+                        exact
+                        component={prop.component}
+                        key={key}
+                        isAllowed={user}
+                        redirectTo="/"
+                    />
+                );
+            } else if (prop.layout !== "/") {
+                return (
+                    <ProtectedRoute
+                        path={prop.layout + prop.path}
+                        component={prop.component}
+                        key={key}
+                        isAllowed={user}
+                        redirectTo="/"
+                    />
+                );
+            }
+            return null;
+        })}
+    </Switch>
 
 
     return (
@@ -79,28 +107,7 @@ const AppLayout = () => {
                     />
                     <div className={classes.content}>
                         <div className={classes.container}>
-                            <Switch>
-                                <Route
-                                    path="/"
-                                    exact
-                                    component={Home}
-                                />
-                                {user && (
-                                    <>
-                                        <ProtectedRoute
-                                            path="/groups"
-                                            exact
-                                            component={Group}
-                                            isAllowed={user}
-                                            redirectTo="/login"
-                                        />
-                                        <Route
-                                            path="/groups/:id"
-                                            component={SingleGroup}
-                                        />
-                                    </>
-                                )}
-                            </Switch>
+                            {switchRoutes}
                         </div>
                     </div>
                 </div>
