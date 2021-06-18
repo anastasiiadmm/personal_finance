@@ -1,5 +1,4 @@
-import React, {createRef, useEffect, useState} from 'react';
-import PerfectScrollbar from "perfect-scrollbar";
+import React, {useState} from 'react';
 import {makeStyles} from "@material-ui/core";
 import appStyle from "../../../assets/jss/material-dashboard-react/layouts/adminStyle";
 import Sidebar from "../../../template/Sidebar/Sidebar";
@@ -18,43 +17,15 @@ const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     <Redirect to={redirectTo}/>;
 };
 
-
-let ps;
 const useStyles = makeStyles(appStyle);
 
 const AppLayout = () => {
   const classes = useStyles();
-  const mainPanel = createRef();
   const user = useSelector(state => state.users.user);
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-  const resizeFunction = () => {
-    if (window.innerWidth >= 960) {
-      setMobileOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    if (navigator.platform.indexOf("Win") > -1) {
-      ps = new PerfectScrollbar(mainPanel.current, {
-        suppressScrollX: true,
-        suppressScrollY: false,
-      });
-      document.body.style.overflow = "hidden";
-    }
-    window.addEventListener("resize", resizeFunction);
-    return function cleanup() {
-      if (navigator.platform.indexOf("Win") > -1) {
-        ps.destroy();
-        ps = null;
-
-      }
-      window.removeEventListener("resize", resizeFunction);
-    };
-  }, [mainPanel]);
 
 
   const switchRoutes = <Switch>
@@ -98,7 +69,7 @@ const AppLayout = () => {
           open={mobileOpen}
           color="purple"
         />
-        <div className={classes.mainPanel} ref={mainPanel}>
+        <div className={classes.mainPanel}>
           <Navbar
             routes={appRoutes}
             handleDrawerToggle={handleDrawerToggle}
