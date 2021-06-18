@@ -22,42 +22,44 @@ const Sidebar = ({color, logo, image, logoText, routes, ...props}) => {
   let links = (
     <List className={classes.list}>
       {routes.map((prop, key) => {
-        let activePro = " ";
-        let listItemClasses = classNames({
-          [" " + classes[color]]: activeRoute(prop.path),
-        });
+        if (prop.layout === '/') {
+          let activePro = " ";
+          let listItemClasses = classNames({
+            [" " + classes[color]]: activeRoute(prop.path),
+          });
 
-        const whiteFontClasses = classNames({
-          [" " + classes.whiteFont]: activeRoute(prop.path),
-        });
-        return (
-          <NavLink
-            to={prop.path}
-            className={activePro + classes.item}
-            activeClassName="active"
-            key={key}
-          >
-            <ListItem button className={classes.itemLink + listItemClasses}>
-              {typeof prop.icon === "string" ? (
-                <Icon
-                  className={classNames(classes.itemIcon, whiteFontClasses)}
-                >
-                  {prop.icon}
-                </Icon>
-              ) : (
-                <prop.icon
-                  className={classNames(classes.itemIcon, whiteFontClasses)}
+          const whiteFontClasses = classNames({
+            [" " + classes.whiteFont]: activeRoute(prop.path),
+          });
+          return (
+            <NavLink
+              to={prop.path}
+              className={activePro + classes.item}
+              activeClassName="active"
+              key={key}
+            >
+              <ListItem button className={classes.itemLink + listItemClasses}>
+                {typeof prop.icon === "string" ? (
+                  <Icon
+                    className={classNames(classes.itemIcon, whiteFontClasses)}
+                  >
+                    {prop.icon}
+                  </Icon>
+                ) : (
+                  <prop.icon
+                    className={classNames(classes.itemIcon, whiteFontClasses)}
+                  />
+
+                )}
+                <ListItemText
+                  primary={prop.name}
+                  className={classNames(classes.itemText, whiteFontClasses)}
+                  disableTypography={true}
                 />
-
-              )}
-              <ListItemText
-                primary={prop.name}
-                className={classNames(classes.itemText, whiteFontClasses)}
-                disableTypography={true}
-              />
-            </ListItem>
-          </NavLink>
-        );
+              </ListItem>
+            </NavLink>
+          );
+        }
       })}
     </List>
   );

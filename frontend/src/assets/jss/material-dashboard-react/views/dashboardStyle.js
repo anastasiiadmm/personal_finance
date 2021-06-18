@@ -2,8 +2,7 @@ import {
   successColor,
   whiteColor,
   grayColor,
-  hexToRgb,
-} from "assets/jss/material-dashboard-react.js";
+} from "../../material-dashboard-react";
 
 const dashboardStyle = {
   successText: {
@@ -12,42 +11,6 @@ const dashboardStyle = {
   upArrowCardCategory: {
     width: "16px",
     height: "16px",
-  },
-  stats: {
-    color: grayColor[0],
-    display: "inline-flex",
-    fontSize: "12px",
-    lineHeight: "22px",
-    "& svg": {
-      top: "4px",
-      width: "16px",
-      height: "16px",
-      position: "relative",
-      marginRight: "3px",
-      marginLeft: "3px",
-    },
-    "& .fab,& .fas,& .far,& .fal,& .material-icons": {
-      top: "4px",
-      fontSize: "16px",
-      position: "relative",
-      marginRight: "3px",
-      marginLeft: "3px",
-    },
-  },
-  cardCategory: {
-    color: grayColor[0],
-    margin: "0",
-    fontSize: "14px",
-    marginTop: "0",
-    paddingTop: "10px",
-    marginBottom: "0",
-  },
-  cardCategoryWhite: {
-    color: "rgba(" + hexToRgb(whiteColor) + ",.62)",
-    margin: "0",
-    fontSize: "14px",
-    marginTop: "0",
-    marginBottom: "0",
   },
   cardTitle: {
     color: grayColor[2],
@@ -77,6 +40,22 @@ const dashboardStyle = {
       lineHeight: "1",
     },
   },
+  small: {
+    width: 70,
+    height: 70
+  },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  paper: {
+    width: 500,
+    backgroundColor: '#fff',
+    border: '1px solid #000',
+    boxShadow: '0px 3px 37px 3px rgba(0,0,0,0.96)',
+    padding: '20px',
+  }
 };
 
 export default dashboardStyle;

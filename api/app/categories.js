@@ -1,11 +1,11 @@
 const express = require('express');
-// const {authJwt} = require("../middleware");
+const auth = require("../middleware/auth");
 const {Category, User} = require("../models");
 const upload = require('../multer').categoryIcon;
 
 const router = express.Router();
 
-router.post('/', upload.single('categoryIcon'), async (req, res) => {
+router.post('/', auth, upload.single('categoryIcon'), async (req, res) => {
 
     try {
         const CategoryResponse = await Category.create({
@@ -13,7 +13,7 @@ router.post('/', upload.single('categoryIcon'), async (req, res) => {
             icon: req.file ? req.file.filename : null,
             categoryType: req.body.categoryType,
             category: req.body.category,
-            userId: req.body.userId,
+            userId: req.user.id
         });
         res.status(200).send(CategoryResponse);
     } catch (e) {

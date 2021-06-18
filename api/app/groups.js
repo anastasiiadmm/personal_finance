@@ -51,7 +51,6 @@ router.post('/:id', auth, async (req, res) => {
         }
 
         const user = await User.findOne({email: req.body.email});
-        console.log(user)
 
         if (user) {
             await group.addUser(user.id, {through: {role: 'user'}});

@@ -1,5 +1,4 @@
-import React, {createRef, useEffect, useState} from 'react';
-import PerfectScrollbar from "perfect-scrollbar";
+import React, {useState} from 'react';
 import {makeStyles} from "@material-ui/core";
 import appStyle from "../../../assets/jss/material-dashboard-react/layouts/adminStyle";
 import Sidebar from "../../../template/Sidebar/Sidebar";
@@ -11,9 +10,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Notifier from "../../../containers/Notifier/Notifier";
 import {Redirect, Route, Switch} from "react-router-dom";
 import {useSelector} from "react-redux";
-import Group from "../../../containers/Groups/Groups";
-import SingleGroup from "../../../containers/Groups/SingleGroup/SingleGroup";
-import Home from "../../../containers/Home/Home";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
   return isAllowed ?
@@ -21,41 +17,43 @@ const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     <Redirect to={redirectTo}/>;
 };
 
-let ps;
 const useStyles = makeStyles(appStyle);
 
 const AppLayout = () => {
   const classes = useStyles();
-  const mainPanel = createRef();
   const user = useSelector(state => state.users.user);
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const resizeFunction = () => {
-    if (window.innerWidth >= 960) {
-      setMobileOpen(false);
-    }
-  };
 
-
-  useEffect(() => {
-    if (navigator.platform.indexOf("Win") > -1) {
-      ps = new PerfectScrollbar(mainPanel.current, {
-        suppressScrollX: true,
-        suppressScrollY: false,
-      });
-      document.body.style.overflow = "hidden";
-    }
-    window.addEventListener("resize", resizeFunction);
-    return function cleanup() {
-      if (navigator.platform.indexOf("Win") > -1) {
-        ps.destroy();
+  const switchRoutes = <Switch>
+    {appRoutes.map((prop, key) => {
+      if (prop.layout === "/") {
+        return (
+          <ProtectedRoute
+            path={prop.path}
+            exact
+            component={prop.component}
+            key={key}
+            isAllowed={user}
+            redirectTo="/"
+          />
+        );
+      } else if (prop.layout != "/") {
+        return (
+          <Route
+            path={prop.layout + prop.path}
+            component={prop.component}
+            key={key}
+          />
+        );
       }
-      window.removeEventListener("resize", resizeFunction);
-    };
-  }, [mainPanel]);
+      return null;
+    })}
+    <Redirect to="/"/>
+  </Switch>
 
 
   return (
@@ -71,7 +69,7 @@ const AppLayout = () => {
           open={mobileOpen}
           color="purple"
         />
-        <div className={classes.mainPanel} ref={mainPanel}>
+        <div className={classes.mainPanel}>
           <Navbar
             routes={appRoutes}
             handleDrawerToggle={handleDrawerToggle}
@@ -79,24 +77,7 @@ const AppLayout = () => {
           />
           <div className={classes.content}>
             <div className={classes.container}>
-              <Switch>
-                <Route
-                  path="/"
-                  exact
-                  component={Home}
-                />
-                <ProtectedRoute
-                  path="/groups"
-                  exact
-                  component={Group}
-                  isAllowed={user}
-                  redirectTo="/login"
-                />
-                <Route
-                  path="/groups/:id"
-                  component={SingleGroup}
-                />
-              </Switch>
+              {switchRoutes}
             </div>
           </div>
         </div>

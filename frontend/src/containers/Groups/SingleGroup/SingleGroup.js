@@ -56,7 +56,7 @@ const SingleGroup = ({match}) => {
 
     useEffect(() => {
         dispatch(singleGroupRequest(match.params.id));
-    }, [dispatch, match.params.id]);
+    }, [dispatch]);
 
     return (
         <>
