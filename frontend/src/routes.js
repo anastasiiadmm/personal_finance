@@ -67,7 +67,7 @@ export const appRoutes = [
     component: Categories
   },
   {
-    layout: "/categories",
+    layout: "/category",
     path: "/add",
     name: "Categories",
     icon: Notifications,
