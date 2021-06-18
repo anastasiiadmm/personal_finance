@@ -7,37 +7,37 @@ import {Redirect, Route, Switch} from "react-router-dom";
 import {landingRoutes} from "../../../routes";
 
 const switchRoutes = <Switch>
-  {landingRoutes.map((prop, key) => {
-    if (prop.layout === "/") {
-      return (
-        <Route
-          path={prop.path}
-          exact={prop.exact}
-          component={prop.component}
-          key={key}
-        />
-      );
-    }
-    return null;
-  })}
-  <Redirect to="/"/>
+    {landingRoutes.map((prop, key) => {
+        if (prop.layout === "/") {
+            return (
+                <Route
+                    path={prop.path}
+                    exact={prop.exact}
+                    component={prop.component}
+                    key={key}
+                />
+            );
+        }
+        return null;
+    })}
+    <Redirect to="/"/>
 </Switch>
 
 const LandingLayout = () => {
-  return (
-    <>
-      <CssBaseline/>
-      <header>
-        <AppToolbar/>
-      </header>
-      <main>
-        <Container maxWidth="xl">
-          {switchRoutes}
-        </Container>
-      </main>
-      <Notifier/>
-    </>
-  );
+    return (
+        <>
+            <CssBaseline/>
+            <header>
+                <AppToolbar/>
+            </header>
+            <main>
+                <Container maxWidth="xl">
+                    {switchRoutes}
+                </Container>
+            </main>
+            <Notifier/>
+        </>
+    );
 };
 
 export default LandingLayout;

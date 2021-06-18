@@ -1,6 +1,16 @@
 import React from 'react';
-import {Card, CardActions, CardContent, CardHeader, Grid, IconButton, makeStyles} from "@material-ui/core";
+import {
+    Avatar,
+    Card,
+    CardActions,
+    CardContent,
+    CardHeader,
+    Grid,
+    IconButton,
+    makeStyles
+} from "@material-ui/core";
 import BackspaceIcon from '@material-ui/icons/Backspace';
+import {apiURL} from "../../config";
 
 const useStyles = makeStyles(theme => ({
     progress: {
@@ -22,13 +32,16 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const AccountItem = ({accountName, preferences, balance, deleteAccount}) => {
+const AccountItem = ({accountName, preferences, balance, deleteAccount, accountIcon}) => {
     const classes = useStyles();
 
     return (
         <Grid item>
             <Card className={classes.card}>
+                <img src="" alt=""/>
+                <Avatar  src={apiURL + '/' + accountIcon} />
                 <CardHeader title={accountName}/>
+
                 <CardContent className={classes.content}>
 
                     <p style={{paddingLeft: '100px'}}>

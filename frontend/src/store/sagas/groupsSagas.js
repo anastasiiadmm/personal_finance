@@ -46,8 +46,9 @@ export function* createGroup({payload: data}) {
 }
 
 export function* inviteFriend({payload: inviteData}) {
+    console.log(inviteData.groupId, inviteData.email)
     try {
-        yield axiosApi.post('/groups/add', inviteData);
+        yield axiosApi.post('/groups/' + inviteData.groupId, {email: inviteData.email});
         yield put(inviteFriendSuccess());
         yield put(addNotification({message: 'Invite successful', options: {variant: 'success'}}));
     } catch (e) {

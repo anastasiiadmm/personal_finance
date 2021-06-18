@@ -15,9 +15,6 @@ import {
     Toolbar,
     Typography
 } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import Groups from "../../../containers/Groups/Groups";
-import AccordionMenu from "../AccordionMenu/AccordionMenu";
 
 const drawerWidth = 240;
 

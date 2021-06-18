@@ -2,14 +2,14 @@ import React, {useState} from 'react';
 import FormElement from "../UI/Form/FormElement";
 import ButtonWithProgress from "../UI/ButtonWithProgress/ButtonWithProgress";
 import Grid from "@material-ui/core/Grid";
+import FileInput from "../UI/Form/FileInput";
 
 const AccountForm = ({onSubmit, loading, error}) => {
     const [state, setState] = useState({
         accountName: '',
         balance: '',
         preferences: '',
-        userId: '',
-        groupId: ''
+        accountIcon: '',
     });
 
     const inputChangeHandler = e => {
@@ -22,6 +22,15 @@ const AccountForm = ({onSubmit, loading, error}) => {
         }));
     };
 
+    const fileChangeHandler = e => {
+        const name = e.target.name;
+        const file = e.target.files[0];
+
+        setState(prevState => ({
+            ...prevState,
+            [name]: file
+        }));
+    };
     const getFieldError = fieldName => {
         try {
             return error.errors[fieldName].message;
@@ -35,7 +44,7 @@ const AccountForm = ({onSubmit, loading, error}) => {
             <Grid container direction="column" spacing={2}>
                 <FormElement
                     required
-                    label="AccountName"
+                    label="Account title"
                     name="accountName"
                     value={state.accountName}
                     onChange={inputChangeHandler}
@@ -58,23 +67,28 @@ const AccountForm = ({onSubmit, loading, error}) => {
                     onChange={inputChangeHandler}
                     error={getFieldError('preferences')}
                 />
-                <FormElement
-                    required
-                    label="User"
-                    name="userId"
-                    value={state.userId}
-                    onChange={inputChangeHandler}
-                    error={getFieldError('userId')}
+                {/*<FormElement*/}
+                {/*    required*/}
+                {/*    label="User"*/}
+                {/*    name="userId"*/}
+                {/*    value={state.userId}*/}
+                {/*    onChange={inputChangeHandler}*/}
+                {/*    error={getFieldError('userId')}*/}
+                {/*/>*/}
+                {/*<FormElement*/}
+                {/*    required*/}
+                {/*    label="Group"*/}
+                {/*    name="groupId"*/}
+                {/*    value={state.groupId}*/}
+                {/*    onChange={inputChangeHandler}*/}
+                {/*    error={getFieldError('groupId')}*/}
+                {/*/>*/}
+                <FileInput
+                    name="accountIcon"
+                    label="Account Icon"
+                    onChange={fileChangeHandler}
+                    error={getFieldError('accountIcon')}
                 />
-                <FormElement
-                    required
-                    label="Group"
-                    name="groupId"
-                    value={state.groupId}
-                    onChange={inputChangeHandler}
-                    error={getFieldError('groupId')}
-                />
-
                 <Grid item xs>
                     <ButtonWithProgress
                         type="submit"

@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-
-import PersonalLayout from "../../../components/UI/Layout/ApplLayout";
 import {singleGroupRequest} from "../../../store/actions/groupsActions";
 import InviteFriend from "../InviteFriend/InviteFriend";
 
@@ -10,7 +8,6 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import {Avatar, Backdrop, CircularProgress, Fade, IconButton, Modal, Typography} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
-import {apiURL} from "../../../config";
 
 import GroupIcon from "../../../assets/images/group-icon.png";
 import Transaction from "../../Transaction/Transaction";
@@ -58,10 +55,10 @@ const SingleGroup = ({match}) => {
 
     useEffect(() => {
         dispatch(singleGroupRequest(match.params.id));
-    }, [dispatch, match.params.id]);
+    }, [dispatch]);
 
     return (
-        <PersonalLayout>
+        <>
             <Grid container direction="column" spacing={2} className={classes.root}>
                 {loading ? (
                     <Grid container justify="center" alignItems="center" className={classes.progress}>
@@ -114,7 +111,7 @@ const SingleGroup = ({match}) => {
                     <Transaction/>
                 </Grid>
 
-                <IconButton className={classes.addBtn}>
+                <IconButton className={classes.addBtn} color="primary">
                     <AddIcon/>
                 </IconButton>
             </Grid>
@@ -137,7 +134,7 @@ const SingleGroup = ({match}) => {
                     </div>
                 </Fade>
             </Modal>
-        </PersonalLayout>
+        </>
     );
 };
 

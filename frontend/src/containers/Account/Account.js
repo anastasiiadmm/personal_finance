@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {accountsRequest, deleteAccountsRequest} from "../../store/actions/accountsActions";
 import {CircularProgress, Grid, makeStyles, Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import AccountItem from "./AccountItem";
 
 const useStyles = makeStyles(theme => ({
@@ -19,7 +19,7 @@ const Account = () => {
     const accounts = useSelector(state => state.accounts.accounts);
 
     useEffect(() => {
-        dispatch(accountsRequest());
+        dispatch(accountsRequest(accounts.groupId));
     }, [dispatch]);
 
     const onDeleteAccount = id => {
@@ -52,6 +52,7 @@ const Account = () => {
                                 accountName={account.accountName}
                                 balance={account.balance}
                                 preferences={account.preferences}
+                                accountIcon={account.accountIcon}
                                 deleteAccount={() => onDeleteAccount(account.id)}
                             />
                         )
