@@ -44,7 +44,7 @@ const Groups = () => {
                 </Grid>
                 <Grid container spacing={2}>
                     {groups && (groups.map(group => (
-                        <GridItem xs={12} sm={6} md={4}>
+                        <GridItem xs={12} sm={6} md={5}>
                             <Card>
                                 <CardHeader color="warning" stats icon>
                                     <CardIcon color="warning">

@@ -2,16 +2,19 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {deleteEventRequest, singleGroupRequest} from "../../../store/actions/groupsActions";
 import InviteFriend from "../InviteFriend/InviteFriend";
+import Transaction from "../../Transaction/Transaction";
+import Account from "../../Account/Account";
+import EditGroupForm from "../EditGroupForm";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
 import {Avatar, Backdrop, CircularProgress, Fade, IconButton, Modal, Typography} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import EditIcon from '@material-ui/icons/Edit';
 
 import GroupIcon from "../../../assets/images/group-icon.png";
-import Transaction from "../../Transaction/Transaction";
-import Account from "../../Account/Account";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -54,6 +57,7 @@ const SingleGroup = ({match}) => {
     const group = useSelector(state => state.groups.singleGroup);
     const loading = useSelector(state => state.groups.singleGroupLoading);
     const [open, setOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
         dispatch(singleGroupRequest(match.params.id));
@@ -74,22 +78,27 @@ const SingleGroup = ({match}) => {
                     </Grid>
                 ) : (
                     <Grid item container alignItems="center">
-                        <Grid item sm={6} md={6} container alignItems='center' justify='space-evenly'>
+                        <Grid item sm={6} md={6} container alignItems='center' justify='space-between'>
                             <Grid item>
                                 <Typography variant="h4">{group.nameGroup}</Typography>
                             </Grid>
                             <Grid item>
-                                <Button color="primary" onClick={() => setOpen(true)}>
-                                    Invite friend
-                                </Button>
+                                <IconButton color="primary" onClick={() => setOpen(true)}>
+                                    <GroupAddIcon/>
+                                </IconButton>
                             </Grid>
                             {group.nameGroup === 'personal' ? null : (
                                 <Grid item>
-                                    <Button color="primary" onClick={onDeleteGroupHandler}>
-                                        Delete group
-                                    </Button>
+                                    <IconButton color="primary" onClick={onDeleteGroupHandler}>
+                                        <DeleteForeverIcon/>
+                                    </IconButton>
                                 </Grid>
                             )}
+                            <Grid item>
+                                <IconButton color="primary" onClick={() => setModalOpen(true)}>
+                                    <EditIcon />
+                                </IconButton>
+                            </Grid>
                         </Grid>
 
                         <Grid item container sm={6} md={6} justify='flex-end'>
@@ -146,7 +155,30 @@ const SingleGroup = ({match}) => {
             >
                 <Fade in={open}>
                     <div className={classes.paper}>
-                        <InviteFriend/>
+                        <InviteFriend
+                            onClose={() => setOpen(false)}
+                        />
+                    </div>
+                </Fade>
+            </Modal>
+
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={modalOpen}
+                onClose={() => setModalOpen(false)}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={modalOpen}>
+                    <div className={classes.paper}>
+                        <EditGroupForm
+                            onClose={() => setModalOpen(false)}
+                        />
                     </div>
                 </Fade>
             </Modal>

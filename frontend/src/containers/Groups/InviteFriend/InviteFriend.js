@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const InviteFriend = () => {
+const InviteFriend = ({onClose}) => {
     const params = useParams();
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -45,6 +45,7 @@ const InviteFriend = () => {
                         variant="contained"
                         loading={loading}
                         disabled={loading}
+                        onClick={onClose}
                     >
                         Send invite
                     </ButtonWithProgress>
