@@ -41,7 +41,7 @@ const AppLayout = () => {
             redirectTo="/"
           />
         );
-      } else if (prop.layout != "/") {
+      } else if (prop.layout !== "/") {
         return (
           <Route
             path={prop.layout + prop.path}

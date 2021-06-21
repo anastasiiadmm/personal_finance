@@ -111,7 +111,10 @@ module.exports = {
         references: {
           model: 'user',
           key: 'id'
-        }
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
+        hooks: true,
       },
       role: {
         type: Sequelize.ENUM,
@@ -123,7 +126,10 @@ module.exports = {
         references: {
           model: 'group',
           key: 'id'
-        }
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
+        hooks: true,
       },
       createdAt: {
         allowNull: false,

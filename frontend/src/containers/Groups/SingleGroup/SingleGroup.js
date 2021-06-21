@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {singleGroupRequest} from "../../../store/actions/groupsActions";
+import {deleteEventRequest, singleGroupRequest} from "../../../store/actions/groupsActions";
 import InviteFriend from "../InviteFriend/InviteFriend";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -48,6 +48,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SingleGroup = ({match}) => {
+    const params = match.params.id;
     const classes = useStyles();
     const dispatch = useDispatch();
     const group = useSelector(state => state.groups.singleGroup);
@@ -56,7 +57,11 @@ const SingleGroup = ({match}) => {
 
     useEffect(() => {
         dispatch(singleGroupRequest(match.params.id));
-    }, [dispatch]);
+    }, [dispatch, match.params.id]);
+
+    const onDeleteGroupHandler = () => {
+        dispatch(deleteEventRequest(params));
+    }
 
     return (
         <>
@@ -78,6 +83,13 @@ const SingleGroup = ({match}) => {
                                     Invite friend
                                 </Button>
                             </Grid>
+                            {group.nameGroup === 'personal' ? null : (
+                                <Grid item>
+                                    <Button color="primary" onClick={onDeleteGroupHandler}>
+                                        Delete group
+                                    </Button>
+                                </Grid>
+                            )}
                         </Grid>
 
                         <Grid item container sm={6} md={6} justify='flex-end'>

@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM,
         defaultValue: 'KGS',
         values: ['KGS', 'USD', 'EURO'],
-      },
+      }
     }, {
       hooks: {
         beforeCreate: (user) => {

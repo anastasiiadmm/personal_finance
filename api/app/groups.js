@@ -79,12 +79,13 @@ router.get('/:id', async (req, res) => {
         const group = await Group.findOne({
             where: {id: req.params.id}, include: [{
                 association: 'users',
-                attributes: ['displayName', 'id', 'avatar'],
+                attributes: ['displayName', 'id', 'avatar', 'email'],
                 through: {
                     attributes: ['role']
                 }
             }]
         });
+        console.log(group)
 
         return res.status(200).send(group);
 
@@ -93,13 +94,13 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.put('/:id', upload.single('avatarGroup'), async (req, res) => {
+router.put('/:id', auth, upload.single('avatarGroup'), async (req, res) => {
     try {
         const group = await Group.findOne({
             where: {id: req.params.id}, include: [{
                 association: 'users',
-                attributes: ['displayName', 'id'],
-                where: {id: req.body.userId},
+                attributes: ['displayName', 'id', 'email'],
+                where: {id: req.user.id},
                 through: {
                     attributes: ['role'],
                     where: {
@@ -131,8 +132,9 @@ router.put('/:id', upload.single('avatarGroup'), async (req, res) => {
                 return res.status(404).send({message: "Can not edit owner's role"});
             }
             groupUsers.role = req.body.role;
-            groupUsers.save()
+            groupUsers.save();
         }
+
         if (req.body.nameGroup) {
             group.nameGroup = req.body.nameGroup
             if (req.file) {
@@ -148,13 +150,13 @@ router.put('/:id', upload.single('avatarGroup'), async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
     try {
         const group = await Group.findOne({
             where: {id: req.params.id}, include: [{
                 association: 'users',
                 attributes: ['displayName', 'id'],
-                where: {id: req.body.userId},
+                where: {id: req.user.id},
                 through: {
                     attributes: ['role'],
                     where: {
@@ -185,6 +187,41 @@ router.delete('/:id', async (req, res) => {
 
         return res.status(200).send(group);
 
+    } catch (e) {
+        return res.status(400).send({message: e.message});
+    }
+});
+
+router.delete('/:id/delete', auth, async (req, res) => {
+    try {
+        console.log(req.user)
+        const group = await Group.findOne({
+            where: {id: req.params.id}, include: [{
+                association: 'users',
+                attributes: ['displayName', 'id'],
+                where: {id: req.user.id},
+                through: {
+                    attributes: ['role'],
+                    where: {
+                        [Op.or]: [
+                            {role: 'owner'}
+                        ]
+                    }
+                },
+            }],
+        });
+
+        if (!group) {
+            return res.status(404).send({message: "No permission"});
+        }
+
+        if (group.nameGroup === 'Personal') {
+            return res.status(404).send({message: "No permission"});
+        }
+
+        group.destroy();
+
+        return res.status(200).send(group);
     } catch (e) {
         return res.status(400).send({message: e.message});
     }

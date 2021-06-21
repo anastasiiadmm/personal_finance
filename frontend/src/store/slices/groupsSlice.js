@@ -56,6 +56,10 @@ const groupsSlice = createSlice({
         inviteFriendFailure: (state, {payload: error}) => {
             state.inviteFriendLoading = false;
             state.inviteFriendError = error;
+        },
+        deleteEventRequest: () => {},
+        deleteEventSuccess: (state, {payload: id}) => {
+            state.groups = state.groups.filter(c => c.id !== id);
         }
     }
 });

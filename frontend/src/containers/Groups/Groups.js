@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {Link, useParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {createGroupRequest, groupsRequest} from "../../store/actions/groupsActions";
 import {Avatar, Backdrop, Fade, Grid, makeStyles, Modal} from "@material-ui/core";
 
@@ -44,7 +44,7 @@ const Groups = () => {
                 </Grid>
                 <Grid container spacing={2}>
                     {groups && (groups.map(group => (
-                        <GridItem xs={12} sm={6} md={3}>
+                        <GridItem xs={12} sm={6} md={4}>
                             <Card>
                                 <CardHeader color="warning" stats icon>
                                     <CardIcon color="warning">
@@ -86,6 +86,7 @@ const Groups = () => {
                             onSubmit={onGroupFormSubmit}
                             loading={loading}
                             error={error}
+                            onClose={() => setOpen(false)}
                         />
                     </div>
                 </Fade>

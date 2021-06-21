@@ -2,7 +2,7 @@ import axiosApi from "../../axiosApi";
 import {put, takeEvery} from "redux-saga/effects";
 import {
     createGroupFailure, createGroupRequest,
-    createGroupSuccess,
+    createGroupSuccess, deleteEventRequest, deleteEventSuccess,
     groupsFailure,
     groupsRequest,
     groupsSuccess, inviteFriendFailure, inviteFriendRequest, inviteFriendSuccess, singleGroupFailure,
@@ -33,11 +33,10 @@ export function* fetchSingleGroup({payload: groupId}) {
 }
 
 export function* createGroup({payload: data}) {
-    console.log(data)
     try {
         yield axiosApi.post('/groups', data);
         yield put(createGroupSuccess());
-        yield put(historyPush('/'));
+        yield put(groupsRequest());
         yield put(addNotification({message: 'Group created successful', options: {variant: 'success'}}));
     } catch (e) {
         yield put(createGroupFailure(e.response.data));
@@ -46,7 +45,6 @@ export function* createGroup({payload: data}) {
 }
 
 export function* inviteFriend({payload: inviteData}) {
-    console.log(inviteData.groupId, inviteData.email)
     try {
         yield axiosApi.post('/groups/' + inviteData.groupId, {email: inviteData.email});
         yield put(inviteFriendSuccess());
@@ -57,11 +55,24 @@ export function* inviteFriend({payload: inviteData}) {
     }
 }
 
+export function* deleteGroup({payload: id}) {
+    console.log(id)
+    try {
+        yield axiosApi.delete(`/groups/${id}/delete`);
+        yield put(deleteEventSuccess(id));
+        yield put(historyPush('/groups'));
+        yield put(addNotification({message: 'Group deleted successful', options: {variant: 'success'}}));
+    } catch (e) {
+        yield put(addNotification({message: 'Delete failed', options: {variant: 'error'}}));
+    }
+}
+
 const groupsSagas = [
     takeEvery(groupsRequest, fetchGroups),
     takeEvery(singleGroupRequest, fetchSingleGroup),
     takeEvery(createGroupRequest, createGroup),
-    takeEvery(inviteFriendRequest, inviteFriend)
+    takeEvery(inviteFriendRequest, inviteFriend),
+    takeEvery(deleteEventRequest, deleteGroup)
 ];
 
 export default groupsSagas;

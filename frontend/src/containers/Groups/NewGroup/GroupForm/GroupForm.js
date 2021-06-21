@@ -4,7 +4,7 @@ import FormElement from "../../../../components/UI/Form/FormElement";
 import FileInput from "../../../../components/UI/Form/FileInput";
 import ButtonWithProgress from "../../../../components/UI/ButtonWithProgress/ButtonWithProgress";
 
-const GroupForm = ({onSubmit, loading, error}) => {
+const GroupForm = ({onSubmit, loading, error, onClose}) => {
     const [group, setGroup] = useState({
         nameGroup: '',
         avatarGroup: ''
@@ -75,6 +75,7 @@ const GroupForm = ({onSubmit, loading, error}) => {
                     <ButtonWithProgress
                         type="submit" color="primary" variant="contained"
                         loading={loading} disabled={loading}
+                        onClick={onClose}
                     >
                         Create
                     </ButtonWithProgress>

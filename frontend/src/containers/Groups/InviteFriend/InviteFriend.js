@@ -20,7 +20,6 @@ const InviteFriend = () => {
     const loading = useSelector(state => state.groups.inviteFriendLoading);
     const [email, setEmail] = useState('');
     const groupId = params.id;
-    console.log(groupId)
 
     const addFriendHandler = (event) => {
         event.preventDefault();

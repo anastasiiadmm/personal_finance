@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     avatarGroup: {
       type: DataTypes.STRING
-    }
+    },
   }, {
     tableName: 'group',
     modelName: 'Group',
