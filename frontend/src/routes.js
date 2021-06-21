@@ -71,6 +71,13 @@ export const appRoutes = [
     name: "Categories",
     component: CategoryForm
   },
+  {
+    layout: "/category",
+    path: "/:id",
+    name: "Categories",
+    icon: Notifications,
+    component: CategoryForm
+  },
 ];
 
 export const landingRoutes = [

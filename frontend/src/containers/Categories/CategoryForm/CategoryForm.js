@@ -1,14 +1,22 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Grid from "@material-ui/core/Grid";
 import FormElement from "../../../components/UI/Form/FormElement";
 import ButtonWithProgress from "../../../components/UI/ButtonWithProgress/ButtonWithProgress";
-import {useDispatch} from "react-redux";
-import {createCategoryRequest} from "../../../store/actions/categoriesActions";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    createCategoryRequest,
+    fetchCategoryRequest,
+    updateCategoryRequest
+} from "../../../store/actions/categoriesActions";
 import FileInput from "../../../components/UI/Form/FileInput";
+import {updateCategory} from "../../../store/sagas/categoriestSagas";
+import {useParams} from "react-router-dom";
 
 const CategoryForm = () => {
 
     const dispatch = useDispatch();
+    const categoryToUpdate = useSelector(state => state.categories.category);
+    const params = useParams();
 
     const [category, setCategory] = useState({
         name: '',
@@ -16,6 +24,21 @@ const CategoryForm = () => {
         category: '',
         categoryIcon: '',
     });
+
+    const [update, setUpdate] = useState(false);
+
+    useEffect(() => {
+        if (params.id) {
+            dispatch(fetchCategoryRequest(params.id));
+        }
+    }, [params.id])
+
+    useEffect(() => {
+        if (categoryToUpdate) {
+            setCategory(categoryToUpdate);
+            setUpdate(true);
+        }
+    }, [categoryToUpdate])
 
     const handleChange = (event) => {
         const {name, value} = event.target;
@@ -40,6 +63,9 @@ const CategoryForm = () => {
         Object.keys(category).forEach(key => {
             formData.append(key, category[key]);
         });
+        if(update) {
+            return  dispatch(updateCategoryRequest({category, id: params.id}))
+        }
         dispatch(createCategoryRequest(formData));
     }
 

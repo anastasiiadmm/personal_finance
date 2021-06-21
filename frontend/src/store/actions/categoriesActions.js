@@ -13,4 +13,12 @@ export const {
     deleteCategoryRequest,
     deleteCategorySuccess,
     deleteCategoryFailure,
+
+    fetchCategoryRequest,
+    fetchCategorySuccess,
+    fetchCategoryFailure,
+
+    updateCategoryRequest,
+    updateCategorySuccess,
+    updateCategoryFailure,
 } = categoriesSlice.actions;

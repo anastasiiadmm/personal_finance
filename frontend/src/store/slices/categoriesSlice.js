@@ -5,6 +5,13 @@ const initialState = {
     categoriesLoading: false,
     categoriesError: false,
 
+    category: null,
+    categoryLoading: false,
+    categoryError: false,
+
+    updateCategoryLoading: false,
+    updateCategoryError: false,
+
     createCategoryLoading: false,
     createCategoryError: false,
 
@@ -18,6 +25,7 @@ const categoriesSlice = createSlice({
     name,
     initialState,
     reducers: {
+        //////////////////////////////////SET CATEGORIES
         fetchCategoriesRequest: state => {
             state.categoriesLoading = true;
         },
@@ -28,6 +36,28 @@ const categoriesSlice = createSlice({
         fetchCategoriesFailure: (state, payload) => {
             state.categoriesError = payload;
             state.categoriesLoading = false;
+        },
+        ///////////////////////////////////SET CATEGORY
+        fetchCategoryRequest: state => {
+            state.categoryLoading = true;
+        },
+        fetchCategorySuccess: (state, {payload: category}) => {
+            state.categoryLoading = false;
+            state.category = category;
+        },
+        fetchCategoryFailure: (state, payload) => {
+            state.categoryLoading = false;
+            state.categoryError = payload;
+        },
+        ///////////////////////////////////UPDATE CATEGORY
+        updateCategoryRequest: state => {
+            state.updateCategoryLoading = true;
+        },
+        updateCategorySuccess: state => {
+            state.updateCategoryLoading = false;
+        },
+        updateCategoryFailure: (state, payload) => {
+            state.updateCategoryError = payload;
         },
         ///////////////////////////////CREATE
         createCategoryRequest: state => {
