@@ -3,11 +3,11 @@
 module.exports = {
   up: async (queryInterface) => {
     await queryInterface.bulkInsert('group', [{
-      nameGroup: 'personal',
+      nameGroup: 'Personal',
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
-      nameGroup: 'personal',
+      nameGroup: 'Personal',
       createdAt: new Date(),
       updatedAt: new Date()
     }]);

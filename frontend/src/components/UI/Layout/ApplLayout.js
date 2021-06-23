@@ -27,7 +27,6 @@ const AppLayout = () => {
     setMobileOpen(!mobileOpen);
   };
 
-
   const switchRoutes = <Switch>
     {appRoutes.map((prop, key) => {
       if (prop.layout === "/") {

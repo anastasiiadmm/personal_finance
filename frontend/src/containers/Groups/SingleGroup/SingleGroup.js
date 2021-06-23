@@ -15,6 +15,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 
 import GroupIcon from "../../../assets/images/group-icon.png";
+import {apiURL} from "../../../config";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -47,6 +48,14 @@ const useStyles = makeStyles(theme => ({
     small: {
         width: theme.spacing(5),
         height: theme.spacing(5),
+        position: 'relative'
+    },
+    button: {
+        width: theme.spacing(1),
+        height: theme.spacing(1),
+        position: 'absolute',
+        top: 80,
+        left: 30
     }
 }));
 
@@ -77,56 +86,70 @@ const SingleGroup = ({match}) => {
                         </Grid>
                     </Grid>
                 ) : (
-                    <Grid item container alignItems="center">
-                        <Grid item sm={6} md={6} container alignItems='center' justify='space-between'>
-                            <Grid item>
-                                <Typography variant="h4">{group.nameGroup}</Typography>
-                            </Grid>
-                            <Grid item>
-                                <IconButton color="primary" onClick={() => setOpen(true)}>
-                                    <GroupAddIcon/>
-                                </IconButton>
-                            </Grid>
+                    <Grid item container alignItems="center" spacing={2}>
+                        <Grid item>
+                            <Typography variant="h4">{group.nameGroup}</Typography>
+                        </Grid>
+                        <Grid item sm={10} md={10} lg={11} container alignItems='center' justify='space-between'>
                             {group.nameGroup === 'personal' ? null : (
-                                <Grid item>
-                                    <IconButton color="primary" onClick={onDeleteGroupHandler}>
-                                        <DeleteForeverIcon/>
-                                    </IconButton>
-                                </Grid>
+                                <>
+                                    {group.users && group.users.map(user => {
+                                        if (user.GroupUsers.role === 'user') {
+                                            return null;
+                                        } else {
+                                            return (
+                                                <Grid item xs container key={user.id}>
+                                                    <Grid item>
+                                                        <IconButton color="primary" onClick={() => setOpen(true)}>
+                                                            <GroupAddIcon/>
+                                                        </IconButton>
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <IconButton color="primary" onClick={onDeleteGroupHandler}>
+                                                            <DeleteForeverIcon/>
+                                                        </IconButton>
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <IconButton color="primary" onClick={() => setModalOpen(true)}>
+                                                            <EditIcon />
+                                                        </IconButton>
+                                                    </Grid>
+                                                </Grid>
+                                            )
+                                        }
+                                    })}
+                                </>
                             )}
-                            <Grid item>
-                                <IconButton color="primary" onClick={() => setModalOpen(true)}>
-                                    <EditIcon />
-                                </IconButton>
-                            </Grid>
-                        </Grid>
 
-                        <Grid item container sm={6} md={6} justify='flex-end'>
-                            <Grid item>
-                                {group.avatarGroup ? (
-                                    <Avatar alt={group.nameGroup}
-                                            src={group.avatarGroup}
-                                            className={classes.large}
-                                    />
-                                ) : (
-                                    <Avatar alt={group.nameGroup}
-                                            src={GroupIcon}
-                                            className={classes.large}
-                                    />
-                                )}
-                            </Grid>
-                        </Grid>
-
-                        <Grid item container spacing={2}>
-                            {group.users && group.users.map(user => (
-                                <Grid item key={user.id}>
-                                    <Avatar alt={user.displayName}
-                                            src={user.avatar}
-                                            className={classes.small}
-                                    />
+                            <Grid item container sm={6} md={6} justify='flex-end'>
+                                <Grid item>
+                                    {group.avatarGroup ? (
+                                        <Avatar alt={group.nameGroup}
+                                                src={apiURL + '/' + group.avatarGroup}
+                                                className={classes.large}
+                                        />
+                                    ) : (
+                                        <Avatar alt={group.nameGroup}
+                                                src={GroupIcon}
+                                                className={classes.large}
+                                        />
+                                    )}
                                 </Grid>
-                            ))}
+                            </Grid>
                         </Grid>
+
+                        {group.nameGroup === 'personal' ? null : (
+                            <Grid item container spacing={2}>
+                                {group.users && group.users.map(user => (
+                                    <Grid item key={user.id}>
+                                        <Avatar alt={user.displayName}
+                                                src={user.avatar}
+                                                className={classes.small}
+                                        />
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        )}
                     </Grid>
                 )}
                 <Grid item container spacing={2} justify="center" alignItems="center">

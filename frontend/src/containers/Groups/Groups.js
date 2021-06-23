@@ -15,6 +15,7 @@ import CardIcon from "../../template/Card/CardIcon";
 import CardFooter from "../../template/Card/CardFooter";
 import Button from "@material-ui/core/Button";
 import GroupForm from "./NewGroup/GroupForm/GroupForm";
+import {apiURL} from "../../config";
 
 const useStyles = makeStyles(styles);
 
@@ -22,9 +23,9 @@ const Groups = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const groups = useSelector(state => state.groups.groups);
-    const [open, setOpen] = useState(false);
     const error = useSelector(state => state.groups.createGroupError);
     const loading = useSelector(state => state.groups.createGroupLoading);
+    const [open, setOpen] = useState(false);
 
     const onGroupFormSubmit = async groupData => {
         dispatch(createGroupRequest(groupData));
@@ -44,12 +45,12 @@ const Groups = () => {
                 </Grid>
                 <Grid container spacing={2}>
                     {groups && (groups.map(group => (
-                        <GridItem xs={12} sm={6} md={5}>
+                        <GridItem xs={12} sm={6} md={5} key={group.id}>
                             <Card>
                                 <CardHeader color="warning" stats icon>
                                     <CardIcon color="warning">
                                         {group.avatarGroup ? (
-                                            <Avatar alt={group.nameGroup} src={group.avatarGroup} className={classes.small}/>
+                                            <Avatar alt={group.nameGroup} src={apiURL + '/' + group.avatarGroup} className={classes.small}/>
                                         ) : (
                                             <Avatar alt={group.nameGroup}
                                                     src={GroupIcon}

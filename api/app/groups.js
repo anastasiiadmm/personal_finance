@@ -19,7 +19,6 @@ router.post('/', auth, upload.single('avatarGroup'), async (req, res) => {
             groupId: group.id
         });
 
-        console.log(group)
         return res.status(200).send(group);
 
     } catch (e) {
@@ -65,7 +64,13 @@ router.post('/:id', auth, async (req, res) => {
 
 router.get('/', auth, async (req, res) => {
     try {
-        const groups = await Group.findAll({include: [{association: 'users', attributes: ['id'], where: {id: req.user.id}}]});
+        const groups = await Group.findAll({
+            include: [{
+                association: 'users',
+                attributes: ['id'],
+                where: {id: req.user.id}
+            }]
+        });
 
         return res.status(200).send(groups);
 
@@ -85,7 +90,6 @@ router.get('/:id', async (req, res) => {
                 }
             }]
         });
-        console.log(group)
 
         return res.status(200).send(group);
 
@@ -96,6 +100,7 @@ router.get('/:id', async (req, res) => {
 
 router.put('/:id', auth, upload.single('avatarGroup'), async (req, res) => {
     try {
+        console.log(req.body)
         const group = await Group.findOne({
             where: {id: req.params.id}, include: [{
                 association: 'users',
@@ -143,14 +148,13 @@ router.put('/:id', auth, upload.single('avatarGroup'), async (req, res) => {
             group.save();
         }
 
-
         return res.status(200).send(group);
     } catch (e) {
         return res.status(400).send({message: e.message});
     }
 });
 
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id/:editUserId', auth, async (req, res) => {
     try {
         const group = await Group.findOne({
             where: {id: req.params.id}, include: [{
@@ -174,7 +178,7 @@ router.delete('/:id', auth, async (req, res) => {
         }
 
         const groupUsers = await GroupUsers.findOne({
-            where: {userId: req.body.editUserId, groupId: group.id}
+            where: {userId: req.params.editUserId, groupId: group.id}
         });
         if (!groupUsers) {
             return res.status(404).send({message: "Wrong user"});
@@ -183,7 +187,7 @@ router.delete('/:id', auth, async (req, res) => {
             return res.status(404).send({message: "Can not edit owner's role"});
         }
 
-        group.removeUser(req.body.editUserId);
+        group.removeUser(req.params.editUserId);
 
         return res.status(200).send(group);
 
@@ -194,7 +198,6 @@ router.delete('/:id', auth, async (req, res) => {
 
 router.delete('/:id/delete', auth, async (req, res) => {
     try {
-        console.log(req.user)
         const group = await Group.findOne({
             where: {id: req.params.id}, include: [{
                 association: 'users',
