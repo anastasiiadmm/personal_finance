@@ -68,11 +68,15 @@ const Register = () => {
   };
 
   const getFieldError = fieldName => {
-    try {
-      return error.errors[fieldName].message;
-    } catch (e) {
-      return undefined;
+    let errors = undefined;
+    if (error) {
+      error.errors.map(prop => {
+        if (prop.path === fieldName) {
+          errors = prop.message
+        }
+      })
     }
+    return errors;
   }
 
   return (

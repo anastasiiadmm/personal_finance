@@ -9,20 +9,30 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
         validate: {
           isEmail: {
+            args: true,
             msg: 'Please submit valid email'
-          },
-          notNull: {
-            msg: 'Please submit valid email'
-          },
+          }
         }
       },
       displayName: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: 'Name can not be empty'
+          },
+        }
       },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: {
+            args: true,
+            msg: 'Password can not be empty'
+          },
+        }
       },
       avatar: DataTypes.STRING,
       preferences: {
@@ -33,6 +43,10 @@ module.exports = (sequelize, DataTypes) => {
     }, {
       hooks: {
         beforeCreate: (user) => {
+          const salt = bcrypt.genSaltSync(SALT_WORK_FACTOR);
+          user.password = bcrypt.hashSync(user.password, salt);
+        },
+        beforeUpdate: (user) => {
           const salt = bcrypt.genSaltSync(SALT_WORK_FACTOR);
           user.password = bcrypt.hashSync(user.password, salt);
         }

@@ -1,6 +1,8 @@
 import {put, takeEvery} from 'redux-saga/effects';
 import axiosApi from "../../axiosApi";
 import {
+  cleanUserErrors,
+  cleanUserErrorsRequest,
   googleLoginRequest,
   loginFailure,
   loginRequest,
@@ -86,6 +88,10 @@ const usersSagas = [
   takeEvery(googleLoginRequest, googleLogin),
   takeEvery(logoutRequest, logout),
   takeEvery(updateRequest, updateUser),
+  takeEvery(cleanUserErrorsRequest, function* () {
+    yield  put(cleanUserErrors());
+  })
+
 ];
 
 export default usersSagas;

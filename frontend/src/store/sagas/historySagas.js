@@ -3,10 +3,10 @@ import {historyPush, historyReplace} from "../actions/historyActions";
 
 const historySagas = history => {
   return [
-    takeEvery(historyPush, function*({payload}) {
+    takeEvery(historyPush, function* ({payload}) {
       yield history.push(payload);
     }),
-    takeEvery(historyReplace, function*({payload}) {
+    takeEvery(historyReplace, function* ({payload}) {
       yield history.replace(payload);
     })
   ];

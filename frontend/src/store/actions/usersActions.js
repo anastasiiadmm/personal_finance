@@ -13,5 +13,7 @@ export const {
   updateRequest,
   updateSuccess,
   updateFailure,
+  cleanUserErrors,
+  cleanUserErrorsRequest
 } = usersSlice.actions;
 

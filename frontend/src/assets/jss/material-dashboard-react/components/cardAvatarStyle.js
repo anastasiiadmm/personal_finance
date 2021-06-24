@@ -1,4 +1,4 @@
-import { hexToRgb, blackColor } from "../../material-dashboard-react";
+import {hexToRgb, blackColor} from "../../material-dashboard-react";
 
 const cardAvatarStyle = {
   cardAvatar: {
@@ -6,9 +6,15 @@ const cardAvatarStyle = {
       width: "100%",
       height: "auto",
     },
+    "&$cardAvatarPlain img": {
+      width: "100%",
+      height: "auto",
+      display: 'block'
+
+    },
   },
   cardAvatarProfile: {
-    maxWidth: "130px",
+    maxWidth: "120px",
     maxHeight: "130px",
     margin: "-50px auto 0",
     borderRadius: "50%",
@@ -26,7 +32,12 @@ const cardAvatarStyle = {
       marginTop: "0",
     },
   },
-  cardAvatarPlain: {},
+  cardAvatarPlain: {
+    overflow: "hidden",
+    maxWidth: "250px",
+    maxHeight: "250px",
+    borderRadius: "4%",
+  },
 };
 
 export default cardAvatarStyle;

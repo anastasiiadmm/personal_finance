@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Helmet} from "react-helmet";
 import {Link as RouterLink} from "react-router-dom";
@@ -8,7 +8,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import FormElement from "../../components/UI/Form/FormElement";
 import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
 import GoogleLogin from "../../components/UI/GoogleLogin/GoogleLogin";
-import {loginRequest} from "../../store/actions/usersActions";
+import {cleanUserErrorsRequest, loginRequest} from "../../store/actions/usersActions";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -40,6 +40,10 @@ const Login = () => {
   const [user, setUser] = useState({
     email: '', password: ''
   });
+
+  useEffect(() => {
+    dispatch(cleanUserErrorsRequest());
+  }, [dispatch]);
 
   const inputChangeHandler = e => {
     const {name, value} = e.target;

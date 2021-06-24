@@ -6,7 +6,7 @@ import {
   warningColor,
   dangerColor,
   grayColor,
-} from "../../../jss/material-dashboard-react";
+} from "../../material-dashboard-react";
 
 const typographyStyle = {
   defaultFontStyle: {
@@ -38,6 +38,9 @@ const typographyStyle = {
   },
   primaryText: {
     color: primaryColor[0],
+    margin: "10px 5px 15px",
+
+
   },
   infoText: {
     color: infoColor[0],

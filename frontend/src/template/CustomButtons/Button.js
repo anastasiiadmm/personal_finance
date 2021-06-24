@@ -5,29 +5,28 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 
 // material-ui components
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
 import styles from "../../assets/jss/material-dashboard-react/components/buttonStyle.js";
 
 const useStyles = makeStyles(styles);
 
-export default function RegularButton(props) {
+ const RegularButton = ({
+                                        color,
+                                        round,
+                                        children,
+                                        disabled,
+                                        simple,
+                                        size,
+                                        block,
+                                        link,
+                                        justIcon,
+                                        className,
+                                        muiClasses,
+                                        ...props
+                                      }) => {
   const classes = useStyles();
-  const {
-    color,
-    round,
-    children,
-    disabled,
-    simple,
-    size,
-    block,
-    link,
-    justIcon,
-    className,
-    muiClasses,
-    ...rest
-  } = props;
   const btnClasses = classNames({
     [classes.button]: true,
     [classes[size]]: size,
@@ -41,11 +40,11 @@ export default function RegularButton(props) {
     [className]: className,
   });
   return (
-    <Button {...rest} classes={muiClasses} className={btnClasses}>
+    <Button {...props} classes={muiClasses} className={btnClasses}>
       {children}
     </Button>
   );
-}
+};
 
 RegularButton.propTypes = {
   color: PropTypes.oneOf([
@@ -69,3 +68,5 @@ RegularButton.propTypes = {
   muiClasses: PropTypes.object,
   children: PropTypes.node,
 };
+
+export default RegularButton;

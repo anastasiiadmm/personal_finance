@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Grid, MenuItem, TextField} from "@material-ui/core";
 
-const FormElement = ({error, select, options, ...props}) => {
+
+const FormElement = ({error, select, options, hide, ...props}) => {
   let inputChildren = null;
 
   if (select) {
@@ -12,18 +13,27 @@ const FormElement = ({error, select, options, ...props}) => {
       </MenuItem>
     ));
   }
+  let show = true;
+  if (hide) {
+    show = !hide;
+  }
 
   return (
-    <Grid item xs>
-      <TextField
-        select={select}
-        error={Boolean(error)}
-        helperText={error}
-        {...props}
-      >
-        {inputChildren}
-      </TextField>
-    </Grid>
+    <>
+      {
+        show ?
+          <Grid item xs>
+            <TextField
+              select={select}
+              error={Boolean(error)}
+              helperText={error}
+              {...props}
+            >
+              {inputChildren}
+            </TextField>
+          </Grid> : null
+      }
+    </>
   );
 };
 

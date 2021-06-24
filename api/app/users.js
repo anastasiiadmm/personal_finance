@@ -25,8 +25,8 @@ router.post('/signup/', upload.single('avatar'), async (req, res) => {
   try {
     const user = await User.create({
       email: req.body.email,
-      displayName: req.body.displayName,
-      password: req.body.password,
+      displayName: req.body.displayName ? req.body.displayName : null,
+      password: req.body.password ? req.body.password : null,
       avatar: req.file ? config.URL + req.file.filename : null,
     });
 
@@ -53,7 +53,7 @@ router.post('/signup/', upload.single('avatar'), async (req, res) => {
     if (!!req.file) {
       await tryToDeleteFile(req.file.filename, 'avatar');
     }
-    return res.status(400).send({message: e.message});
+    return res.status(400).send({errors: e.errors});
   }
 });
 
@@ -120,6 +120,15 @@ router.put('/sessions/', upload.single('avatar'), auth, async (req, res) => {
       req.body.displayName ? user.displayName = req.body.displayName : false;
       req.body.preferences ? user.preferences = req.body.preferences : false;
 
+      if (req.body.currentPassword && req.body.newPassword) {
+        if (!await user.validPassword(req.body.currentPassword)) {
+          return res.status(401).send({
+            errors: [{message: "Invalid password", path: 'password'}]
+          });
+        }
+        user.password = req.body.newPassword;
+      }
+
       await user.save();
 
       const userData = user.toJSON();
@@ -133,7 +142,7 @@ router.put('/sessions/', upload.single('avatar'), auth, async (req, res) => {
       if (!!req.file) {
         await tryToDeleteFile(req.file.filename, 'avatar');
       }
-      return res.status(400).send({message: e.message});
+      return res.status(400).send({errors: e.errors});
     }
   }
 );
@@ -145,6 +154,7 @@ router.post('/googleLogin', async (req, res) => {
       idToken: req.body.tokenId,
       audience: config.google.clientId
     });
+
 
     const {name, email, picture, sub: ticketUserId} = ticket.getPayload();
 
@@ -163,7 +173,7 @@ router.post('/googleLogin', async (req, res) => {
         email: email,
         password: nanoid(),
         displayName: name,
-        avatar: picture
+        avatar: picture.replace('=s96-c', '')
       });
 
       token = await Token.create({
