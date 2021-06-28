@@ -4,28 +4,35 @@ import FormElement from "../../../components/UI/Form/FormElement";
 import ButtonWithProgress from "../../../components/UI/ButtonWithProgress/ButtonWithProgress";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    createCategoryRequest,
-    fetchCategoryRequest,
+    createCategoryRequest, fetchCategoriesRequest,
+    fetchCategoryRequest, fetchCategorySuccess,
     updateCategoryRequest
 } from "../../../store/actions/categoriesActions";
 import FileInput from "../../../components/UI/Form/FileInput";
 import {updateCategory} from "../../../store/sagas/categoriestSagas";
 import {useParams} from "react-router-dom";
+import {Autocomplete} from "@material-ui/lab";
+import {MenuItem, TextField} from "@material-ui/core";
 
 const CategoryForm = () => {
 
     const dispatch = useDispatch();
     const categoryToUpdate = useSelector(state => state.categories.category);
     const params = useParams();
+    const categories = useSelector(state => state.categories.categories);
 
     const [category, setCategory] = useState({
         name: '',
         categoryType: '',
-        category: '',
         categoryIcon: '',
+        category: 0
     });
 
     const [update, setUpdate] = useState(false);
+
+    useEffect(() => {
+        dispatch(fetchCategoriesRequest());
+    }, []);
 
     useEffect(() => {
         if (params.id) {
@@ -37,6 +44,10 @@ const CategoryForm = () => {
         if (categoryToUpdate) {
             setCategory(categoryToUpdate);
             setUpdate(true);
+        }
+
+        return () => {
+            dispatch(fetchCategorySuccess(null));
         }
     }, [categoryToUpdate])
 
@@ -98,13 +109,20 @@ const CategoryForm = () => {
                     // error={getFieldError('balance')}
                 />
 
-                <FormElement
+                <TextField
+                    required
                     label="Category"
                     name="category"
                     value={category.category}
                     onChange={handleChange}
-                    // error={getFieldError('preferences')}
-                />
+                    select={true}>
+                    {categories.map(cat => (
+                        <MenuItem key={cat.id} value={cat.id}>
+                            {cat.name}
+                        </MenuItem>
+                    ))}
+                </TextField>
+
 
                 <Grid item xs>
                     <FileInput
@@ -113,6 +131,7 @@ const CategoryForm = () => {
                         onChange={fileChangeHandler}
                         // error={getFieldError('avatarGroup')}
                     />
+                    {console.log(category, 'tess!!!!!')}
                 </Grid>
 
                 <Grid item xs>

@@ -29,9 +29,13 @@ export function* createCategory({payload: category}) {
     }
 }
 
-export function* deleteCategory({payload: categoryId}) {
+export function* deleteCategory({payload: data}) {
     try {
-        yield axiosApi.delete('/categories/' + categoryId);
+        if (data.transactionsToCategory) {
+            yield axiosApi.delete(`/categories/${data.deleteCategory}/${data.transactionsToCategory}`);
+        } else {
+            yield axiosApi.delete(`/categories/${data.deleteCategory}`);
+        }
         yield put(deleteCategorySuccess());
         yield put(historyPush('/categories'));
         yield fetchCategories();

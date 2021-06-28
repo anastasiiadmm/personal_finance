@@ -1,6 +1,6 @@
 const express = require('express');
 const auth = require("../middleware/auth");
-const {Category, User} = require("../models");
+const {Category, User, Transaction} = require("../models");
 const upload = require('../multer').categoryIcon;
 
 const router = express.Router();
@@ -25,6 +25,7 @@ router.post('/', auth, upload.single('categoryIcon'), async (req, res) => {
 router.get('/', async (req, res) => {
 
     try {
+        // where : {userId: req.user.id},
         const CategoryResponse = await Category.findAll({include: ['subCategory']});
         res.status(200).send(CategoryResponse);
     } catch (e) {
@@ -35,7 +36,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
 
     try {
-        const CategoryResponse = await Category.findOne({where: {id: req.params.id}, include: ['subCategory']});
+        const CategoryResponse = await Category.findOne({where: {id: req.params.id}, include: ['subCategory', 'transactions']});
         res.status(200).send(CategoryResponse);
     } catch (e) {
         return res.status(400).send({message : e.message});
@@ -55,12 +56,33 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id/:newId?', async (req, res) => {
 
     try {
-        await Category.destroy({where: {id: req.params.id}});
+        if(req.params.newId) {
+            const CategoryResponse = await Category.findOne({where: {id: req.params.id}, include: ['subCategory', 'transactions']});
+            const changedTransactions = CategoryResponse.get({plain: true}).transactions.map(transaction => {
+                return {...transaction, categoryId : parseInt(req.params.newId)};
+            });
         
-        res.status(200).send({message : 'deleted!'});
+            const result = changedTransactions.map(async transaction => {
+                return await Transaction.update(transaction, {where: {id: transaction.id}});
+            });
+         
+            Promise.all(result);
+            await Category.destroy({where: {id: req.params.id}});
+            return res.status(200).send({message : 'deleted!'});
+        }
+        const CategoryResponse = await Category.findOne({where: {id: req.params.id}, include: ['subCategory', 'transactions']});
+        const transactions = CategoryResponse.get({plain: true}).transactions;
+
+        const result = transactions.map(async transaction => {
+            return await Transaction.destroy({where: {id: transaction.id}});
+        });
+        Promise.all(result);
+
+        await Category.destroy({where: {id: req.params.id}});
+        return res.status(200).send({message : 'deleted!'});
 
     } catch (e) {
         return res.status(400).send({message : e.message});
