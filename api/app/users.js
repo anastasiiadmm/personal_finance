@@ -117,16 +117,16 @@ router.put('/sessions/', upload.single('avatar'), auth, async (req, res) => {
         }
         user.avatar = config.URL + req.file.filename;
       }
-      req.body.displayName ? user.displayName = req.body.displayName : false;
-      req.body.preferences ? user.preferences = req.body.preferences : false;
+      req.body.displayName ? user.displayName = req.body.displayName : null;
+      req.body.preferences ? user.preferences = req.body.preferences : null;
 
-      if (req.body.currentPassword && req.body.newPassword) {
+      if (!!req.body.currentPassword && !!req.body.newPassword) {
         if (!await user.validPassword(req.body.currentPassword)) {
           return res.status(401).send({
             errors: [{message: "Invalid password", path: 'password'}]
           });
         }
-        user.password = req.body.newPassword;
+        await user.changePassword(req.body.newPassword)
       }
 
       await user.save();

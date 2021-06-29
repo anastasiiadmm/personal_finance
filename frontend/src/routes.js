@@ -3,6 +3,7 @@ import Person from "@material-ui/icons/Person";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
 import LocationOn from "@material-ui/icons/LocationOn";
+import ReceiptIcon from '@material-ui/icons/Receipt';
 import Notifications from "@material-ui/icons/Notifications";
 import Login from "./containers/Login/Login";
 import Register from "./containers/Register/Register";
@@ -11,6 +12,7 @@ import Categories from "./containers/Categories/Categories";
 import UserProfile from "./containers/UserProfile/UserProfile";
 import SingleGroup from "./containers/Groups/SingleGroup/SingleGroup";
 import CategoryForm from "./containers/Categories/CategoryForm/CategoryForm";
+import Transactions from "./containers/Transactions/Transactions";
 
 
 export const appRoutes = [
@@ -23,11 +25,19 @@ export const appRoutes = [
   },
   {
     layout: "/",
+    path: "/transactions",
+    name: "Transactions",
+    icon: ReceiptIcon,
+    component: Transactions,
+  },
+  {
+    layout: "/",
     path: "/groups",
     name: "My Groups",
     icon: BubbleChart,
     component: Groups,
   },
+
   {
     layout: "/groups",
     path: "/:id",

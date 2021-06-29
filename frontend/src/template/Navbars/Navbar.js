@@ -44,6 +44,9 @@ const Header = ({color, handleDrawerToggle, routes, user, ...props}) => {
           <Button color="transparent" href="#" className={classes.title}>
             {routeName}
           </Button>
+          <Button color="transparent" href="#" size="sm">
+            Add expense
+          </Button>
         </div>
         <Hidden smDown implementation="css">
           {<NavbarLinks

@@ -45,7 +45,6 @@ const useStyles = makeStyles(theme => ({
 const AppDrawer = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const user = useSelector(state => state.users.user);
 
     useEffect(() => {
         dispatch(groupsRequest());

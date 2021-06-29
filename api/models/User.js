@@ -45,10 +45,6 @@ module.exports = (sequelize, DataTypes) => {
         beforeCreate: (user) => {
           const salt = bcrypt.genSaltSync(SALT_WORK_FACTOR);
           user.password = bcrypt.hashSync(user.password, salt);
-        },
-        beforeUpdate: (user) => {
-          const salt = bcrypt.genSaltSync(SALT_WORK_FACTOR);
-          user.password = bcrypt.hashSync(user.password, salt);
         }
       },
       tableName: 'user',
@@ -87,6 +83,9 @@ module.exports = (sequelize, DataTypes) => {
 
   User.prototype.validPassword = function (password) {
     return bcrypt.compareSync(password, this.password);
+  }
+  User.prototype.changePassword = function (password) {
+    this.password = bcrypt.hashSync(password, bcrypt.genSaltSync(SALT_WORK_FACTOR));
   }
 
   return User;

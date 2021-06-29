@@ -90,9 +90,6 @@ const sidebarStyle = (theme) => ({
       color: whiteColor,
     },
   },
-  logoLinkRTL: {
-    textAlign: "right",
-  },
   logoImage: {
     width: "30px",
     display: "inline-block",
