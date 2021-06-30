@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid, ListItem, ListItemAvatar, ListItemText, Paper} from "@material-ui/core";
+import {Grid, ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import List from "@material-ui/core/List";
