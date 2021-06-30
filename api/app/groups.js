@@ -49,10 +49,14 @@ router.post('/:id', auth, async (req, res) => {
             return res.status(404).send({message: "No permission"});
         }
 
-        const user = await User.findOne({email: req.body.email});
+        const user = await User.findOne({where: {email: req.body.email}});
 
         if (user) {
             await group.addUser(user.id, {through: {role: 'user'}});
+        }
+
+        if (!user) {
+            return res.status(404).send({message: "Email not found"});
         }
 
         return res.status(200).send(group);
@@ -100,7 +104,6 @@ router.get('/:id', async (req, res) => {
 
 router.put('/:id', auth, upload.single('avatarGroup'), async (req, res) => {
     try {
-        console.log(req.body)
         const group = await Group.findOne({
             where: {id: req.params.id}, include: [{
                 association: 'users',
@@ -154,8 +157,10 @@ router.put('/:id', auth, upload.single('avatarGroup'), async (req, res) => {
     }
 });
 
-router.delete('/:id/:editUserId', auth, async (req, res) => {
+router.delete('/:id/:editUserId/deleted', auth, async (req, res) => {
     try {
+        console.log(req)
+
         const group = await Group.findOne({
             where: {id: req.params.id}, include: [{
                 association: 'users',
@@ -198,6 +203,7 @@ router.delete('/:id/:editUserId', auth, async (req, res) => {
 
 router.delete('/:id/delete', auth, async (req, res) => {
     try {
+        console.log('user', req)
         const group = await Group.findOne({
             where: {id: req.params.id}, include: [{
                 association: 'users',
