@@ -1,13 +1,23 @@
 import axiosApi from "../../axiosApi";
 import {put, takeEvery} from "redux-saga/effects";
 import {
-    createGroupFailure, createGroupRequest,
-    createGroupSuccess, deleteEventRequest, deleteEventSuccess, deleteFriendRequest, deleteFriendSuccess,
+    createGroupFailure,
+    createGroupRequest,
+    createGroupSuccess,
+    deleteFriendRequest,
+    deleteFriendSuccess, deleteGroupRequest,
+    deleteGroupSuccess, editRoleFriendRequest, editRoleFriendSuccess,
     groupsFailure,
     groupsRequest,
-    groupsSuccess, inviteFriendFailure, inviteFriendRequest, inviteFriendSuccess, singleGroupFailure,
+    groupsSuccess,
+    inviteFriendFailure,
+    inviteFriendRequest,
+    inviteFriendSuccess,
+    singleGroupFailure,
     singleGroupRequest,
-    singleGroupSuccess, updateGroupRequest, updateGroupSuccess
+    singleGroupSuccess,
+    updateGroupRequest,
+    updateGroupSuccess
 } from "../actions/groupsActions";
 import {addNotification} from "../actions/notifierActions";
 import {historyPush} from "../actions/historyActions";
@@ -72,10 +82,20 @@ export function* inviteFriend({payload: inviteData}) {
     }
 }
 
-export function* deleteFriend({payload: data}) {
-    console.log(data)
+export function* editRoleFriend({payload: data}) {
     try {
-        yield axiosApi.delete(`/groups/${data.groupId}/${data.editUserId}`);
+        yield axiosApi.put('/groups/' + data.groupId, {editUserId: data.state.id, role: data.state.role});
+        yield put(editRoleFriendSuccess());
+        yield put(singleGroupRequest(data.groupId));
+        yield put(addNotification({message: 'Update successful', options: {variant: 'success'}}));
+    } catch (e) {
+        yield put(addNotification({message: 'Edit role failed', options: {variant: 'error'}}));
+    }
+}
+
+export function* deleteFriend({payload: data}) {
+    try {
+        yield axiosApi.delete(`/groups/${data.groupId}/${data.editUserId}/deleted`);
         yield put(deleteFriendSuccess());
         yield put(singleGroupRequest(data.groupId));
     } catch (e) {
@@ -86,7 +106,7 @@ export function* deleteFriend({payload: data}) {
 export function* deleteGroup({payload: id}) {
     try {
         yield axiosApi.delete(`/groups/${id}/delete`);
-        yield put(deleteEventSuccess(id));
+        yield put(deleteGroupSuccess(id));
         yield put(historyPush('/groups'));
         yield put(addNotification({message: 'Group deleted successful', options: {variant: 'success'}}));
     } catch (e) {
@@ -99,7 +119,8 @@ const groupsSagas = [
     takeEvery(singleGroupRequest, fetchSingleGroup),
     takeEvery(createGroupRequest, createGroup),
     takeEvery(inviteFriendRequest, inviteFriend),
-    takeEvery(deleteEventRequest, deleteGroup),
+    takeEvery(editRoleFriendRequest, editRoleFriend),
+    takeEvery(deleteGroupRequest, deleteGroup),
     takeEvery(updateGroupRequest, updateGroup),
     takeEvery(deleteFriendRequest, deleteFriend)
 ];

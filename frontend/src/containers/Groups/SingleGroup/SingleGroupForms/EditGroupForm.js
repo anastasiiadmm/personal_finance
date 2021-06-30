@@ -1,14 +1,15 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Grid, Typography} from "@material-ui/core";
-import FormElement from "../../components/UI/Form/FormElement";
-import FileInput from "../../components/UI/Form/FileInput";
-import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
-import {deleteFriendRequest, updateGroupRequest} from "../../store/actions/groupsActions";
+import FormElement from "../../../../components/UI/Form/FormElement";
+import FileInput from "../../../../components/UI/Form/FileInput";
+import ButtonWithProgress from "../../../../components/UI/ButtonWithProgress/ButtonWithProgress";
+import {deleteFriendRequest, updateGroupRequest} from "../../../../store/actions/groupsActions";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {useParams} from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import {roles} from "../../../../utils";
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -28,7 +29,7 @@ const EditGroupForm = ({onClose}) => {
 
     const [state, setState] = useState({
         nameGroup: group.nameGroup,
-        avatarGroup: group.avatarGroup
+        avatarGroup: group.avatarGroup,
     });
 
     const inputChangeHandler = e => {
@@ -107,11 +108,22 @@ const EditGroupForm = ({onClose}) => {
                             <Typography className={classes.displayName}><b>Email:</b> {user.email}</Typography>
                         </Grid>
                         {user.GroupUsers.role !== 'owner' && (
-                            <Grid item xs>
-                                <IconButton onClick={() => deleteUser(user.id)}>
-                                    <HighlightOffIcon />
-                                </IconButton>
-                            </Grid>
+                            <>
+                                <FormElement
+                                    required
+                                    label="Role"
+                                    value={user.GroupUsers.role}
+                                    select
+                                    options={roles}
+                                    onChange={inputChangeHandler}
+                                    name="roles"
+                                />
+                                <Grid item xs>
+                                    <IconButton onClick={() => deleteUser(user.id)}>
+                                        <HighlightOffIcon />
+                                    </IconButton>
+                                </Grid>
+                            </>
                         )}
                     </Grid>
                 ))}

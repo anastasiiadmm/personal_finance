@@ -16,8 +16,10 @@ export const {
     inviteFriendRequest,
     inviteFriendSuccess,
     inviteFriendFailure,
-    deleteEventRequest,
-    deleteEventSuccess,
+    editRoleFriendRequest,
+    editRoleFriendSuccess,
+    deleteGroupRequest,
+    deleteGroupSuccess,
     deleteFriendRequest,
     deleteFriendSuccess
 } = groupsSlice.actions;

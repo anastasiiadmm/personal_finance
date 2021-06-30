@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import Grid from "@material-ui/core/Grid";
-import FormElement from "../../../components/UI/Form/FormElement";
-import ButtonWithProgress from "../../../components/UI/ButtonWithProgress/ButtonWithProgress";
+import FormElement from "../../../../components/UI/Form/FormElement";
+import ButtonWithProgress from "../../../../components/UI/ButtonWithProgress/ButtonWithProgress";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {useDispatch, useSelector} from "react-redux";
-import {inviteFriendRequest} from "../../../store/actions/groupsActions";
+import {inviteFriendRequest} from "../../../../store/actions/groupsActions";
 import {useParams} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const InviteFriend = ({onClose}) => {
+const InviteFriendForm = ({onClose}) => {
     const params = useParams();
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -55,4 +55,4 @@ const InviteFriend = ({onClose}) => {
     );
 };
 
-export default InviteFriend;
+export default InviteFriendForm;

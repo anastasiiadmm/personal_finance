@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {deleteEventRequest, singleGroupRequest} from "../../../store/actions/groupsActions";
-import InviteFriend from "../InviteFriend/InviteFriend";
+import {apiURL} from "../../../config";
+import {deleteGroupRequest, singleGroupRequest} from "../../../store/actions/groupsActions";
+import InviteFriendForm from "./SingleGroupForms/InviteFriendForm";
 import Transaction from "../../Transaction/Transaction";
 import Account from "../../Account/Account";
-import EditGroupForm from "../EditGroupForm";
+import EditGroupForm from "./SingleGroupForms/EditGroupForm";
+import EditUsersGroupForm from "./SingleGroupForms/EditUsersGroupForm";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Grid from "@material-ui/core/Grid";
@@ -15,7 +17,6 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 
 import GroupIcon from "../../../assets/images/group-icon.png";
-import {apiURL} from "../../../config";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -67,18 +68,19 @@ const SingleGroup = ({match}) => {
     const loading = useSelector(state => state.groups.singleGroupLoading);
     const [open, setOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
+    const [modal, setModal] = useState(false);
 
     useEffect(() => {
         dispatch(singleGroupRequest(match.params.id));
     }, [dispatch, match.params.id]);
 
     const onDeleteGroupHandler = () => {
-        dispatch(deleteEventRequest(params));
+        dispatch(deleteGroupRequest(params));
     }
 
     return (
         <>
-            <Grid container direction="column" spacing={2} className={classes.root}>
+            <Grid container direction='column' spacing={2}>
                 {loading ? (
                     <Grid container justify="center" alignItems="center" className={classes.progress}>
                         <Grid item>
@@ -86,19 +88,33 @@ const SingleGroup = ({match}) => {
                         </Grid>
                     </Grid>
                 ) : (
-                    <Grid item container alignItems="center" spacing={2}>
-                        <Grid item>
-                            <Typography variant="h4">{group.nameGroup}</Typography>
+                    <Grid item container direction='column' spacing={2}>
+                        <Grid item container justify='flex-end'>
+                            <Grid item>
+                                {group.avatarGroup ? (
+                                    <Avatar alt={group.nameGroup}
+                                            src={apiURL + '/' + group.avatarGroup}
+                                            className={classes.large}
+                                    />
+                                ) : (
+                                    <Avatar alt={group.nameGroup}
+                                            src={GroupIcon}
+                                            className={classes.large}
+                                    />
+                                )}
+                            </Grid>
                         </Grid>
-                        <Grid item sm={10} md={10} lg={11} container alignItems='center' justify='space-between'>
-                            {group.nameGroup === 'personal' ? null : (
+                        <Grid container direction='row' alignItems='center'>
+                            <Grid item md={6}>
+                                <Typography variant="h4">{group.nameGroup}</Typography>
+                            </Grid>
+                            {group.nameGroup !== 'personal' && (
                                 <>
-                                    {group.users && group.users.map(user => {
-                                        if (user.GroupUsers.role === 'user') {
-                                            return null;
-                                        } else {
-                                            return (
-                                                <Grid item xs container key={user.id}>
+                                    {group.users && group.users.map(user => (
+                                        <Grid item md={6} key={user.id}>
+                                            {user.GroupUsers.role === 'owner' && (
+                                                <Grid item container direction='row' spacing={1} alignItems='center'
+                                                      justify='flex-end'>
                                                     <Grid item>
                                                         <IconButton color="primary" onClick={() => setOpen(true)}>
                                                             <GroupAddIcon/>
@@ -111,41 +127,34 @@ const SingleGroup = ({match}) => {
                                                     </Grid>
                                                     <Grid item>
                                                         <IconButton color="primary" onClick={() => setModalOpen(true)}>
-                                                            <EditIcon />
+                                                            <EditIcon/>
                                                         </IconButton>
                                                     </Grid>
                                                 </Grid>
-                                            )
-                                        }
-                                    })}
+                                            )}
+                                        </Grid>
+                                    ))}
                                 </>
                             )}
-
-                            <Grid item container sm={6} md={6} justify='flex-end'>
-                                <Grid item>
-                                    {group.avatarGroup ? (
-                                        <Avatar alt={group.nameGroup}
-                                                src={apiURL + '/' + group.avatarGroup}
-                                                className={classes.large}
-                                        />
-                                    ) : (
-                                        <Avatar alt={group.nameGroup}
-                                                src={GroupIcon}
-                                                className={classes.large}
-                                        />
-                                    )}
-                                </Grid>
-                            </Grid>
                         </Grid>
-
-                        {group.nameGroup === 'personal' ? null : (
-                            <Grid item container spacing={2}>
+                        {group.nameGroup !== 'personal' && (
+                            <Grid item container spacing={2} alignItems="center">
                                 {group.users && group.users.map(user => (
                                     <Grid item key={user.id}>
                                         <Avatar alt={user.displayName}
                                                 src={user.avatar}
                                                 className={classes.small}
                                         />
+                                    </Grid>
+                                ))}
+                                {group.users && group.users.map(user => (
+                                    <Grid item key={user.id}>
+                                        {user.GroupUsers.role === 'owner' && (
+                                            <IconButton color="primary" onClick={() => setModal(true)}>
+                                                <EditIcon/>
+                                            </IconButton>
+
+                                        )}
                                     </Grid>
                                 ))}
                             </Grid>
@@ -178,7 +187,7 @@ const SingleGroup = ({match}) => {
             >
                 <Fade in={open}>
                     <div className={classes.paper}>
-                        <InviteFriend
+                        <InviteFriendForm
                             onClose={() => setOpen(false)}
                         />
                     </div>
@@ -205,8 +214,29 @@ const SingleGroup = ({match}) => {
                     </div>
                 </Fade>
             </Modal>
+
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={modal}
+                onClose={() => setModal(false)}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={modal}>
+                    <div className={classes.paper}>
+                        <EditUsersGroupForm
+                            onClose={() => setModal(false)}
+                        />
+                    </div>
+                </Fade>
+            </Modal>
         </>
     );
-};
+}
 
 export default SingleGroup;

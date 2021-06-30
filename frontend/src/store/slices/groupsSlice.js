@@ -57,6 +57,10 @@ const groupsSlice = createSlice({
         updateGroupFailure: (state) => {
             state.singleGroupLoading = false;
         },
+        deleteGroupRequest: () => {},
+        deleteGroupSuccess: (state, {payload: id}) => {
+            state.groups = state.groups.filter(c => c.id !== id);
+        },
         inviteFriendRequest: state => {
             state.inviteFriendLoading = true;
         },
@@ -67,12 +71,10 @@ const groupsSlice = createSlice({
             state.inviteFriendLoading = false;
             state.inviteFriendError = error;
         },
+        editRoleFriendRequest: () => {},
+        editRoleFriendSuccess: () => {},
         deleteFriendRequest: () => {},
-        deleteFriendSuccess: () => {},
-        deleteEventRequest: () => {},
-        deleteEventSuccess: (state, {payload: id}) => {
-            state.groups = state.groups.filter(c => c.id !== id);
-        }
+        deleteFriendSuccess: () => {}
     }
 });
 
