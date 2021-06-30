@@ -6,57 +6,65 @@ import Notifier from "../../../containers/Notifier/Notifier";
 import {Redirect, Route, Switch} from "react-router-dom";
 import {landingRoutes} from "../../../routes";
 import {makeStyles} from "@material-ui/core/styles";
-import FeaturedPost from "../../../containers/LandingPages/FeaturedPost/FeaturedPost";
-import HelpfulPost from "../../../containers/LandingPages/HelpfulPost/HelpfulPost";
 import Footer from "../../../containers/LandingPages/Footer/Footer";
-import SubmitPost from "../../../containers/LandingPages/SubmitPost/SubmitPost";
-import Slider from "../../../containers/LandingPages/Slider.js/Slider";
 
 const useStyles = makeStyles((theme) => ({
-    container: {
-        padding: 0
-    }
+  container: {
+    padding: 0,
+    display: 'flex',
+    alignContent: 'space-between',
+
+    flexDirection: 'column',
+    height: '100%'
+  }
 }));
 
 const switchRoutes = <Switch>
-    {landingRoutes.map((prop, key) => {
-        if (prop.layout === "/") {
-            return (
-                <Route
-                    path={prop.path}
-                    exact={prop.exact}
-                    component={prop.component}
-                    key={key}
-                />
-            );
-        }
-        return null;
-    })}
-    <Redirect to="/"/>
+  {landingRoutes.map((prop, key) => {
+    if (prop.layout === "/") {
+      return (
+        <Route
+          path={prop.path}
+          exact
+          component={prop.component}
+          key={key}
+          redirectTo="/"
+        />
+      );
+    } else if (prop.layout !== "/") {
+      return (
+        <Route
+          path={prop.layout + prop.path}
+          component={prop.component}
+          key={key}
+        />
+      );
+    }
+    return null;
+  })}
+  <Redirect to="/"/>
 </Switch>
 
 const LandingLayout = () => {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    return (
-        <>
-            <CssBaseline/>
-            <header>
-                <AppToolbar/>
-            </header>
-            <Container maxWidth="xl" className={classes.container}>
-                <main>
-                    {switchRoutes}
-                    <Slider />
-                    <FeaturedPost />
-                    <HelpfulPost />
-                    <SubmitPost />
-                    <Footer />
-                </main>
-            </Container>
-            <Notifier/>
-        </>
-    );
+  return (
+    <>
+      <CssBaseline/>
+      <header>
+        <AppToolbar/>
+      </header>
+      <Container maxWidth="xl" className={classes.container}>
+        <main>
+          <div className={classes.container}>
+            {switchRoutes}
+            <Footer/>
+          </div>
+        </main>
+      </Container>
+      <Notifier/>
+    </>
+  );
 };
 
 export default LandingLayout;

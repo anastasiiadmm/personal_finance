@@ -1,7 +1,6 @@
 import React from 'react';
-import {AppBar, Grid, makeStyles, Toolbar, Typography} from "@material-ui/core";
+import {AppBar, Button, Grid, makeStyles, Toolbar, Typography} from "@material-ui/core";
 import {Link} from "react-router-dom";
-import AnonymousMenu from "./Menu/AnonymousMenu";
 import logo from "../../../assets/images/personalLogo.png";
 
 const useStyles = makeStyles(theme => ({
@@ -52,7 +51,8 @@ const AppToolbar = () => {
               </Typography>
             </Grid>
             <Grid item>
-              <AnonymousMenu/>
+              <Button component={Link} to="/signup" color="inherit">Sign up</Button>
+              <Button component={Link} to="/login" color="inherit">Sign in</Button>
             </Grid>
           </Grid>
         </Toolbar>

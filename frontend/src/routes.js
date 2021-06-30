@@ -13,6 +13,7 @@ import UserProfile from "./containers/UserProfile/UserProfile";
 import SingleGroup from "./containers/Groups/SingleGroup/SingleGroup";
 import CategoryForm from "./containers/Categories/CategoryForm/CategoryForm";
 import Transactions from "./containers/Transactions/Transactions";
+import LandingPage from "./containers/LandingPages/LandingPage/LandingPage";
 
 
 export const appRoutes = [
@@ -94,9 +95,14 @@ export const landingRoutes = [
   {
     path: "/login",
     name: "Login",
-    icon: Dashboard,
     component: Login,
-    exact: false,
+    exact: true,
+    layout: "/",
+  },
+  {
+    path: "/",
+    component: LandingPage,
+    exact: true,
     layout: "/",
   },
   {
@@ -104,7 +110,7 @@ export const landingRoutes = [
     name: "SignUp",
     icon: Dashboard,
     component: Register,
-    exact: false,
+    exact: true,
     layout: "/",
   },
 
