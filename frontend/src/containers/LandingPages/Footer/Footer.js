@@ -35,19 +35,15 @@ const Footer = () => {
                     <Grid item xs>
                         <Typography variant='h6' className={classes.footerText}>Financier</Typography>
                         <Grid item container direction='column'>
-                            <Link href="#">About</Link>
-                            <Link href="#">Blog</Link>
-                            <Link href="#">Jobs</Link>
-                            <Link href="#">API</Link>
+                            <Link to='/about'>About Us</Link>
                         </Grid>
                     </Grid>
                     <Grid item xs>
                         <Typography variant='h6'>Account</Typography>
                         <Grid item container direction='column'>
-                            <Link href="#">Log in</Link>
-                            <Link href="#">Sign up</Link>
+                            <Link to='/login'>Log in</Link>
+                            <Link to='/signup'>Sign up</Link>
                             <Link href="#">Reset password</Link>
-                            <Link href="#">Settings</Link>
                         </Grid>
                     </Grid>
                 </Grid>

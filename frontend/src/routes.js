@@ -14,104 +14,111 @@ import SingleGroup from "./containers/Groups/SingleGroup/SingleGroup";
 import CategoryForm from "./containers/Categories/CategoryForm/CategoryForm";
 import Transactions from "./containers/Transactions/Transactions";
 import LandingPage from "./containers/LandingPages/LandingPage/LandingPage";
+import About from "./containers/LandingPages/Footer/FooterComponents/About";
 
 
 export const appRoutes = [
-  {
-    layout: "/",
-    path: "/user",
-    name: "My Profile",
-    icon: Person,
-    component: UserProfile,
-  },
-  {
-    layout: "/",
-    path: "/transactions",
-    name: "Transactions",
-    icon: ReceiptIcon,
-    component: Transactions,
-  },
-  {
-    layout: "/",
-    path: "/groups",
-    name: "My Groups",
-    icon: BubbleChart,
-    component: Groups,
-  },
+    {
+        layout: "/",
+        path: "/user",
+        name: "My Profile",
+        icon: Person,
+        component: UserProfile,
+    },
+    {
+        layout: "/",
+        path: "/transactions",
+        name: "Transactions",
+        icon: ReceiptIcon,
+        component: Transactions,
+    },
+    {
+        layout: "/",
+        path: "/groups",
+        name: "My Groups",
+        icon: BubbleChart,
+        component: Groups,
+    },
 
-  {
-    layout: "/groups",
-    path: "/:id",
-    name: "My Groups",
-    component: SingleGroup,
-  },
-  {
-    layout: "/",
-    path: "/typography",
-    name: "Typography",
-    icon: LibraryBooks,
-  },
-  {
-    layout: "/",
-    path: "/icons",
-    name: "Icons",
-    icon: BubbleChart,
-  },
-  {
-    layout: "/",
-    path: "/maps",
-    name: "Maps",
-    icon: LocationOn,
-  },
-  {
-    layout: "/",
-    path: "/notifications",
-    name: "Notifications",
-    icon: Notifications,
-  },
-  {
-    layout: "/",
-    path: "/categories",
-    name: "Categories",
-    icon: Notifications,
-    component: Categories
-  },
-  {
-    layout: "/category",
-    path: "/add",
-    name: "Categories",
-    component: CategoryForm
-  },
-  {
-    layout: "/category",
-    path: "/:id",
-    name: "Categories",
-    icon: Notifications,
-    component: CategoryForm
-  },
+    {
+        layout: "/groups",
+        path: "/:id",
+        name: "My Groups",
+        component: SingleGroup,
+    },
+    {
+        layout: "/",
+        path: "/typography",
+        name: "Typography",
+        icon: LibraryBooks,
+    },
+    {
+        layout: "/",
+        path: "/icons",
+        name: "Icons",
+        icon: BubbleChart,
+    },
+    {
+        layout: "/",
+        path: "/maps",
+        name: "Maps",
+        icon: LocationOn,
+    },
+    {
+        layout: "/",
+        path: "/notifications",
+        name: "Notifications",
+        icon: Notifications,
+    },
+    {
+        layout: "/",
+        path: "/categories",
+        name: "Categories",
+        icon: Notifications,
+        component: Categories
+    },
+    {
+        layout: "/category",
+        path: "/add",
+        name: "Categories",
+        component: CategoryForm
+    },
+    {
+        layout: "/category",
+        path: "/:id",
+        name: "Categories",
+        icon: Notifications,
+        component: CategoryForm
+    },
 ];
 
 export const landingRoutes = [
-  {
-    path: "/login",
-    name: "Login",
-    component: Login,
-    exact: true,
-    layout: "/",
-  },
-  {
-    path: "/",
-    component: LandingPage,
-    exact: true,
-    layout: "/",
-  },
-  {
-    path: "/signup",
-    name: "SignUp",
-    icon: Dashboard,
-    component: Register,
-    exact: true,
-    layout: "/",
-  },
+    {
+        path: "/login",
+        name: "Login",
+        component: Login,
+        exact: true,
+        layout: "/",
+    },
+    {
+        path: "/",
+        component: LandingPage,
+        exact: true,
+        layout: "/",
+    },
+    {
+        path: "/about",
+        component: About,
+        exact: true,
+        layout: "/",
+    },
+    {
+        path: "/signup",
+        name: "SignUp",
+        icon: Dashboard,
+        component: Register,
+        exact: true,
+        layout: "/",
+    },
 
 ];

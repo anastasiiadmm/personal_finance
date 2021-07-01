@@ -1,19 +1,15 @@
 import React, {useEffect} from 'react';
 import {Link} from "react-router-dom";
 
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {groupsRequest} from "../../../store/actions/groupsActions";
 
 import {
-    Accordion, AccordionDetails,
-    AccordionSummary,
     Drawer,
-    Grid,
     makeStyles,
     MenuItem,
     MenuList,
     Toolbar,
-    Typography
 } from "@material-ui/core";
 
 const drawerWidth = 240;
