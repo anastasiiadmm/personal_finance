@@ -149,24 +149,18 @@ const SingleGroup = ({match}) => {
                         {group.nameGroup !== 'personal' && (
                             <Grid item container spacing={2} alignItems="center">
                                 {group.users && group.users.map(user => (
-                                    <Grid item key={user.id}>
-                                        <Avatar alt={user.displayName}
-                                                src={user.avatar}
-                                                className={classes.small}
-                                                onClick={() => userEditHandler(user)}
-                                        />
-                                    </Grid>
+                                    <>
+                                        {user.GroupUsers.role !== 'owner' && (
+                                            <Grid item key={user.id}>
+                                                <Avatar alt={user.displayName}
+                                                        src={user.avatar}
+                                                        className={classes.small}
+                                                        onClick={() => userEditHandler(user)}
+                                                />
+                                            </Grid>
+                                        )}
+                                    </>
                                 ))}
-                                {/*{group.users && group.users.map(user => (*/}
-                                {/*    <Grid item key={user.id}>*/}
-                                {/*        {user.GroupUsers.role === 'owner' && (*/}
-                                {/*            <IconButton color="primary" onClick={() => setModal(true)}>*/}
-                                {/*                <EditIcon/>*/}
-                                {/*            </IconButton>*/}
-
-                                {/*        )}*/}
-                                {/*    </Grid>*/}
-                                {/*))}*/}
                             </Grid>
                         )}
                     </Grid>
