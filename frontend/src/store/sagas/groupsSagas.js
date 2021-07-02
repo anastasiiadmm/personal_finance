@@ -97,6 +97,7 @@ export function* deleteFriend({payload: data}) {
     try {
         yield axiosApi.delete(`/groups/${data.groupId}/${data.editUserId}/deleted`);
         yield put(deleteFriendSuccess());
+        yield put(historyPush(`/groups/${data.groupId}`));
         yield put(singleGroupRequest(data.groupId));
     } catch (e) {
         yield put(addNotification({message: 'Delete friend failed', options: {variant: 'error'}}));

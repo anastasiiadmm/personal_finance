@@ -49,7 +49,10 @@ const useStyles = makeStyles(theme => ({
     small: {
         width: theme.spacing(5),
         height: theme.spacing(5),
-        position: 'relative'
+        position: 'relative',
+        '&:hover': {
+            cursor: 'pointer'
+        }
     },
     button: {
         width: theme.spacing(1),
@@ -66,6 +69,7 @@ const SingleGroup = ({match}) => {
     const dispatch = useDispatch();
     const group = useSelector(state => state.groups.singleGroup);
     const loading = useSelector(state => state.groups.singleGroupLoading);
+    const [user, setUser] = useState({});
     const [open, setOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [modal, setModal] = useState(false);
@@ -76,6 +80,11 @@ const SingleGroup = ({match}) => {
 
     const onDeleteGroupHandler = () => {
         dispatch(deleteGroupRequest(params));
+    }
+
+    const userEditHandler = id => {
+        setUser(id);
+        setModal(true);
     }
 
     return (
@@ -144,19 +153,20 @@ const SingleGroup = ({match}) => {
                                         <Avatar alt={user.displayName}
                                                 src={user.avatar}
                                                 className={classes.small}
+                                                onClick={() => userEditHandler(user)}
                                         />
                                     </Grid>
                                 ))}
-                                {group.users && group.users.map(user => (
-                                    <Grid item key={user.id}>
-                                        {user.GroupUsers.role === 'owner' && (
-                                            <IconButton color="primary" onClick={() => setModal(true)}>
-                                                <EditIcon/>
-                                            </IconButton>
+                                {/*{group.users && group.users.map(user => (*/}
+                                {/*    <Grid item key={user.id}>*/}
+                                {/*        {user.GroupUsers.role === 'owner' && (*/}
+                                {/*            <IconButton color="primary" onClick={() => setModal(true)}>*/}
+                                {/*                <EditIcon/>*/}
+                                {/*            </IconButton>*/}
 
-                                        )}
-                                    </Grid>
-                                ))}
+                                {/*        )}*/}
+                                {/*    </Grid>*/}
+                                {/*))}*/}
                             </Grid>
                         )}
                     </Grid>
@@ -230,6 +240,7 @@ const SingleGroup = ({match}) => {
                 <Fade in={modal}>
                     <div className={classes.paper}>
                         <EditUsersGroupForm
+                            modalUser={user}
                             onClose={() => setModal(false)}
                         />
                     </div>

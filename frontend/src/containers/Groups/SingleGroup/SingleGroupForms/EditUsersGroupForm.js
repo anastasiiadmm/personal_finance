@@ -19,25 +19,20 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const EditUsersGroupForm = ({onClose}) => {
+const EditUsersGroupForm = ({onClose, modalUser}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const params = useParams();
     const groupId = params.id;
-    const group = useSelector(state => state.groups.singleGroup);
 
     const [state, setState] = useState({
-        id: '',
-        role: ''
+        role: modalUser.GroupUsers.role,
+        id: modalUser.id
     });
-    console.log(state)
 
-    const inputChangeHandler = (e, id) => {
-        setState(prevState => ({
-            ...prevState,
-            role: e,
-            id: id
-        }))
+    const inputChangeHandler = (e) => {
+        const {name, value} = e.target;
+        setState(prev => ({...prev, [name]: value}));
     };
 
     const submitFormHandler = e => {
@@ -47,7 +42,7 @@ const EditUsersGroupForm = ({onClose}) => {
     }
 
     const deleteUser = async editUserId => {
-        await dispatch(deleteFriendRequest({groupId, editUserId}))
+        await dispatch(deleteFriendRequest({groupId, editUserId}));
     }
 
     return (
@@ -55,41 +50,31 @@ const EditUsersGroupForm = ({onClose}) => {
               noValidate>
             <Grid container direction="column" spacing={2}>
                 <Grid item xs>
-                    <Typography variant="h4">Edit users</Typography>
+                    <Typography variant="h4">Edit user group</Typography>
                 </Grid>
 
-                {group.users && (
-                    <>
-                        {group.users.map((user) => (
-                            <Grid item container spacing={2} key={user.id}>
-                                <Grid item xs>
-                                    <Typography className={classes.displayName}><b>{user.displayName}</b></Typography>
-                                    <Typography className={classes.displayName}><b>Email:</b> {user.email}</Typography>
-                                </Grid>
-                                {user.GroupUsers.role !== 'owner' && (
-                                    <>
-                                        <FormElement
-                                            required
-                                            label="Role"
-                                            value={user.GroupUsers.role}
-                                            select
-                                            options={roles}
-                                            onChange={(e) => inputChangeHandler(e.target.value, user.id)}
-                                            name="roles"
-                                        />
-                                        <Grid item={2}>
-                                            <Grid item xs>
-                                                <IconButton onClick={() => deleteUser(user.id)}>
-                                                    <HighlightOffIcon />
-                                                </IconButton>
-                                            </Grid>
-                                        </Grid>
-                                    </>
-                                )}
-                            </Grid>
-                        ))}
-                    </>
-                )}
+                <Grid item container spacing={2}>
+                    <Grid item xs>
+                        <Typography className={classes.displayName}><b>{modalUser.displayName}</b></Typography>
+                        <Typography className={classes.displayName}><b>Email:</b> {modalUser.email}</Typography>
+                    </Grid>
+                    <FormElement
+                        required
+                        label="Role"
+                        value={state.role}
+                        select
+                        options={roles}
+                        onChange={inputChangeHandler}
+                        name="role"
+                    />
+                    <Grid item={2}>
+                        <Grid item xs>
+                            <IconButton onClick={() => deleteUser(modalUser.id)}>
+                                <HighlightOffIcon />
+                            </IconButton>
+                        </Grid>
+                    </Grid>
+                </Grid>
 
                 <Grid item xs className={classes.button}>
                     <ButtonWithProgress
@@ -98,7 +83,7 @@ const EditUsersGroupForm = ({onClose}) => {
                         color="primary"
                         onClick={onClose}
                     >
-                        Update users
+                        Update user
                     </ButtonWithProgress>
                 </Grid>
             </Grid>
