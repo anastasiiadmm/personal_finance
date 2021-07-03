@@ -4,12 +4,9 @@ import {Grid, Typography} from "@material-ui/core";
 import FormElement from "../../../../components/UI/Form/FormElement";
 import FileInput from "../../../../components/UI/Form/FileInput";
 import ButtonWithProgress from "../../../../components/UI/ButtonWithProgress/ButtonWithProgress";
-import {deleteFriendRequest, updateGroupRequest} from "../../../../store/actions/groupsActions";
+import {updateGroupRequest} from "../../../../store/actions/groupsActions";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {useParams} from "react-router-dom";
-import IconButton from "@material-ui/core/IconButton";
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import {roles} from "../../../../utils";
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -69,10 +66,6 @@ const EditGroupForm = ({onClose}) => {
         }
     };
 
-    const deleteUser = async editUserId => {
-        await dispatch(deleteFriendRequest({groupId, editUserId}))
-    }
-
     return (
         <Grid container component="form" onSubmit={submitFormHandler}
               noValidate>
@@ -96,37 +89,6 @@ const EditGroupForm = ({onClose}) => {
                         onChange={fileChangeHandler}
                     />
                 </Grid>
-
-                <Grid item xs>
-                    <Typography variant="h5">Users</Typography>
-                </Grid>
-
-                {group.users && group.users.map(user => (
-                    <Grid item container spacing={2} key={user.id}>
-                        <Grid item xs>
-                            <Typography className={classes.displayName}><b>{user.displayName}</b></Typography>
-                            <Typography className={classes.displayName}><b>Email:</b> {user.email}</Typography>
-                        </Grid>
-                        {user.GroupUsers.role !== 'owner' && (
-                            <>
-                                <FormElement
-                                    required
-                                    label="Role"
-                                    value={user.GroupUsers.role}
-                                    select
-                                    options={roles}
-                                    onChange={inputChangeHandler}
-                                    name="roles"
-                                />
-                                <Grid item xs>
-                                    <IconButton onClick={() => deleteUser(user.id)}>
-                                        <HighlightOffIcon />
-                                    </IconButton>
-                                </Grid>
-                            </>
-                        )}
-                    </Grid>
-                ))}
 
                 <Grid item xs className={classes.button}>
                     <ButtonWithProgress
