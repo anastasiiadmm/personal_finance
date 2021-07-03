@@ -7,6 +7,7 @@
     "async-exit-hook": "^2.0.1",
     "axios": "^0.21.1",
     "bcrypt": "^5.0.1",
+    "config": "^3.3.6",
     "cors": "^2.8.5",
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
@@ -25,6 +26,7 @@
   },
   "scripts": {
     "start": "node index.js",
+    "start:test": "NODE_ENV=test node index.js",
     "dev": "nodemon index.js",
     "restart": "npx sequelize-cli db:migrate:undo && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
     "drop": "npx sequelize-cli db:migrate:undo",
