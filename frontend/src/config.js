@@ -1,6 +1,6 @@
 const env = process.env.REACT_APP_ENV;
 
-let domain = 'http://localhost:8010';
+let domain = 'http://localhost:8000';
 
 if (env === 'test') {
     domain = 'http://localhost:8010';
