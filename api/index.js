@@ -8,14 +8,12 @@ const accounts = require('./app/accounts');
 const categories = require('./app/categories');
 const exitHook = require('async-exit-hook');
 const transactions = require('./app/transactions');
-
+const config = require("./config/config");
 
 const app = express();
 app.use(express.static('public/uploads'));
 app.use(express.json());
 app.use(cors());
-
-const port = 8000;
 
 app.use('/users', users);
 app.use('/groups', groups);
@@ -24,10 +22,10 @@ app.use('/accounts', accounts);
 app.use('/categories', categories);
 
 const run = async () => {
-  app.listen(port, async () => {
+  app.listen(config.port, async () => {
     try {
       await sequelize.authenticate();
-      console.log(`Server started on ${port} port!`);
+      console.log(`Server started on ${config.port} port!`);
     } catch (e) {
       console.log('Server problem: ' + e);
     }
