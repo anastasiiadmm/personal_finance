@@ -4,7 +4,7 @@ import {apiURL} from "../../../config";
 import {deleteGroupRequest, singleGroupRequest} from "../../../store/actions/groupsActions";
 import InviteFriendForm from "./SingleGroupForms/InviteFriendForm";
 import Transaction from "../../Transaction/Transaction";
-import Account from "../../Account/Account";
+import Accounts from "../../Accounts/Accounts";
 import EditGroupForm from "./SingleGroupForms/EditGroupForm";
 import EditUsersGroupForm from "./SingleGroupForms/EditUsersGroupForm";
 
@@ -166,7 +166,7 @@ const SingleGroup = ({match}) => {
                     </Grid>
                 )}
                 <Grid item container spacing={2} justify="center" alignItems="center">
-                    <Account/>
+                    <Accounts/>
                 </Grid>
                 <Grid item container spacing={2} justify="center" alignItems="center">
                     <Transaction/>
