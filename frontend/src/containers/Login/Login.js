@@ -53,7 +53,6 @@ const Login = () => {
 
   const submitFormHandler = e => {
     e.preventDefault();
-
     dispatch(loginRequest({...user}));
   };
 
