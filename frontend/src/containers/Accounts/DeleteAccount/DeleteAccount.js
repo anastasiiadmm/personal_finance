@@ -43,12 +43,6 @@ const DeleteAccount = (id) => {
             }
         }
 
-
-        console.log(deleteAccount);
-        console.log(state.accountName);
-        console.log(deleteAccount[2].accountName);
-        console.log(idToDelete);
-        console.log(id);
     }
 
 
