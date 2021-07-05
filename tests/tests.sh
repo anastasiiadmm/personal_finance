@@ -16,14 +16,14 @@ echo '# API'
 cd ../api
 
 echo '# Running fixtures'
-NODE_ENV=test npm run seed
+NODE_ENV=test npm run restart
 
 echo '# Running API server in test mode'
-pm2 start "npm run start:test" --name="shop-api-test"
+pm2 start "npm run start:test" --name="finance-api-test"
 
 echo '# Running frontend in test mode'
 cd ../frontend
-pm2 start "npm run start:test" --name="shop-frontend-test"
+pm2 start "npm run start:test" --name="finance-frontend-test"
 
 while ! nc -z localhost 3010; do
     sleep 0.1
@@ -32,7 +32,7 @@ done
 echo "# Running tests"
 cd ../tests
 echo "$@"
-npx codeceptjs run --steps "$@"
+npx codeceptjs run --steps --grep "$@"
 EXIT_CODE=$?
 
 echo '# Killing test processes'
