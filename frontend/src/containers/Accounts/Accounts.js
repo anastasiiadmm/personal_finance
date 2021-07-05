@@ -1,11 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {accountsRequest, createAccountsRequest, deleteAccountsRequest} from "../../store/actions/accountsActions";
+import {
+    fetchAccountsRequest,
+    createAccountRequest,
+    deleteAccountRequest,
+    fetchAccountRequest
+} from "../../store/actions/accountsActions";
 import {Backdrop, CircularProgress, Fade, Grid, makeStyles, Modal, Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {useParams} from "react-router-dom";
 import AccountItem from "./AccountItem";
 import AccountForm from "../../components/AccountForm/AccountForm";
+import FormElement from "../../components/UI/Form/FormElement";
+import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -28,52 +36,58 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Account = () => {
+const Accounts = (id) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const params = useParams();
-    const loading = useSelector(state => state.accounts.accountsLoading);
-    const error = useSelector(state => state.accounts.createAccountsError);
-    const loadingAccountNew = useSelector(state => state.accounts.createAccountsLoading);
     const accounts = useSelector(state => state.accounts.accounts);
+    const loading = useSelector(state => state.accounts.accountsLoading);
+    const error = useSelector(state => state.accounts.createAccountError);
+    const newAccountLoading = useSelector(state => state.accounts.createAccountLoading);
     const [open, setOpen] = useState(false);
 
-    useEffect(() => {
-        console.log(params.id)
-        dispatch(accountsRequest(params.id));
-    }, [dispatch]);
 
-    const onDeleteAccount = id => {
-        dispatch(deleteAccountsRequest(id));
-    }
+    useEffect(() => {
+        dispatch(fetchAccountsRequest(params.id));
+    }, [dispatch, params.id]);
+
+
+    // const onDeleteAccount = () => {
+    //     dispatch(deleteAccountRequest(id));
+    //     console.log(id);
+    // }
+
 
     const onAccountFormSubmit = (e, data) => {
-        e.preventDefault();
-        dispatch(createAccountsRequest({data, id: params.id}));
+        dispatch(createAccountRequest({data, id: params.id}));
+        console.log(data);
     }
+
+
     return (
         <>
-        <Grid container direction={'column'} spacing={2}>
-            <Grid item container justify={'space-between'} alignItems={'center'}>
-                <Grid item>
-                    <Typography variant="h4">Accounts</Typography>
-                </Grid>
-                <Grid item>
-                    <Button color="primary" onClick={() => setOpen(true)}>
-                        Add new account
-                    </Button>
-                </Grid>
-            </Grid>
-            <Grid item container direction="column" spacing={1}>
-                {loading ? (
-                    <Grid container justify="center" alignItems="center" className={classes.progress}>
-                        <Grid item>
-                            <CircularProgress/>
-                        </Grid>
+            <Grid container direction={'column'} spacing={2}>
+                <Grid item container justify={'space-between'} alignItems={'center'}>
+                    <Grid item>
+                        <Typography variant="h4">Accounts</Typography>
                     </Grid>
-                ) : accounts.map(account => {
-                    console.log(accounts);
-                    return (
+                    <Grid item>
+                        <Button color="primary" onClick={() => setOpen(true)}>
+                            Add new account
+                        </Button>
+                    </Grid>
+                </Grid>
+                <Grid item container direction="column" spacing={1}>
+                    {loading ? (
+                        <Grid container justify="center" alignItems="center" className={classes.progress}>
+                            <Grid item>
+                                <CircularProgress/>
+                            </Grid>
+                        </Grid>
+                    ) : accounts.map(account => {
+                        console.log(accounts);
+
+                        return (
                             <AccountItem
                                 key={account.id}
                                 id={account.id}
@@ -81,12 +95,13 @@ const Account = () => {
                                 balance={account.balance}
                                 preferences={account.preferences}
                                 accountIcon={account.accountIcon}
-                                deleteAccount={() => onDeleteAccount(account.id)}
+                                // deleteAccount={onDeleteAccount}
                             />
                         )
+
                     })}
+                </Grid>
             </Grid>
-        </Grid>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -103,14 +118,16 @@ const Account = () => {
                     <div className={classes.paper}>
                         <AccountForm
                             onSubmit={onAccountFormSubmit}
-                            loading={loadingAccountNew}
+                            loading={newAccountLoading}
                             error={error}
                         />
                     </div>
                 </Fade>
             </Modal>
-            </>
+
+
+        </>
     );
 };
 
-export default Account;
+export default Accounts;

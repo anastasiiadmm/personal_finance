@@ -46,7 +46,7 @@ const AccountForm = ({onSubmit, loading, error}) => {
             <Grid container direction="column" spacing={2}>
                 <FormElement
                     required
-                    label="Account title"
+                    label="Accounts title"
                     name="accountName"
                     value={state.accountName}
                     onChange={inputChangeHandler}

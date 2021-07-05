@@ -1,6 +1,6 @@
 import React from 'react';
 import {Typography, Grid} from "@material-ui/core";
-import AccountForm from "../../components/AccountForm/AccountForm";
+import AccountForm from "../../../components/AccountForm/AccountForm";
 
 const NewAccount = () => {
 

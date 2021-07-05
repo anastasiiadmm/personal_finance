@@ -6,18 +6,28 @@ const upload = require('../multer').accountIcon;
 
 const router = express.Router();
 
-router.get('/groups/:id', async (req, res) => {
-  try {
-      console.log(req.params.id);
-      const accounts = await Account.findAll({where: {groupId: req.params.id}});
-    res.status(200).send(accounts);
-  } catch (e) {
-    return res.status(400).send({message: e.message});
-  }
+router.get('/:id', async (req, res) => {
+    try {
+        console.log(req.params.id);
+        const accounts = await Account.findAll({where: {groupId: req.params.id}});
+        res.status(200).send(accounts);
+    } catch (e) {
+        return res.status(400).send({message: e.message});
+    }
 
 });
 
-router.post('/:id',auth ,upload.single('accountIcon'), async (req, res) => {
+router.get('/:id', async (req, res) => {
+    try {
+        const account = await Account.findOne({where: {id: req.params.id}});
+        res.status(200).send(account);
+        console.log(account)
+    } catch (e) {
+        return res.status(400).send({message: e.message});
+    }
+})
+
+router.post('/:id', auth, upload.single('accountIcon'), async (req, res) => {
 
     const accountData = req.body;
     accountData.user = req.user.id;
@@ -41,14 +51,12 @@ router.post('/:id',auth ,upload.single('accountIcon'), async (req, res) => {
 
 });
 
-router.put('/:id', auth, upload.single('accountIcon'), async (req, res) => {
+router.put('/:id', upload.single('accountIcon'), async (req, res) => {
 
     try {
         await Account.update({
                 accountName: req.body.accountName,
-                balance: req.body.balance,
-                preferences: req.body.preferences,
-
+                accountIcon: req.file ? req.file.filename : null,
             },
             {where: {id: req.params.id}});
 
@@ -61,14 +69,12 @@ router.put('/:id', auth, upload.single('accountIcon'), async (req, res) => {
 
 router.delete('/:id', auth, async (req, res) => {
 
-
     try {
         const account = await Account.findOne({where: {id: req.params.id}});
-        console.log(req.params.id);
         account.destroy();
-        res.send("Account deleted!");
+        res.send("Accounts deleted!");
     } catch (e) {
-        res.status(400).send({message: e.message})
+        res.status(400).send({message: e.message});
     }
 
 });
