@@ -17,7 +17,7 @@ import {logoutRequest} from "../../store/actions/usersActions";
 import {useDispatch} from "react-redux";
 import {Avatar} from "@material-ui/core";
 import NewTransaction from "../../containers/NewTransaction/NewTransaction";
-import {accountsRequestAll} from "../../store/actions/accountsActions";
+import {fetchAccountsRequest} from "../../store/actions/accountsActions";
 import {fetchCategoriesRequest} from "../../store/actions/categoriesActions";
 import {groupsRequest} from "../../store/actions/groupsActions";
 
@@ -43,7 +43,7 @@ const NavbarLinks = ({user}) => {
   };
 
   const handleCloseMenuAndOpenDialog = async (dialog) => {
-    await dispatch(accountsRequestAll());
+    await dispatch(fetchAccountsRequest());
     await dispatch(fetchCategoriesRequest());
     await dispatch(groupsRequest());
     setOpenMenu(null);
