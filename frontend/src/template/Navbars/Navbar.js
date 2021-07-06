@@ -15,7 +15,7 @@ import {useLocation} from "react-router-dom";
 
 const useStyles = makeStyles(styles);
 
-const Header = ({color, handleDrawerToggle, routes, user, ...props}) => {
+const Header = ({color, handleDrawerToggle, routes, user}) => {
   const classes = useStyles();
   let location = useLocation();
   const [routeName, SetRouteName] = useState("Home");
@@ -41,11 +41,8 @@ const Header = ({color, handleDrawerToggle, routes, user, ...props}) => {
     <AppBar className={classes.appBar + appBarClasses}>
       <Toolbar className={classes.container}>
         <div className={classes.flex}>
-          <Button color="transparent" href="#" className={classes.title}>
+          <Button color="transparent" className={classes.title}>
             {routeName}
-          </Button>
-          <Button color="transparent" href="#" size="sm">
-            Add expense
           </Button>
         </div>
         <Hidden smDown implementation="css">

@@ -10,32 +10,50 @@ import Hidden from "@material-ui/core/Hidden";
 import Poppers from "@material-ui/core/Popper";
 import Divider from "@material-ui/core/Divider";
 import Person from "@material-ui/icons/Person";
-import Notifications from "@material-ui/icons/Notifications";
-import Dashboard from "@material-ui/icons/Dashboard";
+import ReceiptIcon from '@material-ui/icons/Receipt';
 import Button from "../CustomButtons/Button";
 import styles from "../../assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 import {logoutRequest} from "../../store/actions/usersActions";
 import {useDispatch} from "react-redux";
 import {Avatar} from "@material-ui/core";
+import NewTransaction from "../../containers/NewTransaction/NewTransaction";
+import {accountsRequestAll} from "../../store/actions/accountsActions";
+import {fetchCategoriesRequest} from "../../store/actions/categoriesActions";
+import {groupsRequest} from "../../store/actions/groupsActions";
 
 const useStyles = makeStyles(styles);
 
 const NavbarLinks = ({user}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [openNotification, setOpenNotification] = useState(null);
+  const [openMenu, setOpenMenu] = useState(null);
   const [openProfile, setOpenProfile] = useState(null);
-  const handleClickNotification = (event) => {
-    if (openNotification && openNotification.contains(event.target)) {
-      setOpenNotification(null);
+  const [openDialog, setOpenDialog] = useState({open: false, type: null});
+
+  const handleCloseDialog = () => {
+    setOpenDialog({...openDialog, open: false});
+  };
+
+  const handleClickMenu = (event) => {
+    if (openMenu && openMenu.contains(event.target)) {
+      setOpenMenu(null);
     } else {
-      setOpenNotification(event.currentTarget);
+      setOpenMenu(event.currentTarget);
     }
   };
 
-  const handleCloseNotification = () => {
-    setOpenNotification(null);
+  const handleCloseMenuAndOpenDialog = async (dialog) => {
+    await dispatch(accountsRequestAll());
+    await dispatch(fetchCategoriesRequest());
+    await dispatch(groupsRequest());
+    setOpenMenu(null);
+    setOpenDialog({...openDialog, open: true, type: dialog});
   };
+
+  const handleCloseMenu = () => {
+    setOpenMenu(null);
+  };
+
   const handleClickProfile = (event) => {
     if (openProfile && openProfile.contains(event.target)) {
       setOpenProfile(null);
@@ -48,43 +66,30 @@ const NavbarLinks = ({user}) => {
   };
   return (
     <div>
-      <Button
-        color={window.innerWidth > 959 ? "transparent" : "white"}
-        justIcon={window.innerWidth > 959}
-        simple={!(window.innerWidth > 959)}
-        aria-label="Dashboard"
-        className={classes.buttonLink}
-      >
-        <Dashboard className={classes.icons}/>
-        <Hidden mdUp implementation="css">
-          <p className={classes.linkText}>Dashboard</p>
-        </Hidden>
-      </Button>
       <div className={classes.manager}>
         <Button
-          color={window.innerWidth > 959 ? "transparent" : "white"}
-          justIcon={window.innerWidth > 959}
-          simple={!(window.innerWidth > 959)}
-          aria-owns={openNotification ? "notification-menu-list-grow" : null}
+          color={"transparent"}
+          justIcon
+          aria-owns={openMenu ? "menu-list-grow" : null}
           aria-haspopup="true"
-          onClick={handleClickNotification}
+          onClick={handleClickMenu}
           className={classes.buttonLink}
         >
-          <Notifications className={classes.icons}/>
-          <span className={classes.notifications}>5</span>
+          <ReceiptIcon className={classes.icons}/>
+          <span className={classes.notifications}>+</span>
           <Hidden mdUp implementation="css">
-            <p onClick={handleCloseNotification} className={classes.linkText}>
-              Notification
+            <p onClick={handleCloseMenu} className={classes.linkText}>
+              Add Transaction
             </p>
           </Hidden>
         </Button>
         <Poppers
-          open={Boolean(openNotification)}
-          anchorEl={openNotification}
+          open={Boolean(openMenu)}
+          anchorEl={openMenu}
           transition
           disablePortal
           className={
-            classNames({[classes.popperClose]: !openNotification}) +
+            classNames({[classes.popperClose]: !openMenu}) +
             " " +
             classes.popperNav
           }
@@ -92,44 +97,32 @@ const NavbarLinks = ({user}) => {
           {({TransitionProps, placement}) => (
             <Grow
               {...TransitionProps}
-              id="notification-menu-list-grow"
+              id="menu-list-grow"
               style={{
                 transformOrigin:
                   placement === "bottom" ? "center top" : "center bottom",
               }}
             >
               <Paper>
-                <ClickAwayListener onClickAway={handleCloseNotification}>
+                <ClickAwayListener onClickAway={handleCloseMenu}>
                   <MenuList role="menu">
                     <MenuItem
-                      onClick={handleCloseNotification}
+                      onClick={() => handleCloseMenuAndOpenDialog('expenditure')}
                       className={classes.dropdownItem}
                     >
-                      Mike John responded to your email
+                      Add expense
                     </MenuItem>
                     <MenuItem
-                      onClick={handleCloseNotification}
+                      onClick={() => handleCloseMenuAndOpenDialog('income')}
                       className={classes.dropdownItem}
                     >
-                      You have 5 new tasks
+                      Add income
                     </MenuItem>
                     <MenuItem
-                      onClick={handleCloseNotification}
+                      onClick={() => handleCloseMenuAndOpenDialog("transfer")}
                       className={classes.dropdownItem}
                     >
-                      You{"'"}re now friend with Andrew
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleCloseNotification}
-                      className={classes.dropdownItem}
-                    >
-                      Another Notification
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleCloseNotification}
-                      className={classes.dropdownItem}
-                    >
-                      Another One
+                      Transfer
                     </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
@@ -140,9 +133,8 @@ const NavbarLinks = ({user}) => {
       </div>
       <div className={classes.manager}>
         <Button
-          color={window.innerWidth > 959 ? "transparent" : "white"}
-          justIcon={window.innerWidth > 959}
-          simple={!(window.innerWidth > 959)}
+          color={"transparent"}
+          justIcon
           aria-owns={openProfile ? "profile-menu-list-grow" : null}
           aria-haspopup="true"
           onClick={handleClickProfile}
@@ -209,6 +201,9 @@ const NavbarLinks = ({user}) => {
           )}
         </Poppers>
       </div>
+      {openDialog.open ?
+        <NewTransaction open={openDialog.open} type={openDialog.type} handleClose={handleCloseDialog}/> : null
+      }
     </div>
   );
 }

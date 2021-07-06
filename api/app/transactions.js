@@ -1,6 +1,7 @@
 const express = require('express');
 const {Op} = require('sequelize');
 const upload = require('../multer').cashierCheck;
+const auth = require("../middleware/auth");
 const {Transaction} = require('../models');
 
 const router = express.Router();
@@ -15,10 +16,10 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/transfer', upload.single('cashierCheck'), async (req, res) => {
+router.post('/transfer', upload.single('cashierCheck'), auth, async (req, res) => {
   try {
     const transactionData = {
-      userId: req.body.userId,
+      userId: req.user.id,
       accountToId: req.body.accountToId,
       accountFromId: req.body.accountFromId,
       sumOut: req.body.sumOut,
@@ -35,10 +36,10 @@ router.post('/transfer', upload.single('cashierCheck'), async (req, res) => {
   }
 });
 
-router.post('/expense', upload.single('cashierCheck'), async (req, res) => {
+router.post('/expenditure', upload.single('cashierCheck'), auth, async (req, res) => {
   try {
     const transactionData = {
-      userId: req.body.userId,
+      userId: req.user.id,
       categoryId: req.body.categoryId,
       description: req.body.description,
       cashierCheck: req.file ? req.file.filename : null,
@@ -58,10 +59,10 @@ router.post('/expense', upload.single('cashierCheck'), async (req, res) => {
   }
 });
 
-router.post('/income', upload.single('cashierCheck'), async (req, res) => {
+router.post('/income', upload.single('cashierCheck'), auth, async (req, res) => {
   try {
     const transactionData = {
-      userId: req.body.userId,
+      userId: req.user.id,
       categoryId: req.body.categoryId,
       description: req.body.description,
       cashierCheck: req.file ? req.file.filename : null,
@@ -118,11 +119,11 @@ router.put('/:id', upload.single('cashierCheck'), async (req, res) => {
     }
 
     await Transaction.update({
-      categoryId: req.body.categoryId,
-      sumIn: req.body.sumIn,
-      sumOut: req.body.sumOut,
-      description: req.body.description,
-    },
+        categoryId: req.body.categoryId,
+        sumIn: req.body.sumIn,
+        sumOut: req.body.sumOut,
+        description: req.body.description,
+      },
       {where: {id: req.params.id}});
 
 

@@ -3,20 +3,8 @@ import {createSlice} from "@reduxjs/toolkit";
 export const initialState = {
     accounts: [],
     accountsLoading: false,
-    accountsError: false,
-
-    account: null,
-    accountLoading: false,
-    accountError: false,
-
     createAccountLoading: false,
-    createAccountError: null,
-
-    deleteAccountLoading: false,
-    deleteAccountError: null,
-
-    updateAccountLoading: false,
-    updateAccountError: null
+    createAccountError: null
 };
 
 const name = 'accounts';
@@ -25,62 +13,38 @@ const accountsSlice = createSlice({
     name,
     initialState,
     reducers: {
-        fetchAccountsRequest: state => {
+        accountsRequest: state => {
             state.accountsLoading = true;
         },
-        fetchAccountsSuccess: (state, {payload: accounts}) => {
+        accountsSuccess: (state, {payload: accounts}) => {
             state.accountsLoading = false;
             state.accounts = accounts;
         },
-        fetchAccountsFailure: (state, {payload: error}) => {
+        accountsFailure: state => {
             state.accountsLoading = false;
-            state.accountsError = error;
         },
-        fetchAccountRequest: (state) => {
-            state.accountLoading = true;
+        createAccountsRequest: state => {
+            state.createAccountsLoading = true;
         },
-        fetchAccountSuccess: (state, {payload: account}) => {
-            state.accountLoading = false;
-            state.account = account
+        createAccountsSuccess: state => {
+            state.createAccountsLoading = false;
         },
-        fetchAccountFailure: (state, {payload}) => {
-            state.accountLoading = false;
-            state.accountError = payload;
+        createAccountsFailure: (state, {payload: error}) => {
+            state.createAccountsLoading = false;
+            state.createAccountsError = error;
         },
-        createAccountRequest: state => {
-            state.createAccountLoading = true;
+        deleteAccountsRequest: state => {
+            state.accountsLoading = true;
         },
-        createAccountSuccess: (state, {payload: accounts}) => {
-            state.createAccountLoading = false;
-            state.accounts = accounts;
-            console.log(accounts);
-        },
-        createAccountFailure: (state, {payload: error}) => {
-            state.createAccountLoading = false;
-            state.createAccountError = error;
-        },
-        deleteAccountRequest: state => {
-            state.deleteAccountLoading = true;
-        },
-        deleteAccountSuccess: (state, {payload: id}) => {
-            state.deleteAccountLoading = false;
+        deleteAccountsSuccess: (state, {payload: id}) => {
+            state.accountsLoading = false;
             state.accounts = state.accounts.filter(c => c.id !== id);
         },
-        deleteAccountFailure: (state, {payload: error}) => {
-            state.deleteAccountLoading = false;
-            state.deleteAccountError = error;
-        },
-        updateAccountRequest: state => {
-            state.updateAccountLoading = true;
-        },
-        updateAccountSuccess: (state, {payload: accounts}) => {
-            state.updateAccountLoading = false;
-            state.accounts = accounts;
-        },
-        updateAccountFailure: (state, {payload: error}) => {
-            state.updateAccountLoading = false;
-            state.updateAccountError = error
+        deleteAccountsFailure: state => {
+            state.accountsLoading = false;
         }
+
+
     }
 });
 

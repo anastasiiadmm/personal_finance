@@ -10,7 +10,6 @@ const styles = {
     margin: "0 0 !important",
     width: "100%",
     display:'flex',
-
   },
 };
 

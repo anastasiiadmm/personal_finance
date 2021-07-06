@@ -4,6 +4,7 @@ import notifierSlice from "./slices/notifierSlice";
 import groupsSlice from "./slices/groupsSlice";
 import accountsSlice from "./slices/accountsSlice";
 import categoriesSlice from "./slices/categoriesSlice";
+import transactionsSlice from "./slices/transactionsSlice";
 
 const rootReducer = combineReducers({
   users: usersSlice.reducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   accounts: accountsSlice.reducer,
   notifier: notifierSlice.reducer,
   categories: categoriesSlice.reducer,
+  transactions: transactionsSlice.reducer
 });
 
 export default rootReducer;

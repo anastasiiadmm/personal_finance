@@ -16,6 +16,7 @@ const cardFooterStyle = {
     marginTop: "-15px",
   },
   cardFooterPlain: {
+    borderTop: "1px solid " + grayColor[10],
     paddingLeft: "5px",
     paddingRight: "5px",
     backgroundColor: "transparent",

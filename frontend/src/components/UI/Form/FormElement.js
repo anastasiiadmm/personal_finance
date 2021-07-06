@@ -9,7 +9,10 @@ const FormElement = ({error, select, options, hide, ...props}) => {
   if (select) {
     inputChildren = options.map(option => (
       <MenuItem key={option.id} value={option.id}>
-        {option.title}
+        {option.title ? option.title : null}
+        {option.accountName ? <>{option.accountName} in {option.Group.nameGroup} group</> : null}
+        {option.name ? option.name : null}
+        {option.nameGroup ? option.nameGroup : null}
       </MenuItem>
     ));
   }
@@ -37,11 +40,13 @@ const FormElement = ({error, select, options, hide, ...props}) => {
   );
 };
 
-FormElement.propTypes = {
-  ...TextField.propTypes,
-  error: PropTypes.string,
-  select: PropTypes.bool,
-  options: PropTypes.arrayOf(PropTypes.object)
-};
+FormElement.propTypes =
+  {
+    ...TextField.propTypes,
+    error: PropTypes.string,
+    select: PropTypes.bool,
+    options: PropTypes.arrayOf(PropTypes.object)
+  }
+;
 
 export default FormElement;

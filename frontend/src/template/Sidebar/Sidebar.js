@@ -70,8 +70,8 @@ const Sidebar = ({color, logo, image, logoText, routes, ...props}) => {
     </List>
   );
   let brand = (
-      <Grid container className={classes.logo} spacing={2}>
-        <Grid item sm={9}>
+      <Grid container>
+        <Grid item sm={9} className={classes.logo}>
           <Link to="/" className={classNames(classes.logoLink)}>
             <div className={classes.logoImage}>
               <img src={logo} alt="logo" className={classes.img}/>

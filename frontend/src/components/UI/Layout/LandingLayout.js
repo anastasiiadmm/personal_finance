@@ -8,14 +8,9 @@ import {landingRoutes} from "../../../routes";
 import {makeStyles} from "@material-ui/core/styles";
 import Footer from "../../../containers/LandingPages/Footer/Footer";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   container: {
-    padding: 0,
-    display: 'flex',
-    alignContent: 'space-between',
-
-    flexDirection: 'column',
-    height: '100%'
+    padding: 0
   }
 }));
 
