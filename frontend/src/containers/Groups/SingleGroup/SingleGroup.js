@@ -117,7 +117,7 @@ const SingleGroup = ({match}) => {
                             <Grid item md={6}>
                                 <Typography variant="h4">{group.nameGroup}</Typography>
                             </Grid>
-                            {group.nameGroup !== 'personal' && (
+                            {group.nameGroup !== 'Personal' && (
                                 <>
                                     {group.users && group.users.map(user => (
                                         <Grid item md={6} key={user.id}>

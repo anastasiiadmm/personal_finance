@@ -51,7 +51,7 @@ const About = () => {
                     </Card>
                 </Box>
             </Grid>
-            <Grid item container spacing={2} direction='column' style={{marginBottom: 30}}>
+            <Grid item container spacing={2} direction='column'>
                 <Typography variant='h3' style={{marginLeft: 145}}>Meet the team</Typography>
                 <Grid item container spacing={1} justify='center'>
                     {teams.map(t => (

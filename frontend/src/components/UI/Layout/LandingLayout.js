@@ -53,7 +53,6 @@ const LandingLayout = () => {
         <main>
           <div className={classes.container}>
             {switchRoutes}
-            <Footer/>
           </div>
         </main>
       </Container>
