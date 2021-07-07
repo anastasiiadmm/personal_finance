@@ -1,10 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
   const Group = sequelize.define('Group', {
-    nameGroup: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    avatarGroup: {
+    avatar: {
       type: DataTypes.STRING
     },
   }, {

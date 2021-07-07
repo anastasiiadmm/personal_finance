@@ -1,10 +1,10 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import GroupForm from "./GroupForm/GroupForm";
+import {createGroupRequest} from "../../../store/actions/groupsActions";
 
 import Grid from "@material-ui/core/Grid";
 import {Typography} from "@material-ui/core";
-import {createGroupRequest} from "../../../store/actions/groupsActions";
 
 const NewGroup = () => {
     const dispatch = useDispatch();

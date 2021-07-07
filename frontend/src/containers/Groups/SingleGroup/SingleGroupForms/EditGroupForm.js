@@ -25,8 +25,8 @@ const EditGroupForm = ({onClose}) => {
     const group = useSelector(state => state.groups.singleGroup);
 
     const [state, setState] = useState({
-        nameGroup: group.nameGroup,
-        avatarGroup: group.avatarGroup,
+        title: group.title,
+        avatar: group.avatar,
     });
 
     const inputChangeHandler = e => {
@@ -53,11 +53,11 @@ const EditGroupForm = ({onClose}) => {
         e.preventDefault();
         let groupData = {};
 
-        if (state.nameGroup !== group.nameGroup) {
-            groupData.nameGroup = state.nameGroup
+        if (state.title !== group.title) {
+            groupData.title = state.title
         }
-        if (state.avatarGroup !== group.avatarGroup) {
-            groupData.avatarGroup = state.avatarGroup
+        if (state.avatar !== group.avatar) {
+            groupData.avatar = state.avatar
         }
         groupData.groupId = groupId;
 
@@ -80,7 +80,7 @@ const EditGroupForm = ({onClose}) => {
                     type="text"
                     onChange={inputChangeHandler}
                     name="nameGroup"
-                    value={state.nameGroup}
+                    value={state.title}
                 />
                 <Grid item xs>
                     <FileInput

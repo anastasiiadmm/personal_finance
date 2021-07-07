@@ -6,11 +6,11 @@ const upload = require('../multer').group;
 
 const router = express.Router();
 
-router.post('/', auth, upload.single('avatarGroup'), async (req, res) => {
+router.post('/', auth, upload.single('avatar'), async (req, res) => {
     try {
         const group = await Group.create({
-            nameGroup: req.body.nameGroup,
-            avatarGroup: req.file ? req.file.filename : null,
+            title: req.body.title,
+            avatar: req.file ? req.file.filename : null,
         });
 
         await GroupUsers.create({
@@ -50,6 +50,10 @@ router.post('/:id', auth, async (req, res) => {
         }
 
         const user = await User.findOne({where: {email: req.body.email}});
+
+        if (user.id === req.user.id) {
+            return res.status(404).send({message: "Incorrect Email!"});
+        }
 
         if (user) {
             await group.addUser(user.id, {through: {role: 'user'}});
@@ -102,7 +106,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.put('/:id', auth, upload.single('avatarGroup'), async (req, res) => {
+router.put('/:id', auth, upload.single('avatar'), async (req, res) => {
     try {
         const group = await Group.findOne({
             where: {id: req.params.id}, include: [{
@@ -143,10 +147,10 @@ router.put('/:id', auth, upload.single('avatarGroup'), async (req, res) => {
             groupUsers.save();
         }
 
-        if (req.body.nameGroup) {
-            group.nameGroup = req.body.nameGroup
+        if (req.body.title) {
+            group.title = req.body.title
             if (req.file) {
-                group.avatarGroup = req.file.filename;
+                group.avatar = req.file.filename;
             }
             group.save();
         }
@@ -159,8 +163,6 @@ router.put('/:id', auth, upload.single('avatarGroup'), async (req, res) => {
 
 router.delete('/:id/:editUserId/deleted', auth, async (req, res) => {
     try {
-        console.log(req)
-
         const group = await Group.findOne({
             where: {id: req.params.id}, include: [{
                 association: 'users',
@@ -224,7 +226,7 @@ router.delete('/:id/delete', auth, async (req, res) => {
             return res.status(404).send({message: "No permission"});
         }
 
-        if (group.nameGroup === 'Personal') {
+        if (group.title === 'Personal') {
             return res.status(404).send({message: "No permission"});
         }
 

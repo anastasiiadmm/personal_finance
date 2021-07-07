@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import {useParams} from "react-router-dom";
 import AccountItem from "./AccountItem";
 import AccountForm from "../../components/AccountForm/AccountForm";
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -67,7 +68,7 @@ const Accounts = (id) => {
                         <Typography variant="h4">Accounts</Typography>
                     </Grid>
                     <Grid item>
-                        <Button color="primary" onClick={() => setOpen(true)}>
+                        <Button color="primary" startIcon={<AddCircleOutlineIcon />} onClick={() => setOpen(true)}>
                             Add new account
                         </Button>
                     </Grid>

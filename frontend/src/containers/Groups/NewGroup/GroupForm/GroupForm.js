@@ -6,8 +6,8 @@ import ButtonWithProgress from "../../../../components/UI/ButtonWithProgress/But
 
 const GroupForm = ({onSubmit, loading, error, onClose}) => {
     const [group, setGroup] = useState({
-        nameGroup: '',
-        avatarGroup: ''
+        title: '',
+        avatar: ''
     });
 
     const submitFormHandler = e => {
@@ -55,19 +55,19 @@ const GroupForm = ({onSubmit, loading, error, onClose}) => {
             <Grid container direction="column" spacing={2}>
                 <FormElement
                     required
-                    label="Name"
-                    name="nameGroup"
-                    value={group.nameGroup}
+                    label="Title"
+                    name="title"
+                    value={group.title}
                     onChange={inputChangeHandler}
-                    error={getFieldError('nameGroup')}
+                    error={getFieldError('title')}
                 />
 
                 <Grid item xs>
                     <FileInput
-                        name="avatarGroup"
+                        name="avatar"
                         label="Image"
                         onChange={fileChangeHandler}
-                        error={getFieldError('avatarGroup')}
+                        error={getFieldError('avatar')}
                     />
                 </Grid>
 

@@ -82,11 +82,12 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
-      }, nameGroup: {
+      },
+      title: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      avatarGroup: {
+      avatar: {
         type: Sequelize.STRING
       },
       createdAt: {

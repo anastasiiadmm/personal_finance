@@ -1,7 +1,7 @@
 import {
   successColor,
   whiteColor,
-  grayColor,
+  grayColor, primaryColor,
 } from "../../material-dashboard-react";
 
 const dashboardStyle = {
@@ -41,8 +41,8 @@ const dashboardStyle = {
     },
   },
   small: {
-    width: 70,
-    height: 70
+    width: 100,
+    height: 100
   },
   modal: {
     display: 'flex',
@@ -55,6 +55,10 @@ const dashboardStyle = {
     border: '1px solid #000',
     boxShadow: '0px 3px 37px 3px rgba(0,0,0,0.96)',
     padding: '20px',
+  },
+  linkButton: {
+    fontSize: 16,
+    color: "#9c27b0",
   }
 };
 

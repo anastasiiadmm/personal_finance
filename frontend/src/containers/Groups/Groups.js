@@ -4,7 +4,8 @@ import {Link} from "react-router-dom";
 import {createGroupRequest, groupsRequest} from "../../store/actions/groupsActions";
 import {Avatar, Backdrop, Fade, Grid, makeStyles, Modal} from "@material-ui/core";
 
-import GroupIcon from "../../assets/images/group-icon.png";
+import GroupIcon from "../../assets/images/group-icon.jpeg";
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 import styles from "../../assets/jss/material-dashboard-react/views/dashboardStyle.js";
 
@@ -37,31 +38,31 @@ const Groups = () => {
 
     return (
         <>
-            <Grid container spacing={2} direction="column">
+            <Grid item container spacing={6} direction="column">
                 <Grid item>
-                    <Button color="primary" onClick={() => setOpen(true)}>
+                    <Button className={classes.linkButton} startIcon={<AddCircleOutlineIcon />} onClick={() => setOpen(true)}>
                         Add new group
                     </Button>
                 </Grid>
-                <Grid container spacing={2}>
+                <Grid item container spacing={2}>
                     {groups && (groups.map(group => (
-                        <GridItem xs={12} sm={6} md={5} key={group.id}>
+                        <GridItem item xs={8} sm={5} md={4} key={group.id}>
                             <Card>
                                 <CardHeader color="warning" stats icon>
                                     <CardIcon color="warning">
-                                        {group.avatarGroup ? (
-                                            <Avatar alt={group.nameGroup} src={apiURL + '/' + group.avatarGroup} className={classes.small}/>
+                                        {group.avatar ? (
+                                            <Avatar alt={group.title} src={apiURL + '/' + group.avatar} className={classes.small}/>
                                         ) : (
-                                            <Avatar alt={group.nameGroup}
+                                            <Avatar alt={group.title}
                                                     src={GroupIcon}
                                                     className={classes.small}
                                             />
                                         )}
                                     </CardIcon>
-                                    <h3 className={classes.cardTitle}>{group.nameGroup}</h3>
+                                    <h3 className={classes.cardTitle}>{group.title}</h3>
                                 </CardHeader>
                                 <CardFooter stats>
-                                    <Link to={`/groups/${group.id}`}>More info</Link>
+                                    <Link to={`/groups/${group.id}`} className={classes.linkButton}>More info</Link>
                                 </CardFooter>
                             </Card>
                         </GridItem>

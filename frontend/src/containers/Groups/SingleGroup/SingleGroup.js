@@ -16,7 +16,7 @@ import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 
-import GroupIcon from "../../../assets/images/group-icon.png";
+import GroupIcon from "../../../assets/images/group-icon.jpeg";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -43,8 +43,8 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(2, 4, 3),
     },
     large: {
-        width: theme.spacing(10),
-        height: theme.spacing(10),
+        width: theme.spacing(15),
+        height: theme.spacing(15),
     },
     small: {
         width: theme.spacing(5),
@@ -60,6 +60,10 @@ const useStyles = makeStyles(theme => ({
         position: 'absolute',
         top: 80,
         left: 30
+    },
+    linkButton: {
+        fontSize: 16,
+        color: "#9c27b0",
     }
 }));
 
@@ -97,16 +101,16 @@ const SingleGroup = ({match}) => {
                         </Grid>
                     </Grid>
                 ) : (
-                    <Grid item container direction='column' spacing={2}>
+                    <Grid item container direction='column' spacing={2} style={{marginBottom: 30}}>
                         <Grid item container justify='flex-end'>
                             <Grid item>
-                                {group.avatarGroup ? (
-                                    <Avatar alt={group.nameGroup}
-                                            src={apiURL + '/' + group.avatarGroup}
+                                {group.avatar ? (
+                                    <Avatar alt={group.title}
+                                            src={apiURL + '/' + group.avatar}
                                             className={classes.large}
                                     />
                                 ) : (
-                                    <Avatar alt={group.nameGroup}
+                                    <Avatar alt={group.title}
                                             src={GroupIcon}
                                             className={classes.large}
                                     />
@@ -115,9 +119,9 @@ const SingleGroup = ({match}) => {
                         </Grid>
                         <Grid container direction='row' alignItems='center'>
                             <Grid item md={6}>
-                                <Typography variant="h4">{group.nameGroup}</Typography>
+                                <Typography variant="h4">{group.title}</Typography>
                             </Grid>
-                            {group.nameGroup !== 'Personal' && (
+                            {group.title !== 'Personal' && (
                                 <>
                                     {group.users && group.users.map(user => (
                                         <Grid item md={6} key={user.id}>
@@ -125,17 +129,17 @@ const SingleGroup = ({match}) => {
                                                 <Grid item container direction='row' spacing={1} alignItems='center'
                                                       justify='flex-end'>
                                                     <Grid item>
-                                                        <IconButton color="primary" onClick={() => setOpen(true)}>
+                                                        <IconButton className={classes.linkButton} onClick={() => setOpen(true)}>
                                                             <GroupAddIcon/>
                                                         </IconButton>
                                                     </Grid>
                                                     <Grid item>
-                                                        <IconButton color="primary" onClick={onDeleteGroupHandler}>
+                                                        <IconButton className={classes.linkButton} onClick={onDeleteGroupHandler}>
                                                             <DeleteForeverIcon/>
                                                         </IconButton>
                                                     </Grid>
                                                     <Grid item>
-                                                        <IconButton color="primary" onClick={() => setModalOpen(true)}>
+                                                        <IconButton className={classes.linkButton} onClick={() => setModalOpen(true)}>
                                                             <EditIcon/>
                                                         </IconButton>
                                                     </Grid>

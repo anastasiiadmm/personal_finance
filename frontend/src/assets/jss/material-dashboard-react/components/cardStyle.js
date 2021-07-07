@@ -7,7 +7,6 @@ import {
 const cardStyle = {
   card: {
     border: "0",
-    marginBottom: "15px",
     marginTop: "15px",
     borderRadius: "6px",
     // color: "rgba(" + hexToRgb(blackColor) + ", 0.87)",

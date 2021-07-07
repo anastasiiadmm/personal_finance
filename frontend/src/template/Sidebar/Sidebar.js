@@ -88,10 +88,10 @@ const Sidebar = ({color, logo, image, logoText, routes, ...props}) => {
         </Hidden>
       </Grid>
     )
-  ;
+
   return (
     <div>
-      <Hidden mdUp implementation="css">
+      <Hidden mdUp implementation="js">
         <Drawer
           variant="temporary"
           anchor={"right"}
@@ -116,7 +116,7 @@ const Sidebar = ({color, logo, image, logoText, routes, ...props}) => {
           ) : null}
         </Drawer>
       </Hidden>
-      <Hidden smDown implementation="css">
+      <Hidden smDown implementation="js">
         <Drawer
           anchor={"left"}
           variant="permanent"
