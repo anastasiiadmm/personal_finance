@@ -10,7 +10,7 @@ const FormElement = ({error, select, options, hide, ...props}) => {
     inputChildren = options.map(option => (
       <MenuItem key={option.id} value={option.id}>
         {option.title ? option.title : null}
-        {option.accountName ? <>{option.accountName} in {option.Group.nameGroup} group</> : null}
+        {option.accountName ? <>{option.accountName} in {option.Group.title} group</> : null}
         {option.name ? option.name : null}
         {option.nameGroup ? option.nameGroup : null}
       </MenuItem>
