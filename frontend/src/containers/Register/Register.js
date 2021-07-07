@@ -133,6 +133,7 @@ const Register = () => {
               variant="contained"
               color="primary"
               className={classes.submit}
+              id="signup-button"
               loading={loading}
               disabled={loading}
             >

@@ -100,6 +100,7 @@ const Login = () => {
               variant="contained"
               color="primary"
               className={classes.submit}
+              id="signin-button"
               loading={loading}
               disabled={loading}
             >

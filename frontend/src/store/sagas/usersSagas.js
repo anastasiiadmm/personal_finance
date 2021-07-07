@@ -28,6 +28,7 @@ export function* registerUser({payload: userData}) {
     });
     const response = yield axiosApi.post('/users/signup', data);
     yield put(registerSuccess(response.data));
+    yield put(addNotification({message: 'Register successful', options: {variant: 'success'}}));
     yield put(historyPush('/'));
   } catch (error) {
     yield put(registerFailure(error.response.data));
