@@ -5,17 +5,13 @@ import FormElement from "../../../components/UI/Form/FormElement";
 import FileInput from "../../../components/UI/Form/FileInput";
 import ButtonWithProgress from "../../../components/UI/ButtonWithProgress/ButtonWithProgress";
 import {updateAccountRequest} from "../../../store/actions/accountsActions";
-import {useParams} from "react-router-dom";
-
 
 const EditAccount = () => {
     const account = useSelector(state => state.accounts.accounts);
     const loading = useSelector(state => state.accounts.accountsLoading);
-    const params = useParams();
     const error = useSelector(state => state.accounts.updateAccountError);
     const dispatch = useDispatch();
-    const accountId = params.id
-    console.log(account)
+
     const [state, setState] = useState({
         accountName: account.accountName,
         accountIcon: account.accountIcon,

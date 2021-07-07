@@ -20,7 +20,6 @@ import {
     Paper, Radio,
     RadioGroup
 } from "@material-ui/core";
-import GroupForm from "../Groups/NewGroup/GroupForm/GroupForm";
 import styles from "../../assets/jss/material-dashboard-react/views/dashboardStyle";
 import Grid from "@material-ui/core/Grid";
 import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
@@ -49,7 +48,7 @@ const Categories = () => {
                 dispatch(deleteCategoryRequest({deleteCategory : categoryToDelete.id}));
             }
         }
-    }, [categoryToDelete])
+    }, [dispatch, categoryToDelete])
 
     const handleCheckToDelete = (id) => {
         dispatch(fetchCategoryRequest(id));

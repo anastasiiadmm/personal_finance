@@ -9,9 +9,7 @@ import {
     updateCategoryRequest
 } from "../../../store/actions/categoriesActions";
 import FileInput from "../../../components/UI/Form/FileInput";
-import {updateCategory} from "../../../store/sagas/categoriestSagas";
 import {useParams} from "react-router-dom";
-import {Autocomplete} from "@material-ui/lab";
 import {MenuItem, TextField} from "@material-ui/core";
 
 const CategoryForm = () => {
@@ -32,13 +30,13 @@ const CategoryForm = () => {
 
     useEffect(() => {
         dispatch(fetchCategoriesRequest());
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         if (params.id) {
             dispatch(fetchCategoryRequest(params.id));
         }
-    }, [params.id])
+    }, [dispatch, params.id])
 
     useEffect(() => {
         if (categoryToUpdate) {
@@ -49,7 +47,7 @@ const CategoryForm = () => {
         return () => {
             dispatch(fetchCategorySuccess(null));
         }
-    }, [categoryToUpdate])
+    }, [dispatch, categoryToUpdate])
 
     const handleChange = (event) => {
         const {name, value} = event.target;

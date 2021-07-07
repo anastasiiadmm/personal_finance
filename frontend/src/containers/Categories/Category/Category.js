@@ -1,5 +1,4 @@
 import React from 'react';
-import GridItem from "../../../template/Grid/GridItem";
 import {Box, Grid, Paper} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {NavLink} from "react-router-dom";

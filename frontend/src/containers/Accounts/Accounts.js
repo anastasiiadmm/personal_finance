@@ -3,17 +3,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     fetchAccountsRequest,
     createAccountRequest,
-    deleteAccountRequest,
-    fetchAccountRequest
 } from "../../store/actions/accountsActions";
 import {Backdrop, CircularProgress, Fade, Grid, makeStyles, Modal, Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {useParams} from "react-router-dom";
 import AccountItem from "./AccountItem";
 import AccountForm from "../../components/AccountForm/AccountForm";
-import FormElement from "../../components/UI/Form/FormElement";
-import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
-
 
 const useStyles = makeStyles(theme => ({
     root: {

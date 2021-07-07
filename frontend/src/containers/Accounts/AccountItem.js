@@ -13,7 +13,7 @@ import {apiURL} from "../../config";
 import Delete from "@material-ui/icons/Delete";
 import Edit from "@material-ui/icons/Edit";
 import EditAccount from "./EditAccount/EditAccount";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import DeleteAccount from "./DeleteAccount/DeleteAccount";
 
 const useStyles = makeStyles(theme => ({

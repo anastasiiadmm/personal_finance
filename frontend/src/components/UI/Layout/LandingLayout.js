@@ -6,7 +6,6 @@ import Notifier from "../../../containers/Notifier/Notifier";
 import {Redirect, Route, Switch} from "react-router-dom";
 import {landingRoutes} from "../../../routes";
 import {makeStyles} from "@material-ui/core/styles";
-import Footer from "../../../containers/LandingPages/Footer/Footer";
 
 const useStyles = makeStyles(() => ({
   container: {
