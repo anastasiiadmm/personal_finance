@@ -12,9 +12,9 @@ import Categories from "./containers/Categories/Categories";
 import UserProfile from "./containers/UserProfile/UserProfile";
 import SingleGroup from "./containers/Groups/SingleGroup/SingleGroup";
 import CategoryForm from "./containers/Categories/CategoryForm/CategoryForm";
-import Transactions from "./containers/Transactions/Transactions";
 import LandingPage from "./containers/LandingPages/LandingPage/LandingPage";
 import About from "./containers/LandingPages/Footer/FooterComponents/About";
+import Transactions from "./containers/Transactions/Transactions";
 
 
 export const appRoutes = [

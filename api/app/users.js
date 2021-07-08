@@ -39,7 +39,7 @@ router.post('/signup/', upload.single('avatar'), async (req, res) => {
     });
 
     const group = await Group.create({
-      nameGroup: 'personal',
+      title: 'Personal',
     });
 
     await user.addGroup(group.id, {through: {role: 'owner'}});
@@ -185,7 +185,7 @@ router.post('/googleLogin', async (req, res) => {
       });
 
       const group = await Group.create({
-        nameGroup: 'personal',
+        title: 'Personal',
       });
 
       await user.addGroup(group.id, {through: {role: 'owner'}});

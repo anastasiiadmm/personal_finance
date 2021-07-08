@@ -45,12 +45,12 @@ const Header = ({color, handleDrawerToggle, routes, user}) => {
             {routeName}
           </Button>
         </div>
-        <Hidden smDown implementation="css">
+        <Hidden smDown implementation="js">
           {<NavbarLinks
             user={user}
           />}
         </Hidden>
-        <Hidden mdUp implementation="css">
+        <Hidden mdUp implementation="js">
           <IconButton
             color="inherit"
             aria-label="open drawer"

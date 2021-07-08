@@ -20,6 +20,7 @@ import NewTransaction from "../../containers/NewTransaction/NewTransaction";
 import {fetchAccountsRequest} from "../../store/actions/accountsActions";
 import {fetchCategoriesRequest} from "../../store/actions/categoriesActions";
 import {groupsRequest} from "../../store/actions/groupsActions";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles(styles);
 
@@ -67,6 +68,7 @@ const NavbarLinks = ({user}) => {
   return (
     <div>
       <div className={classes.manager}>
+        <Typography variant="h7">Hello, <b>{user.displayName}</b></Typography>
         <Button
           color={"transparent"}
           justIcon

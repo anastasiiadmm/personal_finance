@@ -22,6 +22,7 @@ const useStyles = makeStyles(appStyle);
 const AppLayout = () => {
   const classes = useStyles();
   const user = useSelector(state => state.users.user);
+  console.log(user)
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
