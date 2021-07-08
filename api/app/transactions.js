@@ -8,7 +8,13 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    const transactions = await Transaction.findAll();
+    const criteria = {};
+
+    if (req.query.category) {
+      criteria.id = req.query.category;
+    }
+
+    const transactions = await Transaction.findAll({include: {association: 'category', attributes: ['id', 'name'], where: criteria}});
 
     res.status(200).send(transactions);
   } catch (e) {

@@ -14,7 +14,7 @@ const transactionsSlice = createSlice({
   name,
   initialState,
   reducers: {
-    transactionsFetch: (state) => {
+    transactionsFetchRequest: (state) => {
       state.transactionsLoading = true;
     },
     transactionsFetchSuccess: (state, {payload: transaction}) => {

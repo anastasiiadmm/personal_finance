@@ -1,6 +1,11 @@
 import {put, takeEvery} from 'redux-saga/effects';
 import axiosApi from "../../axiosApi";
-import {transactionPost, transactionPostFailure, transactionPostSuccess} from "../actions/transactionsActions";
+import {
+  transactionPost,
+  transactionPostFailure,
+  transactionPostSuccess,
+  transactionsFetchRequest, transactionsFetchSuccess
+} from "../actions/transactionsActions";
 
 export function* postTransaction({payload: transactionData}) {
   try {
@@ -17,8 +22,24 @@ export function* postTransaction({payload: transactionData}) {
   }
 }
 
+export function* transactionsFetch({payload : data}) {
+  try {
+    let transactionsResponse = null;
+    if (data) {
+      transactionsResponse = yield axiosApi.get('/transactions', {params: {category: data.id}});
+    } else {
+      transactionsResponse = yield axiosApi.get('/transactions');
+    }
+    yield put(transactionsFetchSuccess(transactionsResponse.data));
+  } catch (err) {
+    console.log(err.response.data)
+    yield put(transactionPostFailure(err.response.data.message));
+  }
+}
+
 const transactionsSagas = [
   takeEvery(transactionPost, postTransaction),
+  takeEvery(transactionsFetchRequest, transactionsFetch)
 ];
 
 export default transactionsSagas;

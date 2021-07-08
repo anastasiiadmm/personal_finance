@@ -1,7 +1,7 @@
 import transactionsSlice from "../slices/transactionsSlice";
 
 export const {
-  transactionsFetch,
+  transactionsFetchRequest,
   transactionsFetchSuccess,
   transactionsFetchFailure,
   transactionPost,
