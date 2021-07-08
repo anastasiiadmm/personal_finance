@@ -4,7 +4,7 @@ import ButtonWithProgress from "../UI/ButtonWithProgress/ButtonWithProgress";
 import Grid from "@material-ui/core/Grid";
 import FileInput from "../UI/Form/FileInput";
 
-const AccountForm = ({onSubmit, loading, error}) => {
+const AccountForm = ({onSubmit, loading, error, onClick}) => {
     const [state, setState] = useState({
         accountName: '',
         balance: '',
@@ -72,7 +72,7 @@ const AccountForm = ({onSubmit, loading, error}) => {
 
                 <FileInput
                     name="accountIcon"
-                    label="Icon"
+                    label="Account icon"
                     onChange={fileChangeHandler}
                     error={getFieldError('accountIcon')}
                 />

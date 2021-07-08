@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import {useParams} from "react-router-dom";
 import AccountItem from "./AccountItem";
 import AccountForm from "../../components/AccountForm/AccountForm";
+
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 const useStyles = makeStyles(theme => ({
@@ -42,22 +43,19 @@ const Accounts = (id) => {
     const newAccountLoading = useSelector(state => state.accounts.createAccountLoading);
     const [open, setOpen] = useState(false);
 
-
     useEffect(() => {
         dispatch(fetchAccountsRequest(params.id));
     }, [dispatch, params.id]);
 
-
-    // const onDeleteAccount = () => {
-    //     dispatch(deleteAccountRequest(id));
-    //     console.log(id);
-    // }
-
-
     const onAccountFormSubmit = (e, data) => {
-        dispatch(createAccountRequest({data, id: params.id}));
+        e.preventDefault();
+        dispatch(createAccountRequest({id: params.id, data}));
+        setOpen(false);
+        dispatch(fetchAccountsRequest(params.id));
         console.log(data);
     }
+
+
 
 
     return (
@@ -68,7 +66,7 @@ const Accounts = (id) => {
                         <Typography variant="h4">Accounts</Typography>
                     </Grid>
                     <Grid item>
-                        <Button color="primary" startIcon={<AddCircleOutlineIcon />} onClick={() => setOpen(true)}>
+                        <Button color="primary" onClick={() => setOpen(true)}>
                             Add new account
                         </Button>
                     </Grid>
@@ -80,9 +78,7 @@ const Accounts = (id) => {
                                 <CircularProgress/>
                             </Grid>
                         </Grid>
-                    ) : accounts.map(account => {
-                        console.log(accounts);
-
+                    ) : accounts && accounts.map(account => {
                         return (
                             <AccountItem
                                 key={account.id}
@@ -91,7 +87,6 @@ const Accounts = (id) => {
                                 balance={account.balance}
                                 preferences={account.preferences}
                                 accountIcon={account.accountIcon}
-                                // deleteAccount={onDeleteAccount}
                             />
                         )
 

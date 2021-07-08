@@ -5,7 +5,7 @@ export const initialState = {
     accountsLoading: false,
     accountsError: false,
 
-    account: null,
+    account: {},
     accountLoading: false,
     accountError: false,
 
@@ -41,7 +41,7 @@ const accountsSlice = createSlice({
         },
         fetchAccountSuccess: (state, {payload: account}) => {
             state.accountLoading = false;
-            state.account = account
+            state.account = account;
         },
         fetchAccountFailure: (state, {payload}) => {
             state.accountLoading = false;
@@ -50,10 +50,9 @@ const accountsSlice = createSlice({
         createAccountRequest: state => {
             state.createAccountLoading = true;
         },
-        createAccountSuccess: (state, {payload: accounts}) => {
+        createAccountSuccess: (state, {payload: account}) => {
             state.createAccountLoading = false;
-            state.accounts = accounts;
-            console.log(accounts);
+            // state.account = account;
         },
         createAccountFailure: (state, {payload: error}) => {
             state.createAccountLoading = false;
@@ -73,9 +72,9 @@ const accountsSlice = createSlice({
         updateAccountRequest: state => {
             state.updateAccountLoading = true;
         },
-        updateAccountSuccess: (state, {payload: accounts}) => {
+        updateAccountSuccess: (state, {payload: account}) => {
             state.updateAccountLoading = false;
-            state.accounts = accounts;
+            state.account = account;
         },
         updateAccountFailure: (state, {payload: error}) => {
             state.updateAccountLoading = false;

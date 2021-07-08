@@ -59,10 +59,11 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-const AccountItem = ({accountName, preferences, balance, deleteAccount, id, accountIcon}) => {
+const AccountItem = ({accountName, preferences, balance, id, accountIcon}) => {
     const classes = useStyles();
     const [editOpen, setEditOpen] = useState(false);
     const [openListToDelete, setOpenListToDelete] = useState(false);
+    const account = useSelector(state => state.accounts.accounts);
     const loadingAccountEdit = useSelector(state => state.accounts.updateAccountLoading);
     const editError = useSelector(state => state.accounts.updateAccountError);
     const deleteError = useSelector(state => state.accounts.deleteAccountError);
@@ -75,7 +76,7 @@ const AccountItem = ({accountName, preferences, balance, deleteAccount, id, acco
             <Grid item>
                 <Card className={classes.card}>
                     <div className={classes.avatar}>
-                        <Avatar src={apiURL + '/' + accountIcon}/>
+                        <Avatar alt={account.accountName} src={apiURL + '/' + accountIcon}/>
                     </div>
                     <CardHeader title={accountName}/>
 
@@ -113,6 +114,7 @@ const AccountItem = ({accountName, preferences, balance, deleteAccount, id, acco
                         <EditAccount
                             loading={loadingAccountEdit}
                             error={editError}
+                            id={id}
                         />
                     </div>
                 </Fade>

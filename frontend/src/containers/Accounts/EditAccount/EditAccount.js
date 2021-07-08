@@ -4,20 +4,21 @@ import Grid from "@material-ui/core/Grid";
 import FormElement from "../../../components/UI/Form/FormElement";
 import FileInput from "../../../components/UI/Form/FileInput";
 import ButtonWithProgress from "../../../components/UI/ButtonWithProgress/ButtonWithProgress";
-import {updateAccountRequest} from "../../../store/actions/accountsActions";
+import {fetchAccountsRequest, updateAccountRequest} from "../../../store/actions/accountsActions";
 
-const EditAccount = () => {
-    const account = useSelector(state => state.accounts.accounts);
+const EditAccount = (id) => {
+    const account = useSelector(state => state.accounts.account);
     const loading = useSelector(state => state.accounts.accountsLoading);
     const error = useSelector(state => state.accounts.updateAccountError);
+    const params = useParams();
     const dispatch = useDispatch();
-
-    const [state, setState] = useState({
-        accountName: account.accountName,
-        accountIcon: account.accountIcon,
-    });
+    console.log(account)
+    const [state, setState] = useState({});
 
     console.log(state);
+
+
+
     const inputChangeHandler = e => {
         const {name, value} = e.target;
         setState(prev => ({...prev, [name]: value}));
@@ -35,7 +36,10 @@ const EditAccount = () => {
 
     const submitFormHandler = e => {
         e.preventDefault();
-        let accountData = {};
+        const accountData = {
+            accountName: account.accountName,
+            accountIcon: account.accountIcon
+        };
 
         if (state.accountName !== account.accountName) {
             accountData.accountName = state.accountName
@@ -44,13 +48,17 @@ const EditAccount = () => {
             accountData.accountIcon = state.accountIcon
         }
 
-        // accountData.id = accountId
+        accountData.id = id.id
 
         if (Object.keys(accountData).length !== 0 && accountData.constructor === Object) {
             dispatch(updateAccountRequest(accountData));
         }
         console.log(accountData);
+        console.log(id.id);
+
+        // dispatch(fetchAccountsRequest(params.id));
     };
+
 
 
     const getFieldError = fieldName => {

@@ -1,6 +1,6 @@
 const express = require('express');
 const auth = require("../middleware/auth");
-const {Account, Group} = require('../models');
+const {Account} = require('../models');
 const upload = require('../multer').accountIcon;
 
 

@@ -36,7 +36,6 @@ const DeleteAccount = (id) => {
 
     const onDeleteFormSubmit = (e) => {
         e.preventDefault();
-
         for (let i = 0; i < deleteAccount.length; i++) {
             if (state.accountName === deleteAccount[i].accountName) {
                 dispatch(deleteAccountRequest(idToDelete));
