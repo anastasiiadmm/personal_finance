@@ -43,10 +43,7 @@ const NavbarLinks = ({user}) => {
     }
   };
 
-  const handleCloseMenuAndOpenDialog = async (dialog) => {
-    await dispatch(fetchAccountsRequest());
-    await dispatch(fetchCategoriesRequest());
-    await dispatch(groupsRequest());
+  const handleCloseMenuAndOpenDialog = (dialog) => {
     setOpenMenu(null);
     setOpenDialog({...openDialog, open: true, type: dialog});
   };

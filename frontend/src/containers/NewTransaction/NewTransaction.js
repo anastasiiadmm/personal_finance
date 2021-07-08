@@ -1,6 +1,6 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {Dialog, InputAdornment} from "@material-ui/core";
+import {CircularProgress, Dialog, InputAdornment} from "@material-ui/core";
 import Card from "../../template/Card/Card";
 import CardHeader from "../../template/Card/CardHeader";
 import CardFooter from "../../template/Card/CardFooter";
@@ -16,6 +16,9 @@ import FormElement from "../../components/UI/Form/FormElement";
 import Grid from "@material-ui/core/Grid";
 import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
 import {transactionPost} from "../../store/actions/transactionsActions";
+import {fetchAccountsRequest} from "../../store/actions/accountsActions";
+import {fetchCategoriesRequest} from "../../store/actions/categoriesActions";
+import {color} from "chart.js/helpers";
 
 const useStyles = makeStyles(styles);
 
@@ -25,13 +28,20 @@ const NewTransaction = ({handleClose, open, type}) => {
   const dispatch = useDispatch();
   const error = useSelector(state => state.transactions.transactionPostError);
   const loading = useSelector(state => state.transactions.transactionPostLoading);
-  let accounts = useSelector(state => state.accounts.accounts);
+  const fetchLoading = useSelector(state => state.accounts.accountsLoading);
+  const fetchError = useSelector(state => state.accounts.accountsError)
+  const accounts = useSelector(state => state.accounts.accounts);
   const user = useSelector(state => state.users.user);
   const categories = useSelector(state => state.categories.categories);
 
   const categoryByType = categories.filter(obj => {
     return obj.categoryType === type
   });
+
+  useEffect(() => {
+    dispatch(fetchAccountsRequest());
+    dispatch(fetchCategoriesRequest());
+  }, [dispatch]);
 
 
   const [animationStatus, setAnimationStatus] = useState(false);
@@ -90,7 +100,6 @@ const NewTransaction = ({handleClose, open, type}) => {
     transaction.type = type;
     await dispatch(transactionPost(transaction))
     handleClose()
-
   };
 
   const getFieldError = fieldName => {
@@ -115,134 +124,136 @@ const NewTransaction = ({handleClose, open, type}) => {
             width: '100%'
           },
         }} open={open} onClose={handleClose}>
-
-        <Grid container justify="center" alignItems="stretch" component="form"
-              onSubmit={submitFormHandler}>
-          <GridItem xs={6}>
-            <animated.div style={primaryProps} className={classes.animation}>
-              <Card>
-                <CardHeader>
-                  <h3 className={classes.cardTitle}>
-                    Add {type}
-                  </h3>
-                </CardHeader>
-                <CardBody plain>
-                  <GridContainer spacing={1} direction="column">
-                    {type === 'expenditure' ? <FormElement
-                      label="From account"
-                      select
-                      inputRef={accountFromId}
-                      defaultValue=''
-                      required
-                      options={accounts}
-                    /> : null}
-                    {type === 'income' ? <FormElement
-                      label="To account"
-                      select
-                      required
-                      inputRef={accountToId}
-                      defaultValue=''
-                      options={accounts}
-                    /> : null}
-                    {type === 'transfer' ? <GridContainer spacing={1}>
-                      <Grid item xs={12} md={6}>
-                        <FormElement
-                          label="From account"
-                          select
-                          inputRef={accountFromId}
-                          defaultValue=''
-                          required
-                          options={accounts}
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <FormElement
-                          label="To account"
-                          select
-                          required
-                          inputRef={accountToId}
-                          defaultValue=''
-                          options={accounts}
-                        />
-                      </Grid>
-                    </GridContainer> : null}
-                    <FormElement
-                      label="Category"
-                      select
-                      required
-                      defaultValue=''
-                      inputRef={categoryId}
-                      options={type === 'transfer' ? categories : categoryByType}
-                    />
-                    <FormElement
-                      label="Amount"
-                      type="number"
-                      required
-                      InputProps={{
-                        startAdornment: <InputAdornment position="start">{user.preferences}</InputAdornment>,
-                      }}
-                      inputRef={sum}
-                      defaultValue=''
-                    />
-                    <Grid item xs>
-                      <Button disabled={animationStatus} block size={'sm'} color={'info'}
-                              onClick={() => setAnimationStatus(v => !v)}>Add
-                        description</Button>
-                    </Grid>
-                  </GridContainer>
-                </CardBody>
-                <CardFooter plain>
-                  <ButtonWithProgress
-                    type="submit"
-                    fullWidth
-                    color={'success'}
-                    size={'sm'}
-                    loading={loading}
-                    disabled={loading}
-                  >
-                    Add transaction
-                  </ButtonWithProgress>
-                </CardFooter>
-              </Card>
-            </animated.div>
-          </GridItem>
-          {animationStatus ?
+        {fetchLoading ? <Grid container justify="center" alignItems="stretch" component="form">
+            <GridItem xs={1}><CircularProgress/></GridItem>
+          </Grid> :
+          <Grid container justify="center" alignItems="stretch" component="form"
+                onSubmit={submitFormHandler}>
             <GridItem xs={6}>
-              <animated.div style={secondaryProps} className={classes.animation}>
+              <animated.div style={primaryProps} className={classes.animation}>
                 <Card>
                   <CardHeader>
                     <h3 className={classes.cardTitle}>
-                      Description
+                      Add {type}
                     </h3>
                   </CardHeader>
                   <CardBody plain>
                     <GridContainer spacing={1} direction="column">
-                      <Grid item xs>
-                        <FileInput
-                          name="cashierCheck"
-                          label="Document"
-                          onChange={fileChangeHandler}
-                          error={getFieldError('cashierCheck')}
-                        />
-                      </Grid>
-                      <FormElement
-                        label="Description"
-                        type="text"
-                        inputRef={description}
+                      {type === 'expenditure' ? <FormElement
+                        label="From account"
+                        select
+                        inputRef={accountFromId}
                         defaultValue=''
-                        multiline
-                        rows={7}
+                        required
+                        options={accounts}
+                      /> : null}
+                      {type === 'income' ? <FormElement
+                        label="To account"
+                        select
+                        required
+                        inputRef={accountToId}
+                        defaultValue=''
+                        options={accounts}
+                      /> : null}
+                      {type === 'transfer' ? <GridContainer spacing={1}>
+                        <Grid item xs={12} md={6}>
+                          <FormElement
+                            label="From account"
+                            select
+                            inputRef={accountFromId}
+                            defaultValue=''
+                            required
+                            options={accounts}
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <FormElement
+                            label="To account"
+                            select
+                            required
+                            inputRef={accountToId}
+                            defaultValue=''
+                            options={accounts}
+                          />
+                        </Grid>
+                      </GridContainer> : null}
+                      <FormElement
+                        label="Category"
+                        select
+                        required
+                        defaultValue=''
+                        inputRef={categoryId}
+                        options={type === 'transfer' ? categories : categoryByType}
                       />
+                      <FormElement
+                        label="Amount"
+                        type="number"
+                        required
+                        InputProps={{
+                          startAdornment: <InputAdornment position="start">{user.preferences}</InputAdornment>,
+                        }}
+                        inputRef={sum}
+                        defaultValue=''
+                      />
+                      <Grid item xs>
+                        <Button disabled={animationStatus} block size={'sm'} color={'info'}
+                                onClick={() => setAnimationStatus(v => !v)}>Add
+                          description</Button>
+                      </Grid>
                     </GridContainer>
                   </CardBody>
                   <CardFooter plain>
-                    <Button color={'danger'} size={'sm'} block
-                            onClick={() => setAnimationStatus(v => !v)}>Cancel</Button>
+                    <ButtonWithProgress
+                      type="submit"
+                      fullWidth
+                      color={'success'}
+                      size={'sm'}
+                      loading={loading}
+                      disabled={loading}
+                    >
+                      Add transaction
+                    </ButtonWithProgress>
                   </CardFooter>
                 </Card>
               </animated.div>
-            </GridItem> : null}
-        </Grid>
+            </GridItem>
+            {animationStatus ?
+              <GridItem xs={6}>
+                <animated.div style={secondaryProps} className={classes.animation}>
+                  <Card>
+                    <CardHeader>
+                      <h3 className={classes.cardTitle}>
+                        Description
+                      </h3>
+                    </CardHeader>
+                    <CardBody plain>
+                      <GridContainer spacing={1} direction="column">
+                        <Grid item xs>
+                          <FileInput
+                            name="cashierCheck"
+                            label="Document"
+                            onChange={fileChangeHandler}
+                            error={getFieldError('cashierCheck')}
+                          />
+                        </Grid>
+                        <FormElement
+                          label="Description"
+                          type="text"
+                          inputRef={description}
+                          defaultValue=''
+                          multiline
+                          rows={7}
+                        />
+                      </GridContainer>
+                    </CardBody>
+                    <CardFooter plain>
+                      <Button color={'danger'} size={'sm'} block
+                              onClick={() => setAnimationStatus(v => !v)}>Cancel</Button>
+                    </CardFooter>
+                  </Card>
+                </animated.div>
+              </GridItem> : null}
+          </Grid>}
       </Dialog>
     </div>
   );
