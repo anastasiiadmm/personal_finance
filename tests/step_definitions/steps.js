@@ -57,3 +57,11 @@ When('нажимаю на кнопку редактирования группы
 Then('загружаю картинку', () => {
     I.attachFile('form input[name=avatar]', '.././api/public/uploads/fixtures/group-icon2.webp');
 });
+
+Then('попадаю на страницу группы Test', () => {
+    I.amOnPage('/groups/3');
+});
+
+When('нажимаю на кнопку удаления группы', () => {
+    I.click(`//button[contains(@id,"delete-button")]`);
+});

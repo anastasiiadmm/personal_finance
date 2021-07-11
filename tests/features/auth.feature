@@ -58,3 +58,24 @@
     Затем загружаю картинку
     И нажимаю на кнопку "Update group"
     То вижу "Group update successful"
+
+  @deleteGroup
+  Сценарий: удаление группы у залогиненного пользователя
+    Допустим я нахожусь на странице логина
+    Если я ввожу в поля текст:
+      | field    | value            |
+      | email    | johndoe@test.com |
+      | password | 1qaz@WSX29       |
+    И нажимаю на кнопку Sign in
+    То вижу "Login successful"
+    И попадаю на страницу списка всех групп
+    Затем нажимаю на кнопку "Add new group"
+    Если я ввожу в поля текст:
+      | field | value |
+      | title | Test  |
+    Если я загружаю картинку
+    И нажимаю на кнопку "Create"
+    То вижу "Group created successful"
+    И попадаю на страницу группы Test
+    Когда нажимаю на кнопку удаления группы
+    То вижу "Group deleted successful"
