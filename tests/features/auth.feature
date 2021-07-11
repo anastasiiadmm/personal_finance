@@ -15,32 +15,3 @@
       | displayName | Kilma                |
     И нажимаю на кнопку Sign up
     То вижу "Register successful"
-
-  @login
-  Сценарий: Логин пользователя
-    Допустим я нахожусь на странице логина
-    Если я ввожу в поля текст:
-      | field    | value            |
-      | email    | johndoe@test.com |
-      | password | 1qaz@WSX29       |
-    И нажимаю на кнопку Sign in
-    То вижу "Login successful"
-
-  @newGroup
-  Сценарий: создание новой группы у залогиненного пользователя
-    Допустим я нахожусь на странице логина
-    Если я ввожу в поля текст:
-      | field    | value            |
-      | email    | johndoe@test.com |
-      | password | 1qaz@WSX29       |
-    И нажимаю на кнопку Sign in
-    То вижу "Login successful"
-    И попадаю на страницу списка всех групп
-    Затем я нажимаю на кнопку Add new group
-    Если я ввожу в поля текст:
-      | field | value |
-      | title | Test  |
-    И нажимаю на кнопку Create
-    То вижу "Group created successful"
-
-
