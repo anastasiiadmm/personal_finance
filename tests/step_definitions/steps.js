@@ -2,6 +2,7 @@ const { I } = inject();
 
 Given('я нахожусь на странице регистрации', () => {
     I.amOnPage('/signup');
+    I.wait(10);
 });
 
 When('я ввожу в поля текст:', table => {
@@ -15,10 +16,9 @@ When('я ввожу в поля текст:', table => {
         const value = cells[1].value;
 
         I.fillField(field, value);
-    }
-});
+}});
 
-When('нажимаю на кнопку Sign up', () => {
+Then('нажимаю на кнопку Sign up', () => {
     I.click(`//button[contains(@id,"signup-button")]`);
 });
 
