@@ -65,3 +65,7 @@ Then('попадаю на страницу группы Test', () => {
 When('нажимаю на кнопку удаления группы', () => {
     I.click(`//button[contains(@id,"delete-button")]`);
 });
+
+When('нажимаю на кнопку добавления юзера в группу', () => {
+    I.click(`//button[contains(@id,"add-button")]`);
+});
