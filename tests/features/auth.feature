@@ -15,3 +15,13 @@
       | displayName | Kilma                |
     И нажимаю на кнопку Sign up
     То вижу "Register successful"
+
+  @login
+  Сценарий: Логин пользователя
+    Допустим я нахожусь на странице логина
+    Если я ввожу в поля текст:
+      | field    | value            |
+      | email    | johndoe@test.com |
+      | password | 1qaz@WSX29       |
+    И нажимаю на кнопку Sign in
+    То вижу "Login successful"
