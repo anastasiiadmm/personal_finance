@@ -45,3 +45,15 @@ Then('я загружаю картинку', () => {
 When('нажимаю на кнопку {string}', str => {
     I.click(`//button//*[contains(text(),"${str}")]/..`);
 });
+
+Then('попадаю на страницу группы New group', () => {
+    I.amOnPage('/groups/3');
+});
+
+When('нажимаю на кнопку редактирования группы', () => {
+    I.click(`//button[contains(@id,"edit-button")]`);
+});
+
+Then('загружаю картинку', () => {
+    I.attachFile('form input[name=avatar]', '.././api/public/uploads/fixtures/group-icon2.webp');
+});
