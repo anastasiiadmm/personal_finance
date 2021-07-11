@@ -11,10 +11,10 @@ import ListItem from "@material-ui/core/ListItem";
 import Icon from "@material-ui/core/Icon";
 import styles from "../../assets/jss/material-dashboard-react/components/sidebarStyle";
 import {ListItemText} from "@material-ui/core";
-import Button from "../CustomButtons/Button";
 import {logoutRequest} from "../../store/actions/usersActions";
 import {useDispatch} from "react-redux";
 import Grid from "@material-ui/core/Grid";
+import Button from "../CustomButtons/Button";
 
 const useStyles = makeStyles(styles);
 
@@ -70,24 +70,22 @@ const Sidebar = ({color, logo, image, logoText, routes, ...props}) => {
     </List>
   );
   let brand = (
-      <Grid container>
-        <Grid item sm={9} className={classes.logo}>
-          <Link to="/" className={classNames(classes.logoLink)}>
-            <div className={classes.logoImage}>
-              <img src={logo} alt="logo" className={classes.img}/>
-            </div>
-            {logoText}
-          </Link>
-        </Grid>
-        <Hidden mdUp implementation="css">
-          <Grid item sm={3}>
-            <Button justIcon color={"white"} simple round onClick={() => dispatch(logoutRequest())}>
-              <ExitToAppIcon/>
-            </Button>
-          </Grid>
-        </Hidden>
+    <Grid container className={classes.logo}>
+      <Grid item xs={9} md={12}>
+        <Link to="/" className={classNames(classes.logoLink)}>
+          <div className={classes.logoImage}>
+            <img src={logo} alt="logo" className={classes.img}/>
+          </div>
+          {logoText}
+        </Link>
       </Grid>
-    )
+      <Hidden mdUp implementation="js">
+        <Grid item xs={3} className={classNames(classes.logout)} onClick={() => dispatch(logoutRequest())}>
+          <ExitToAppIcon/>
+        </Grid>
+      </Hidden>
+    </Grid>
+  )
 
   return (
     <div>

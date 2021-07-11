@@ -65,6 +65,20 @@ const sidebarStyle = (theme) => ({
       backgroundColor: "rgba(" + hexToRgb(grayColor[6]) + ", 0.3)",
     },
   },
+  logout: {
+    ...defaultFont,
+    display: "block",
+    fontSize: "45px",
+    textAlign: "right",
+    lineHeight: "30px",
+    textDecoration: "none",
+    backgroundColor: "transparent",
+    "&,&:hover": {
+      color: whiteColor,
+      cursor: 'pointer'
+
+    },
+  },
   logoLink: {
     ...defaultFont,
     textTransform: "uppercase",

@@ -21,6 +21,8 @@ import {fetchAccountsRequest} from "../../store/actions/accountsActions";
 import {fetchCategoriesRequest} from "../../store/actions/categoriesActions";
 import {groupsRequest} from "../../store/actions/groupsActions";
 import Typography from "@material-ui/core/Typography";
+import Primary from "../Typography/Primary";
+import {historyPush} from "../../store/actions/historyActions";
 
 const useStyles = makeStyles(styles);
 
@@ -74,7 +76,7 @@ const NavbarLinks = ({user}) => {
           onClick={handleClickMenu}
           className={classes.buttonLink}
         >
-          <ReceiptIcon className={classes.icons}/>
+          <Primary><ReceiptIcon className={classes.icons}/></Primary>
           <span className={classes.notifications}>+</span>
           <Hidden mdUp implementation="css">
             <p onClick={handleCloseMenu} className={classes.linkText}>
@@ -175,7 +177,10 @@ const NavbarLinks = ({user}) => {
                 <ClickAwayListener onClickAway={handleCloseProfile}>
                   <MenuList role="menu">
                     <MenuItem
-                      onClick={handleCloseProfile}
+                      onClick={() => {
+                        handleCloseProfile();
+                        dispatch(historyPush('/user'))
+                      }}
                       className={classes.dropdownItem}
                     >
                       Profile

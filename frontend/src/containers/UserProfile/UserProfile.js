@@ -93,11 +93,10 @@ const UserProfile = () => {
       userData.currentPassword = state.currentPassword
       userData.newPassword = state.newPassword
     }
+
     if (Object.keys(userData).length !== 0 && userData.constructor === Object) {
       dispatch(updateRequest(userData));
     }
-    setChangePassword(true);
-    setState({...state, newPassword: '', currentPassword: ''})
   };
 
   const getFieldError = fieldName => {
