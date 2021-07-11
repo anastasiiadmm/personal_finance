@@ -33,3 +33,15 @@ When('нажимаю на кнопку Sign in', () => {
 Then('вижу {string}', str => {
     I.see(str);
 });
+
+Then('попадаю на страницу списка всех групп', () => {
+    I.amOnPage('/groups');
+});
+
+Then('я загружаю картинку', () => {
+    I.attachFile('form input[name=avatar]', '.././api/public/uploads/fixtures/group-icon.jpeg');
+});
+
+When('нажимаю на кнопку {string}', str => {
+    I.click(`//button//*[contains(text(),"${str}")]/..`);
+});
