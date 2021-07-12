@@ -5,7 +5,7 @@ export const initialState = {
   transactionsError: null,
   transactionPostLoading: false,
   transactionPostError: null,
-  transactions: null,
+  transactions: [],
 };
 
 const name = 'transactions';
@@ -35,7 +35,10 @@ const transactionsSlice = createSlice({
       state.transactionPostLoading = false;
       state.transactionPostError = error;
     },
-
+    deleteTransactionRequest: () => {},
+    deleteTransactionSuccess: (state, {payload: id}) => {
+      state.transactions = state.transactions.filter(c => c.id !== id);
+    }
   }
 });
 

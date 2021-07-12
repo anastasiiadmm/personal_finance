@@ -6,6 +6,8 @@ export const {
   transactionsFetchFailure,
   transactionPost,
   transactionPostSuccess,
-  transactionPostFailure
+  transactionPostFailure,
+  deleteTransactionRequest,
+  deleteTransactionSuccess
 } = transactionsSlice.actions;
 
