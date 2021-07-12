@@ -7,13 +7,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import {transactionsFetchRequest} from "../../store/actions/transactionsActions";
+import {deleteTransactionRequest, transactionsFetchRequest} from "../../store/actions/transactionsActions";
 import {useDispatch, useSelector} from "react-redux";
 import Button from "../../template/CustomButtons/Button";
-import theme from "../../theme";
-import {FormControl, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
+import {MenuItem, TextField} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import {fetchCategoriesRequest, fetchCategoryRequest} from "../../store/actions/categoriesActions";
+import {fetchCategoriesRequest} from "../../store/actions/categoriesActions";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 const useStyles = makeStyles({
   table: {
@@ -30,11 +30,10 @@ const Transactions = () => {
 
   const [category, setCategory] = useState('');
 
-
   useEffect(() => {
     dispatch(transactionsFetchRequest());
     dispatch(fetchCategoriesRequest());
-  }, []);
+  }, [dispatch]);
 
 
   // useEffect(() => {
@@ -48,6 +47,11 @@ const Transactions = () => {
   const handleSearch = () => {
     dispatch(transactionsFetchRequest({id: category}));
   }
+
+  const onDeleteTransactHandler = id => {
+    dispatch(deleteTransactionRequest(id));
+  }
+
   return (
       <>
         <Grid>
@@ -92,11 +96,16 @@ const Transactions = () => {
                     <TableCell align="right">{transaction.accountToId}</TableCell>
                     <TableCell align="right">{transaction.sumOut}</TableCell>
                     <TableCell align="right">{transaction.sumIn}</TableCell>
-                    <TableCell align="right">{transaction.category.name}</TableCell>
+                    <TableCell align="right">{transaction.category && transaction.category.name}</TableCell>
                     <TableCell align="right">{transaction.description}</TableCell>
                     <TableCell align="right">{transaction.cashierCheck}</TableCell>
                     <TableCell align="right">{transaction.createdAt}</TableCell>
                     <TableCell align="right">{transaction.updatedAt}</TableCell>
+                    <TableCell align="right">
+                      <Button id="delete-button" color="primary" justIcon onClick={() => onDeleteTransactHandler(transaction.id)}>
+                        <DeleteForeverIcon/>
+                      </Button>
+                    </TableCell>
                   </TableRow>
               ))}
             </TableBody>
