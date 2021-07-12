@@ -4,7 +4,7 @@ exports.config = {
     Puppeteer: {
       url: 'http://localhost:3010',
       show: true,
-      windowSize: '1200*768'
+      windowSize: '1200x900'
     }
   },
   include: {
@@ -16,7 +16,7 @@ exports.config = {
   hooks: [],
   gherkin: {
     features: './features/*.feature',
-    steps: ['./step_definitions/steps.js']
+    steps: ['./step_definitions/steps.js', './step_definitions/login.js']
   },
   plugins: {
     screenshotOnFail: {
