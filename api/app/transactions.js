@@ -145,23 +145,23 @@ router.put('/:id', upload.single('cashierCheck'), async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     const transaction = await Transaction.findOne({
         where: {id: req.params.id},
         include: {
           association: 'user',
-          where: {id: req.body.userId},
+          where: {id: req.user.id},
           include: {
             association: 'groups',
             through: {
               attributes: ['userId'],
-              where: {userId: req.body.userId}
+              where: {userId: req.user.id}
             },
             include: [{
               association: 'users',
               attributes: ['displayName', 'id'],
-              where: {id: req.body.userId},
+              where: {id: req.user.id},
               through: {
                 attributes: ['role'],
                 where: {
