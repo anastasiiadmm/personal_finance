@@ -2,7 +2,6 @@ const { I } = inject();
 
 Given('я нахожусь на странице регистрации', () => {
     I.amOnPage('/signup');
-    I.wait(10);
 });
 
 Given('я нахожусь на странице логина', () => {
@@ -32,6 +31,7 @@ When('нажимаю на кнопку Sign in', () => {
 
 Then('вижу {string}', str => {
     I.see(str);
+    I.wait(3)
 });
 
 Then('попадаю на страницу списка всех групп', () => {
@@ -68,4 +68,28 @@ When('нажимаю на кнопку удаления группы', () => {
 
 When('нажимаю на кнопку добавления юзера в группу', () => {
     I.click(`//button[contains(@id,"add-button")]`);
+});
+
+When('нажимаю на аватар пользователя', () => {
+    I.click('//img[contains(@alt, "John Smith")]/..');
+});
+
+When('я нажимаю на select выбора роли у юзера', () => {
+    I.click(`//div[contains(@id,"mui-component-select-role")]/..`);
+});
+
+When('нажимаю на admin', () => {
+    I.click('//*[contains(text(),"admin")]');
+});
+
+When('нажимаю на кнопку {string}', str => {
+    I.click(`//button//*[contains(text(),"${str}")]/..`);
+});
+
+When('нажимаю на кнопку Update user', str => {
+    I.click(`//button//*[contains(text(),"Update user")]/..`);
+});
+
+When('я нажимаю на кнопку удаления пользователя из группы', () => {
+    I.click(`//button[contains(@id,"deleted-button")]`);
 });

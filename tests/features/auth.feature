@@ -91,5 +91,54 @@
     Если я ввожу в поля текст:
       | field | value              |
       | email | johnsmith@test.com |
+    И нажимаю на кнопку Send invite
+    То вижу "Invite successful"
+
+  @editRoleUserGroup
+  Сценарий: изменение роли у юзера в группе
+    Допустим я залогинен как пользователь "johndoe@test.com"
+    И попадаю на страницу списка всех групп
+    Затем нажимаю на кнопку "Add new group"
+    Если я ввожу в поля текст:
+      | field | value |
+      | title | Test  |
+    Если я загружаю картинку
+    И нажимаю на кнопку "Create"
+    То вижу "Group created successful"
+    И попадаю на страницу группы Test
+    Когда нажимаю на кнопку добавления юзера в группу
+    То вижу "Add user"
+    Если я ввожу в поля текст:
+      | field | value              |
+      | email | johnsmith@test.com |
     И нажимаю на кнопку "Send invite"
     То вижу "Invite successful"
+    Когда нажимаю на аватар пользователя
+    То вижу "Edit user group"
+    Когда я нажимаю на select выбора роли у юзера
+    И нажимаю на admin
+    То нажимаю на кнопку Update user
+
+  @deleteUserFromGroup
+  Сценарий: удаление юзера из группы
+    Допустим я залогинен как пользователь "johndoe@test.com"
+    И попадаю на страницу списка всех групп
+    Затем нажимаю на кнопку "Add new group"
+    Если я ввожу в поля текст:
+      | field | value |
+      | title | Test  |
+    Если я загружаю картинку
+    И нажимаю на кнопку "Create"
+    То вижу "Group created successful"
+    И попадаю на страницу группы Test
+    Когда нажимаю на кнопку добавления юзера в группу
+    То вижу "Add user"
+    Если я ввожу в поля текст:
+      | field | value              |
+      | email | johnsmith@test.com |
+    И нажимаю на кнопку "Send invite"
+    То вижу "Invite successful"
+    Когда нажимаю на аватар пользователя
+    То вижу "Edit user group"
+    Если я нажимаю на кнопку удаления пользователя из группы
+    То вижу "Delete user successful"
