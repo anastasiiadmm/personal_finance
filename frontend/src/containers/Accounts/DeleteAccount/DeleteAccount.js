@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import {useDispatch, useSelector} from "react-redux";
 import {deleteAccountRequest} from "../../../store/actions/accountsActions";
 
-const DeleteAccount = (id) => {
+const DeleteAccount = ({id}) => {
     const dispatch = useDispatch();
     const deleteAccount = useSelector(state => state.accounts.accounts);
     const error = useSelector(state => state.accounts.deleteAccountError);
@@ -13,8 +13,9 @@ const DeleteAccount = (id) => {
     const [state, setState] = useState({
         accountName: ''
     });
+    console.log(state);
+    const idToDelete = id;
 
-    const idToDelete = id.id;
 
     const inputChangeHandler = e => {
         const name = e.target.name;
@@ -33,9 +34,24 @@ const DeleteAccount = (id) => {
             return undefined;
         }
     };
+    let disable = true;
+    if (state.accountName !== deleteAccount.accountName) {
+        disable = true;
+    } else if (state.accountName === deleteAccount.accountName) {
+        disable = false;
+    }
+    function checkParams() {
 
+    }
+    // const checkAccountName = () => {
+    //
+    // }
+
+    console.log(disable);
     const onDeleteFormSubmit = (e) => {
         e.preventDefault();
+
+
         for (let i = 0; i < deleteAccount.length; i++) {
             if (state.accountName === deleteAccount[i].accountName) {
                 dispatch(deleteAccountRequest(idToDelete));

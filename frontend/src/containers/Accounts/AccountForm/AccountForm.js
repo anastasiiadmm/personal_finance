@@ -1,16 +1,28 @@
 import React, {useState} from 'react';
-import FormElement from "../UI/Form/FormElement";
-import ButtonWithProgress from "../UI/ButtonWithProgress/ButtonWithProgress";
+import FormElement from "../../../components/UI/Form/FormElement";
+import ButtonWithProgress from "../../../components/UI/ButtonWithProgress/ButtonWithProgress";
 import Grid from "@material-ui/core/Grid";
-import FileInput from "../UI/Form/FileInput";
+import FileInput from "../../../components/UI/Form/FileInput";
 
-const AccountForm = ({onSubmit, loading, error, onClick}) => {
+const AccountForm = ({onSubmit, loading, error, onClose}) => {
     const [state, setState] = useState({
         accountName: '',
         balance: '',
         preferences: '',
         accountIcon: ''
     });
+
+    const submitFormHandler = e => {
+        e.preventDefault();
+
+        const formData = new FormData();
+
+        Object.keys(state).forEach(key => {
+            formData.append(key, state[key]);
+        });
+
+        onSubmit(formData);
+    };
 
     const inputChangeHandler = e => {
         const name = e.target.name;
@@ -72,7 +84,7 @@ const AccountForm = ({onSubmit, loading, error, onClick}) => {
 
                 <FileInput
                     name="accountIcon"
-                    label="Account icon"
+                    label="Image"
                     onChange={fileChangeHandler}
                     error={getFieldError('accountIcon')}
                 />
@@ -83,6 +95,7 @@ const AccountForm = ({onSubmit, loading, error, onClick}) => {
                         variant="contained"
                         loading={loading}
                         disabled={loading}
+                        onClick={onClose}
                     >
                         Create
                     </ButtonWithProgress>

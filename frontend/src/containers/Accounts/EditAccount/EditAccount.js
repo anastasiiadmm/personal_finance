@@ -4,19 +4,14 @@ import Grid from "@material-ui/core/Grid";
 import FormElement from "../../../components/UI/Form/FormElement";
 import FileInput from "../../../components/UI/Form/FileInput";
 import ButtonWithProgress from "../../../components/UI/ButtonWithProgress/ButtonWithProgress";
-import {fetchAccountsRequest, updateAccountRequest} from "../../../store/actions/accountsActions";
+import {updateAccountRequest} from "../../../store/actions/accountsActions";
 
-const EditAccount = (id) => {
+const EditAccount = ({id, onClose}) => {
     const account = useSelector(state => state.accounts.account);
-    const loading = useSelector(state => state.accounts.accountsLoading);
+    const loading = useSelector(state => state.accounts.updateAccountLoading);
     const error = useSelector(state => state.accounts.updateAccountError);
-    const params = useParams();
     const dispatch = useDispatch();
-    console.log(account)
     const [state, setState] = useState({});
-
-    console.log(state);
-
 
 
     const inputChangeHandler = e => {
@@ -48,17 +43,15 @@ const EditAccount = (id) => {
             accountData.accountIcon = state.accountIcon
         }
 
-        accountData.id = id.id
+        accountData.id = id
 
         if (Object.keys(accountData).length !== 0 && accountData.constructor === Object) {
             dispatch(updateAccountRequest(accountData));
         }
         console.log(accountData);
-        console.log(id.id);
+        console.log(id);
 
-        // dispatch(fetchAccountsRequest(params.id));
     };
-
 
 
     const getFieldError = fieldName => {
@@ -68,7 +61,7 @@ const EditAccount = (id) => {
             return undefined;
         }
     };
-    
+
     return (
         <form onSubmit={submitFormHandler} noValidate>
             <Grid container direction="column" spacing={2}>
@@ -94,6 +87,7 @@ const EditAccount = (id) => {
                         variant="contained"
                         loading={loading}
                         disabled={loading}
+                        onClick={onClose}
                     >
                         Edit
                     </ButtonWithProgress>

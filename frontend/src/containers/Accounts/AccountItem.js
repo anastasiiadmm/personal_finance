@@ -48,6 +48,9 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    palette: {
+        color: 'purple',
+    },
     paper: {
         width: 500,
         backgroundColor: theme.palette.background.paper,
@@ -63,11 +66,12 @@ const AccountItem = ({accountName, preferences, balance, id, accountIcon}) => {
     const classes = useStyles();
     const [editOpen, setEditOpen] = useState(false);
     const [openListToDelete, setOpenListToDelete] = useState(false);
-    const account = useSelector(state => state.accounts.accounts);
-    const loadingAccountEdit = useSelector(state => state.accounts.updateAccountLoading);
+    const accounts = useSelector(state => state.accounts.accounts);
+    const editLoading = useSelector(state => state.accounts.updateAccountLoading);
     const editError = useSelector(state => state.accounts.updateAccountError);
     const deleteError = useSelector(state => state.accounts.deleteAccountError);
     const deleteLoading = useSelector(state => state.accounts.deleteAccountLoading);
+
 
 
 
@@ -76,7 +80,7 @@ const AccountItem = ({accountName, preferences, balance, id, accountIcon}) => {
             <Grid item>
                 <Card className={classes.card}>
                     <div className={classes.avatar}>
-                        <Avatar alt={account.accountName} src={apiURL + '/' + accountIcon}/>
+                        <Avatar alt={accountName} src={apiURL + '/' + accountIcon}/>
                     </div>
                     <CardHeader title={accountName}/>
 
@@ -87,11 +91,10 @@ const AccountItem = ({accountName, preferences, balance, id, accountIcon}) => {
                         </p>
                     </CardContent>
                     <CardActions>
-                        <IconButton color="primary" onClick={() => setEditOpen(true)}>
+                        <IconButton className={classes.palette} onClick={() => setEditOpen(true)}>
                             <Edit/>
                         </IconButton>
-
-                        <IconButton color="primary" onClick={() => setOpenListToDelete(true)}>
+                        <IconButton className={classes.palette} onClick={() => setOpenListToDelete(true)}>
                             <Delete/>
                         </IconButton>
                     </CardActions>
@@ -112,9 +115,10 @@ const AccountItem = ({accountName, preferences, balance, id, accountIcon}) => {
                 <Fade in={editOpen}>
                     <div className={classes.paper}>
                         <EditAccount
-                            loading={loadingAccountEdit}
+                            loading={editLoading}
                             error={editError}
                             id={id}
+                            onClose={() => setEditOpen(false)}
                         />
                     </div>
                 </Fade>
@@ -135,9 +139,9 @@ const AccountItem = ({accountName, preferences, balance, id, accountIcon}) => {
                 <Fade in={openListToDelete}>
                     <div className={classes.paper}>
                         <DeleteAccount
-                        error={deleteError}
-                        loading={deleteLoading}
-                        id={id}
+                            error={deleteError}
+                            loading={deleteLoading}
+                            id={id}
                         />
                     </div>
                 </Fade>

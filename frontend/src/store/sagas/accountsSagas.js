@@ -13,7 +13,7 @@ import {
     deleteAccountFailure,
     updateAccountSuccess,
     updateAccountFailure,
-    fetchAccountSuccess, fetchAccountFailure
+    fetchAccountSuccess, fetchAccountFailure, fetchAccountRequest
 } from "../actions/accountsActions";
 import {addNotification} from "../actions/notifierActions";
 
@@ -31,26 +31,31 @@ export function* fetchAccounts({payload: id}) {
     yield put(fetchAccountsFailure(e.response.data));
   }
 }
-
-export function* fetchAccount({payload: accountId}) {
-  try {
-    const response = yield axiosApi.get('/accounts/' + accountId);
-    yield put(fetchAccountSuccess(response.data));
-
-  } catch (e) {
-    yield put(fetchAccountFailure(e.response.data));
-  }
-}
+//
+// export function* fetchAccount({payload: accountId}) {
+//   try {
+//     const response = yield axiosApi.get('/accounts/' + accountId.data.id);
+//     yield put(fetchAccountSuccess(response.data));
+//       console.log(accountId);
+//       console.log(accountId.data.id)
+//   } catch (e) {
+//     yield put(fetchAccountFailure(e.response.data));
+//   }
+// }
 
 export function* createAccount({payload: accountData}) {
     try {
+        const data = new FormData();
+        Object.keys(accountData.data).forEach(key => {
+            data.append(key, accountData.data[key]);
+        });
         console.log(accountData);
-        yield axiosApi.post('/accounts/' + accountData.id, accountData.data);
+        yield axiosApi.post('/accounts/' + accountData.id, data);
         yield put(createAccountSuccess());
-
         yield put(fetchAccountsRequest());
         yield put(addNotification({message: 'Account created successfully', options: {variant: 'success'}}));
     } catch (e) {
+        console.log(e.response.data)
         yield put(createAccountFailure(e.response.data));
     }
 }
@@ -74,12 +79,12 @@ export function* updateAccount({payload: accountData}) {
             data.append(key, accountData[key]);
         });
         console.log(accountData);
-        const response = yield axiosApi.put(`/accounts/${accountData.id}`, accountData);
-        console.log(response);
-        console.log(data);
+        yield axiosApi.put(`/accounts/${accountData.id}`, data);
+        yield put(updateAccountSuccess());
         console.log(accountData);
-        yield put(updateAccountSuccess(response.data));
+        console.log(data)
         yield put(fetchAccountsRequest());
+
         yield put(addNotification({message: 'Account updated successfully', options: {variant: 'success'}}));
     } catch (e) {
         yield put(updateAccountFailure(e.response.data));
@@ -88,6 +93,7 @@ export function* updateAccount({payload: accountData}) {
 
 const accountsSagas = [
     takeEvery(fetchAccountsRequest, fetchAccounts),
+    // takeEvery(fetchAccountRequest, fetchAccount),
     takeEvery(createAccountRequest, createAccount),
     takeEvery(deleteAccountRequest, deleteAccount),
     takeEvery(updateAccountRequest, updateAccount)

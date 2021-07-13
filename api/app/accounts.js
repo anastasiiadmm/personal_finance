@@ -20,6 +20,7 @@ router.get('/:id', async (req, res) => {
   try {
     console.log(req.params.id);
     const accounts = await Account.findAll({where: {groupId: req.params.id}});
+    console.log(accounts + 'get');
     res.status(200).send(accounts);
   } catch (e) {
     return res.status(400).send({message: e.message});
@@ -27,20 +28,20 @@ router.get('/:id', async (req, res) => {
 
 });
 
-router.get('/:id', async (req, res) => {
-  try {
-    const account = await Account.findOne({where: {id: req.params.id}});
-    res.status(200).send(account);
-    console.log(account)
-  } catch (e) {
-    return res.status(400).send({message: e.message});
-  }
-})
+// router.get('/:id', async (req, res) => {
+//   try {
+//     const account = await Account.findOne({where: {id: req.params.id}});
+//     res.status(200).send(account);
+//   } catch (e) {
+//     return res.status(400).send({message: e.message});
+//   }
+// });
 
 router.post('/:id', auth, upload.single('accountIcon'), async (req, res) => {
 
   const accountData = req.body;
   accountData.user = req.user.id;
+
   try {
     const account = await Account.create({
       accountName: req.body.accountName,
@@ -51,8 +52,7 @@ router.post('/:id', auth, upload.single('accountIcon'), async (req, res) => {
       accountIcon: req.file ? req.file.filename : null,
     });
 
-
-    console.log(account);
+    console.log(account.accountName + ' post');
     res.status(200).send(account);
   } catch (e) {
     return res.status(400).send({message: e.message});

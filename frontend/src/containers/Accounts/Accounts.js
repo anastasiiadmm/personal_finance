@@ -1,16 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {
+    createAccountRequest, fetchAccountRequest,
     fetchAccountsRequest,
-    createAccountRequest,
 } from "../../store/actions/accountsActions";
 import {Backdrop, CircularProgress, Fade, Grid, makeStyles, Modal, Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {useParams} from "react-router-dom";
 import AccountItem from "./AccountItem";
-import AccountForm from "../../components/AccountForm/AccountForm";
-
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import NewAccount from "./NewAccount/NewAccount";
+import AccountForm from "./AccountForm/AccountForm";
+import GroupForm from "../Groups/NewGroup/GroupForm/GroupForm";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -18,6 +19,9 @@ const useStyles = makeStyles(theme => ({
     },
     progress: {
         height: 200
+    },
+    palette: {
+        color: 'purple'
     },
     modal: {
         display: 'flex',
@@ -37,26 +41,23 @@ const Accounts = (id) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const params = useParams();
-    const accounts = useSelector(state => state.accounts.accounts);
-    const loading = useSelector(state => state.accounts.accountsLoading);
+    const accounts = useSelector(state => state.accounts.accounts)
     const error = useSelector(state => state.accounts.createAccountError);
-    const newAccountLoading = useSelector(state => state.accounts.createAccountLoading);
+    const loading = useSelector(state => state.accounts.createAccountLoading);
     const [open, setOpen] = useState(false);
+
 
     useEffect(() => {
         dispatch(fetchAccountsRequest(params.id));
-    }, [dispatch, params.id]);
+    }, [dispatch]);
+
 
     const onAccountFormSubmit = (e, data) => {
         e.preventDefault();
         dispatch(createAccountRequest({id: params.id, data}));
-        setOpen(false);
         dispatch(fetchAccountsRequest(params.id));
         console.log(data);
     }
-
-
-
 
     return (
         <>
@@ -66,7 +67,7 @@ const Accounts = (id) => {
                         <Typography variant="h4">Accounts</Typography>
                     </Grid>
                     <Grid item>
-                        <Button color="primary" onClick={() => setOpen(true)}>
+                        <Button className={classes.palette} onClick={() => setOpen(true)}>
                             Add new account
                         </Button>
                     </Grid>
@@ -78,7 +79,7 @@ const Accounts = (id) => {
                                 <CircularProgress/>
                             </Grid>
                         </Grid>
-                    ) : accounts && accounts.map(account => {
+                    ) : accounts.map(account => {
                         return (
                             <AccountItem
                                 key={account.id}
@@ -109,14 +110,14 @@ const Accounts = (id) => {
                     <div className={classes.paper}>
                         <AccountForm
                             onSubmit={onAccountFormSubmit}
-                            loading={newAccountLoading}
+                            loading={loading}
                             error={error}
+                            id={id}
+                            onClose={() => setOpen(false)}
                         />
                     </div>
                 </Fade>
             </Modal>
-
-
         </>
     );
 };
