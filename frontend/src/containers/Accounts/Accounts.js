@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {
-    createAccountRequest, fetchAccountRequest,
+    createAccountRequest,
     fetchAccountsRequest,
 } from "../../store/actions/accountsActions";
 import {Backdrop, CircularProgress, Fade, Grid, makeStyles, Modal, Typography} from "@material-ui/core";
@@ -9,9 +9,7 @@ import Button from "@material-ui/core/Button";
 import {useParams} from "react-router-dom";
 import AccountItem from "./AccountItem";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import NewAccount from "./NewAccount/NewAccount";
 import AccountForm from "./AccountForm/AccountForm";
-import GroupForm from "../Groups/NewGroup/GroupForm/GroupForm";
 
 const useStyles = makeStyles(theme => ({
     root: {
