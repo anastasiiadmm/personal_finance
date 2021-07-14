@@ -53,6 +53,7 @@ const Header = ({color, handleDrawerToggle, routes, user}) => {
         <Hidden mdUp implementation="js">
           <IconButton
             color="inherit"
+            id="icon-button"
             aria-label="open drawer"
             onClick={handleDrawerToggle}
           >

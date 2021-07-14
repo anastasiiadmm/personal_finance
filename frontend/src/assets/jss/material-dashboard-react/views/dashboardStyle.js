@@ -44,6 +44,10 @@ const dashboardStyle = {
     width: 100,
     height: 100
   },
+  avatar: {
+    width: 40,
+    height: 40
+  },
   modal: {
     display: 'flex',
     alignItems: 'center',

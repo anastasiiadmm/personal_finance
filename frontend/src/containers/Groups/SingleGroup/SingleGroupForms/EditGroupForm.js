@@ -79,12 +79,12 @@ const EditGroupForm = ({onClose}) => {
                     label="Group name"
                     type="text"
                     onChange={inputChangeHandler}
-                    name="nameGroup"
+                    name="title"
                     value={state.title}
                 />
                 <Grid item xs>
                     <FileInput
-                        name="avatarGroup"
+                        name="avatar"
                         label="Avatar"
                         onChange={fileChangeHandler}
                     />

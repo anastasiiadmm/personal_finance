@@ -65,6 +65,7 @@ export function* updateGroup({payload: groupData}) {
         yield put(updateGroupSuccess(response.data));
         yield put(historyPush(`/groups/${groupData.groupId}`));
         yield put(singleGroupRequest(groupData.groupId));
+        yield put(addNotification({message: 'Group update successful', options: {variant: 'success'}}));
     } catch (e) {
         yield put(addNotification({message: 'Group update failed', options: {variant: 'error'}}));
     }
@@ -87,7 +88,7 @@ export function* editRoleFriend({payload: data}) {
         yield axiosApi.put('/groups/' + data.groupId, {editUserId: data.state.id, role: data.state.role});
         yield put(editRoleFriendSuccess());
         yield put(singleGroupRequest(data.groupId));
-        yield put(addNotification({message: 'Update successful', options: {variant: 'success'}}));
+        yield put(addNotification({message: 'Update role successful', options: {variant: 'success'}}));
     } catch (e) {
         yield put(addNotification({message: 'Edit role failed', options: {variant: 'error'}}));
     }
@@ -99,6 +100,7 @@ export function* deleteFriend({payload: data}) {
         yield put(deleteFriendSuccess());
         yield put(historyPush(`/groups/${data.groupId}`));
         yield put(singleGroupRequest(data.groupId));
+        yield put(addNotification({message: 'Delete user successful', options: {variant: 'success'}}));
     } catch (e) {
         yield put(addNotification({message: 'Delete friend failed', options: {variant: 'error'}}));
     }

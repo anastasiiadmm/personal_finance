@@ -38,6 +38,7 @@ const cardHeaderStyle = {
       width: "36px",
       height: "36px",
       margin: "10px 10px 4px",
+      paddingBottom: 20
     },
     "&$cardHeaderStats i,&$cardHeaderStats .material-icons": {
       fontSize: "36px",
@@ -50,6 +51,7 @@ const cardHeaderStyle = {
     },
     "&$cardHeaderStats$cardHeaderIcon": {
       textAlign: "right",
+      paddingBottom: 20
     },
   },
   cardHeaderPlain: {

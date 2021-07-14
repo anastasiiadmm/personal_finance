@@ -3,6 +3,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 import {createGroupRequest, groupsRequest} from "../../store/actions/groupsActions";
 import {Avatar, Backdrop, Fade, Grid, makeStyles, Modal} from "@material-ui/core";
+import GroupForm from "./NewGroup/GroupForm/GroupForm";
+import {apiURL} from "../../config";
 
 import GroupIcon from "../../assets/images/group-icon.jpeg";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
@@ -14,9 +16,7 @@ import Card from "../../template/Card/Card";
 import CardHeader from "../../template/Card/CardHeader";
 import CardIcon from "../../template/Card/CardIcon";
 import CardFooter from "../../template/Card/CardFooter";
-import Button from "@material-ui/core/Button";
-import GroupForm from "./NewGroup/GroupForm/GroupForm";
-import {apiURL} from "../../config";
+import Button from "../../template/CustomButtons/Button";
 
 const useStyles = makeStyles(styles);
 
@@ -40,18 +40,19 @@ const Groups = () => {
         <>
             <Grid item container spacing={6} direction="column">
                 <Grid item>
-                    <Button className={classes.linkButton} startIcon={<AddCircleOutlineIcon />} onClick={() => setOpen(true)}>
+                    <Button color="primary" startIcon={<AddCircleOutlineIcon/>} onClick={() => setOpen(true)}>
                         Add new group
                     </Button>
                 </Grid>
                 <Grid item container spacing={2}>
                     {groups && (groups.map(group => (
-                        <GridItem item xs={8} sm={5} md={4} key={group.id}>
+                        <GridItem item xs={12} sm={6} md={5} key={group.id}>
                             <Card>
                                 <CardHeader color="warning" stats icon>
                                     <CardIcon color="warning">
                                         {group.avatar ? (
-                                            <Avatar alt={group.title} src={apiURL + '/' + group.avatar} className={classes.small}/>
+                                            <Avatar alt={group.title} src={apiURL + '/' + group.avatar}
+                                                    className={classes.small}/>
                                         ) : (
                                             <Avatar alt={group.title}
                                                     src={GroupIcon}

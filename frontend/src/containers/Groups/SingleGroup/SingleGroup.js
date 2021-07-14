@@ -10,13 +10,14 @@ import EditUsersGroupForm from "./SingleGroupForms/EditUsersGroupForm";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Grid from "@material-ui/core/Grid";
-import {Avatar, Backdrop, CircularProgress, Fade, IconButton, Modal, Typography} from "@material-ui/core";
+import {Avatar, Backdrop, CircularProgress, Fade, Modal, Typography} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 
 import GroupIcon from "../../../assets/images/group-icon.jpeg";
+import Button from "../../../template/CustomButtons/Button";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -117,31 +118,31 @@ const SingleGroup = ({match}) => {
                                 )}
                             </Grid>
                         </Grid>
-                        <Grid container direction='row' alignItems='center'>
-                            <Grid item md={6}>
+                        <Grid container direction='row' alignItems='center' spacing={2}>
+                            <Grid item sm={6} md={6}>
                                 <Typography variant="h4">{group.title}</Typography>
                             </Grid>
                             {group.title !== 'Personal' && (
                                 <>
                                     {group.users && group.users.map(user => (
-                                        <Grid item md={6} key={user.id}>
+                                        <Grid item sm={6} md={6} key={user.id}>
                                             {user.GroupUsers.role === 'owner' && (
                                                 <Grid item container direction='row' spacing={1} alignItems='center'
                                                       justify='flex-end'>
                                                     <Grid item>
-                                                        <IconButton className={classes.linkButton} onClick={() => setOpen(true)}>
+                                                        <Button id="add-button" color="primary" justIcon onClick={() => setOpen(true)}>
                                                             <GroupAddIcon/>
-                                                        </IconButton>
+                                                        </Button>
                                                     </Grid>
                                                     <Grid item>
-                                                        <IconButton className={classes.linkButton} onClick={onDeleteGroupHandler}>
+                                                        <Button id="delete-button" color="primary" justIcon onClick={onDeleteGroupHandler}>
                                                             <DeleteForeverIcon/>
-                                                        </IconButton>
+                                                        </Button>
                                                     </Grid>
                                                     <Grid item>
-                                                        <IconButton className={classes.linkButton} onClick={() => setModalOpen(true)}>
+                                                        <Button id="edit-button" color="primary" justIcon onClick={() => setModalOpen(true)}>
                                                             <EditIcon/>
-                                                        </IconButton>
+                                                        </Button>
                                                     </Grid>
                                                 </Grid>
                                             )}
@@ -157,6 +158,7 @@ const SingleGroup = ({match}) => {
                                         {user.GroupUsers.role !== 'owner' && (
                                             <Grid item key={user.id}>
                                                 <Avatar alt={user.displayName}
+                                                        id="info-button"
                                                         src={user.avatar}
                                                         className={classes.small}
                                                         onClick={() => userEditHandler(user)}
@@ -176,9 +178,9 @@ const SingleGroup = ({match}) => {
                     <Transaction/>
                 </Grid>
 
-                <IconButton className={classes.addBtn} color="primary">
+                <Button justIcon className={classes.addBtn} color="primary">
                     <AddIcon/>
-                </IconButton>
+                </Button>
             </Grid>
 
             <Modal

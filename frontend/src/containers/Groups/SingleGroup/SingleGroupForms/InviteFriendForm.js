@@ -6,6 +6,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import {useDispatch, useSelector} from "react-redux";
 import {inviteFriendRequest} from "../../../../store/actions/groupsActions";
 import {useParams} from "react-router-dom";
+import {Typography} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -30,6 +31,10 @@ const InviteFriendForm = ({onClose}) => {
     return (
         <form noValidate onSubmit={addFriendHandler}>
             <Grid container direction="column" spacing={2}>
+                <Grid item xs>
+                    <Typography variant="h4">Add user</Typography>
+                </Grid>
+
                 <FormElement
                     required
                     label="Email"
