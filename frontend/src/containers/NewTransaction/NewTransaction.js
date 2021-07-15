@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {CircularProgress, Dialog, InputAdornment} from "@material-ui/core";
+import {CircularProgress, Dialog, InputAdornment, TextField} from "@material-ui/core";
 import Card from "../../template/Card/Card";
 import CardHeader from "../../template/Card/CardHeader";
 import CardFooter from "../../template/Card/CardFooter";
@@ -45,14 +45,15 @@ const NewTransaction = ({handleClose, open, type}) => {
 
 
   const [animationStatus, setAnimationStatus] = useState(false);
-
+  const tempDate = new Date();
   const accountFromId = useRef('')
   const accountToId = useRef('');
   const sum = useRef('');
   const categoryId = useRef('');
+  const transactionDate = useRef(tempDate.getFullYear() + '-' + ('0' + (tempDate.getMonth() + 1)).slice(-2) + '-' + ('0' + tempDate.getDate()).slice(-2) + 'T' + ('0' + tempDate.getHours()).slice(-2) + ':' + ('0' + tempDate.getMinutes()).slice(-2));
   const description = useRef('');
-  let cashierCheck = '';
 
+  let cashierCheck = '';
 
   const primaryProps = useSpring({
     opacity: 1,
@@ -86,7 +87,6 @@ const NewTransaction = ({handleClose, open, type}) => {
     const transaction = {};
 
     if (cashierCheck !== '') {
-
       transaction.cashierCheck = cashierCheck;
     }
     if (description.current !== null) {
@@ -98,6 +98,7 @@ const NewTransaction = ({handleClose, open, type}) => {
     transaction.accountFromId = accountFromId.current.value;
     transaction.sumOut = sum.current.value;
     transaction.type = type;
+    transaction.date = transactionDate.current.value;
     await dispatch(transactionPost(transaction))
     handleClose()
   };
@@ -184,6 +185,16 @@ const NewTransaction = ({handleClose, open, type}) => {
                         defaultValue=''
                         inputRef={categoryId}
                         options={type === 'transfer' ? categories : categoryByType}
+                      />
+                      <FormElement
+                        label="Date"
+                        required
+                        type="datetime-local"
+                        defaultValue={transactionDate.current}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        inputRef={transactionDate}
                       />
                       <FormElement
                         label="Amount"

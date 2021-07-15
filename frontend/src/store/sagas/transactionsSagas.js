@@ -20,7 +20,8 @@ export function* postTransaction({payload: transactionData}) {
         yield axiosApi.post('/transactions/' + transactionData.type, data);
         yield put(transactionPostSuccess());
     } catch (error) {
-        console.log(error.response.data)
+        console.log(error)
+        yield put(addNotification({message: error.response.data.message, options: {variant: 'error'}}));
         yield put(transactionPostFailure(error.response.data.message));
     }
 }

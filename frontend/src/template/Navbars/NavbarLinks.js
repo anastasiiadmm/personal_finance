@@ -67,7 +67,7 @@ const NavbarLinks = ({user}) => {
   return (
     <div>
       <div className={classes.manager}>
-        <Typography variant="h7">Hello, <b>{user.displayName}</b></Typography>
+        <Typography variant="overline">Hello, <b>{user.displayName}</b></Typography>
         <Button
           color={"transparent"}
           justIcon

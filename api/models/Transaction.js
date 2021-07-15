@@ -30,6 +30,16 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
+    date: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        notNull: {
+          args: true,
+          msg: 'Date can not be empty'
+        }
+      },
+    },
     description: DataTypes.STRING,
     cashierCheck: DataTypes.STRING
   }, {

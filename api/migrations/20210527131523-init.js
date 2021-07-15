@@ -248,6 +248,10 @@ module.exports = {
           key: 'id'
         }
       },
+      date: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
       accountToId: {
         type: Sequelize.INTEGER,
         references: {

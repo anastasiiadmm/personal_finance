@@ -14,7 +14,13 @@ router.get('/', async (req, res) => {
       criteria.id = req.query.category;
     }
 
-    const transactions = await Transaction.findAll({include: {association: 'category', attributes: ['id', 'name'], where: criteria}});
+    const transactions = await Transaction.findAll({
+      include: {
+        association: 'category',
+        attributes: ['id', 'name'],
+        where: criteria
+      }
+    });
 
     res.status(200).send(transactions);
   } catch (e) {
@@ -46,6 +52,7 @@ router.post('/expenditure', upload.single('cashierCheck'), auth, async (req, res
   try {
     const transactionData = {
       userId: req.user.id,
+      date: req.body.date,
       categoryId: req.body.categoryId,
       description: req.body.description,
       cashierCheck: req.file ? req.file.filename : null,
