@@ -129,7 +129,6 @@ const CategoryForm = () => {
                         onChange={fileChangeHandler}
                         // error={getFieldError('avatarGroup')}
                     />
-                    {console.log(category, 'tess!!!!!')}
                 </Grid>
 
                 <Grid item xs>

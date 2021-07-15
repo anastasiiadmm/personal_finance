@@ -198,6 +198,10 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
+      sub: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       name: {
         type: Sequelize.STRING,
         allowNull: false,
