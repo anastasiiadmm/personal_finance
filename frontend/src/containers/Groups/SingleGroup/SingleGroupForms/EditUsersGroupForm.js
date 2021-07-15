@@ -69,7 +69,7 @@ const EditUsersGroupForm = ({onClose, modalUser}) => {
                     />
                     <Grid item={2}>
                         <Grid item xs>
-                            <IconButton onClick={() => deleteUser(modalUser.id)}>
+                            <IconButton id="deleted-button" onClick={() => deleteUser(modalUser.id)}>
                                 <HighlightOffIcon />
                             </IconButton>
                         </Grid>

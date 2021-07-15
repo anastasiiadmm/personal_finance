@@ -154,9 +154,9 @@ const SingleGroup = ({match}) => {
                         {group.nameGroup !== 'personal' && (
                             <Grid item container spacing={2} alignItems="center">
                                 {group.users && group.users.map(user => (
-                                    <>
+                                    <div key={user.id}>
                                         {user.GroupUsers.role !== 'owner' && (
-                                            <Grid item key={user.id}>
+                                            <Grid item>
                                                 <Avatar alt={user.displayName}
                                                         id="info-button"
                                                         src={user.avatar}
@@ -165,7 +165,7 @@ const SingleGroup = ({match}) => {
                                                 />
                                             </Grid>
                                         )}
-                                    </>
+                                    </div>
                                 ))}
                             </Grid>
                         )}
