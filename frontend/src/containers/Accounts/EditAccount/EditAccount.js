@@ -1,15 +1,17 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import FormElement from "../../../components/UI/Form/FormElement";
 import FileInput from "../../../components/UI/Form/FileInput";
 import ButtonWithProgress from "../../../components/UI/ButtonWithProgress/ButtonWithProgress";
-import {updateAccountRequest} from "../../../store/actions/accountsActions";
+import {fetchAccountsRequest, updateAccountRequest} from "../../../store/actions/accountsActions";
+import {useParams} from "react-router-dom";
 
 const EditAccount = ({id, onClose}) => {
     const account = useSelector(state => state.accounts.account);
     const loading = useSelector(state => state.accounts.updateAccountLoading);
     const error = useSelector(state => state.accounts.updateAccountError);
+    const params = useParams();
     const dispatch = useDispatch();
     const [state, setState] = useState({});
 
@@ -29,7 +31,7 @@ const EditAccount = ({id, onClose}) => {
         }));
     };
 
-    const submitFormHandler = e => {
+    const submitFormHandler = (e, data) => {
         e.preventDefault();
         const accountData = {
             accountName: account.accountName,
@@ -46,10 +48,11 @@ const EditAccount = ({id, onClose}) => {
         accountData.id = id
 
         if (Object.keys(accountData).length !== 0 && accountData.constructor === Object) {
-            dispatch(updateAccountRequest(accountData));
+            dispatch(updateAccountRequest({id: params.id , accountData}));
         }
         console.log(accountData);
         console.log(id);
+        // dispatch(fetchAccountsRequest(params.id));
 
     };
 
@@ -61,6 +64,12 @@ const EditAccount = ({id, onClose}) => {
             return undefined;
         }
     };
+
+    // useEffect(() => {
+    //     dispatch(fetchAccountsRequest(params.id));
+    // }, [dispatch]);
+    // console.log(params);
+    // console.log(params.id);
 
     return (
         <form onSubmit={submitFormHandler} noValidate>

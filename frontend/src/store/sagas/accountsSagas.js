@@ -52,7 +52,8 @@ export function* createAccount({payload: accountData}) {
         console.log(accountData);
         yield axiosApi.post('/accounts/' + accountData.id, data);
         yield put(createAccountSuccess());
-        yield put(fetchAccountsRequest());
+
+        yield put(fetchAccountsRequest(accountData.id));
         yield put(addNotification({message: 'Account created successfully', options: {variant: 'success'}}));
     } catch (e) {
         console.log(e.response.data)
@@ -75,15 +76,14 @@ export function* deleteAccount({payload: id}) {
 export function* updateAccount({payload: accountData}) {
     try {
         const data = new FormData();
-        Object.keys(accountData).forEach(key => {
-            data.append(key, accountData[key]);
+        Object.keys(accountData.accountData).forEach(key => {
+            data.append(key, accountData.accountData[key]);
         });
-        console.log(accountData);
-        yield axiosApi.put(`/accounts/${accountData.id}`, data);
+        yield axiosApi.put(`/accounts/${accountData.accountData.id}`, data);
         yield put(updateAccountSuccess());
-        console.log(accountData);
-        console.log(data)
-        yield put(fetchAccountsRequest());
+
+        yield put(fetchAccountsRequest(accountData.id));
+
 
         yield put(addNotification({message: 'Account updated successfully', options: {variant: 'success'}}));
     } catch (e) {

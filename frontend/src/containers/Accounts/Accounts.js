@@ -45,17 +45,17 @@ const Accounts = (id) => {
     const [open, setOpen] = useState(false);
 
 
-    useEffect(() => {
-        dispatch(fetchAccountsRequest(params.id));
-    }, [dispatch]);
 
 
     const onAccountFormSubmit = (e, data) => {
         e.preventDefault();
         dispatch(createAccountRequest({id: params.id, data}));
-        dispatch(fetchAccountsRequest(params.id));
         console.log(data);
     }
+
+    useEffect(() => {
+        dispatch(fetchAccountsRequest(params.id));
+    }, [dispatch]);
 
     return (
         <>
