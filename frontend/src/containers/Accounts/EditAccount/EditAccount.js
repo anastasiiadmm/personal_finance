@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import FormElement from "../../../components/UI/Form/FormElement";
 import FileInput from "../../../components/UI/Form/FileInput";
 import ButtonWithProgress from "../../../components/UI/ButtonWithProgress/ButtonWithProgress";
-import {fetchAccountsRequest, updateAccountRequest} from "../../../store/actions/accountsActions";
+import {updateAccountRequest} from "../../../store/actions/accountsActions";
 import {useParams} from "react-router-dom";
 
 const EditAccount = ({id, onClose}) => {
@@ -50,9 +50,6 @@ const EditAccount = ({id, onClose}) => {
         if (Object.keys(accountData).length !== 0 && accountData.constructor === Object) {
             dispatch(updateAccountRequest({id: params.id , accountData}));
         }
-        console.log(accountData);
-        console.log(id);
-        // dispatch(fetchAccountsRequest(params.id));
 
     };
 
@@ -64,12 +61,6 @@ const EditAccount = ({id, onClose}) => {
             return undefined;
         }
     };
-
-    // useEffect(() => {
-    //     dispatch(fetchAccountsRequest(params.id));
-    // }, [dispatch]);
-    // console.log(params);
-    // console.log(params.id);
 
     return (
         <form onSubmit={submitFormHandler} noValidate>

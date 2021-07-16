@@ -44,14 +44,10 @@ const Accounts = (id) => {
     const loading = useSelector(state => state.accounts.createAccountLoading);
     const [open, setOpen] = useState(false);
 
-
-
-
     const onAccountFormSubmit = (e, data) => {
         e.preventDefault();
         dispatch(createAccountRequest({id: params.id, data}));
-        console.log(data);
-    }
+    };
 
     useEffect(() => {
         dispatch(fetchAccountsRequest(params.id));

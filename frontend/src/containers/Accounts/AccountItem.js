@@ -87,7 +87,7 @@ const AccountItem = ({accountName, preferences, balance, id, accountIcon}) => {
                     <CardContent className={classes.content}>
 
                         <p style={{paddingLeft: '100px'}}>
-                            {balance} {preferences} id: {id}
+                            {balance} {preferences}
                         </p>
                     </CardContent>
                     <CardActions>
