@@ -7,6 +7,11 @@ import dashboardStyle from "./dashboardStyle";
 
 const newTransactionStyle = (theme) => ({
   ...dashboardStyle,
+  treeCategory: {
+    height: 264,
+    flexGrow: 1,
+    maxWidth: 400,
+  },
   cardCategory: {
     color: grayColor[0],
     margin: "0",
@@ -27,8 +32,8 @@ const newTransactionStyle = (theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     color: whiteColor,
   },
-  animation:{
-    height:'95%'
+  animation: {
+    height: '95%'
   }
 });
 

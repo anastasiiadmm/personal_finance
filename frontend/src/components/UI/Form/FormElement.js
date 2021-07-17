@@ -40,13 +40,12 @@ const FormElement = ({error, select, options, hide, ...props}) => {
   );
 };
 
-FormElement.propTypes =
-  {
-    ...TextField.propTypes,
-    error: PropTypes.string,
-    select: PropTypes.bool,
-    options: PropTypes.arrayOf(PropTypes.object)
-  }
+FormElement.propTypes = {
+  ...TextField.propTypes,
+  error: PropTypes.string,
+  select: PropTypes.bool,
+  options: PropTypes.arrayOf(PropTypes.object)
+}
 ;
 
 export default FormElement;
