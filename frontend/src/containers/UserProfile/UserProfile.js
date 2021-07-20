@@ -106,6 +106,7 @@ const UserProfile = () => {
         if (prop.path === fieldName) {
           errors = prop.message
         }
+        return null;
       })
     }
     return errors;

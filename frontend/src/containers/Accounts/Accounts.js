@@ -8,7 +8,6 @@ import {Backdrop, CircularProgress, Fade, Grid, makeStyles, Modal, Typography} f
 import Button from "@material-ui/core/Button";
 import {useParams} from "react-router-dom";
 import AccountItem from "./AccountItem";
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import AccountForm from "./AccountForm/AccountForm";
 
 const useStyles = makeStyles(theme => ({

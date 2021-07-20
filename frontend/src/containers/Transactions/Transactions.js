@@ -84,7 +84,6 @@ const Transactions = () => {
                 <TableCell align="right">description</TableCell>
                 <TableCell align="right">cashierCheck</TableCell>
                 <TableCell align="right">createdAt</TableCell>
-                <TableCell align="right">updatedAt</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -99,8 +98,7 @@ const Transactions = () => {
                     <TableCell align="right">{transaction.category && transaction.category.name}</TableCell>
                     <TableCell align="right">{transaction.description}</TableCell>
                     <TableCell align="right">{transaction.cashierCheck}</TableCell>
-                    <TableCell align="right">{transaction.createdAt}</TableCell>
-                    <TableCell align="right">{transaction.updatedAt}</TableCell>
+                    <TableCell align="right">{transaction.date}</TableCell>
                     <TableCell align="right">
                       <Button id="delete-button" color="primary" justIcon onClick={() => onDeleteTransactHandler(transaction.id)}>
                         <DeleteForeverIcon/>

@@ -13,7 +13,6 @@ import {
     deleteAccountFailure,
     updateAccountSuccess,
     updateAccountFailure,
-    fetchAccountSuccess, fetchAccountFailure, fetchAccountRequest
 } from "../actions/accountsActions";
 import {addNotification} from "../actions/notifierActions";
 

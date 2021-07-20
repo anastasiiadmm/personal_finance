@@ -14,7 +14,6 @@ import {ListItemText} from "@material-ui/core";
 import {logoutRequest} from "../../store/actions/usersActions";
 import {useDispatch} from "react-redux";
 import Grid from "@material-ui/core/Grid";
-import Button from "../CustomButtons/Button";
 
 const useStyles = makeStyles(styles);
 
@@ -33,7 +32,6 @@ const Sidebar = ({color, logo, image, logoText, routes, ...props}) => {
           let listItemClasses = classNames({
             [" " + classes[color]]: activeRoute(prop.path),
           });
-
           const whiteFontClasses = classNames({
             [" " + classes.whiteFont]: activeRoute(prop.path),
           });
@@ -66,6 +64,7 @@ const Sidebar = ({color, logo, image, logoText, routes, ...props}) => {
             </NavLink>
           );
         }
+        return null;
       })}
     </List>
   );

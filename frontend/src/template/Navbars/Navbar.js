@@ -20,9 +20,9 @@ const Header = ({color, handleDrawerToggle, routes, user}) => {
   let location = useLocation();
   const [routeName, SetRouteName] = useState("Home");
 
-  const activeRoute = routeName => location.pathname === routeName;
 
   useEffect(() => {
+    const activeRoute = routeName => location.pathname === routeName;
     routes.forEach((route) => {
       if (activeRoute(route.path)) {
         SetRouteName(route.name);
@@ -31,7 +31,7 @@ const Header = ({color, handleDrawerToggle, routes, user}) => {
     if (activeRoute('/')) {
       SetRouteName('Home');
     }
-  })
+  }, [routes, routeName, location])
 
   const appBarClasses = classNames({
     [" " + classes[color]]: color,

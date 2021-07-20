@@ -36,6 +36,7 @@ router.post('/transfer', upload.single('cashierCheck'), auth, async (req, res) =
       accountFromId: req.body.accountFromId,
       sumOut: req.body.sumOut,
       sumIn: req.body.sumIn,
+      date: req.body.date,
       categoryId: req.body.categoryId,
       description: req.body.description,
       cashierCheck: req.file ? req.file.filename : null
@@ -77,6 +78,7 @@ router.post('/income', upload.single('cashierCheck'), auth, async (req, res) => 
     const transactionData = {
       userId: req.user.id,
       categoryId: req.body.categoryId,
+      date: req.body.date,
       description: req.body.description,
       cashierCheck: req.file ? req.file.filename : null,
     };

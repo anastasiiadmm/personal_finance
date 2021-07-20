@@ -111,7 +111,7 @@ const NewTransaction = ({handleClose, open, type}) => {
     transaction.accountFromId = accountFromId.current.value;
     transaction.sumOut = sum.current.value;
     transaction.type = type;
-    transaction.date = transactionDate.current.value;
+    transaction.date = new Date(transactionDate.current.value);
     await dispatch(transactionPost(transaction))
     handleClose()
   };
@@ -123,6 +123,7 @@ const NewTransaction = ({handleClose, open, type}) => {
         if (prop.path === fieldName) {
           errors = prop.message
         }
+        return null;
       })
     }
     return errors;
