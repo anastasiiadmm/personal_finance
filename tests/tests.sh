@@ -32,7 +32,7 @@ done
 echo "# Running tests"
 cd ../tests
 echo "$@"
-npx codeceptjs run --steps --grep "$@"
+npx codeceptjs run --steps "$@"
 EXIT_CODE=$?
 
 echo '# Killing test processes'
