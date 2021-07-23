@@ -15,6 +15,7 @@ import CategoryForm from "./containers/Categories/CategoryForm/CategoryForm";
 import LandingPage from "./containers/LandingPages/LandingPage/LandingPage";
 import About from "./containers/LandingPages/Footer/FooterComponents/About";
 import Transactions from "./containers/Transactions/Transactions";
+import Transaction from "./containers/Transaction/Transaction";
 
 
 export const appRoutes = [
@@ -90,6 +91,13 @@ export const appRoutes = [
         icon: Notifications,
         component: CategoryForm
     },
+    {
+        layout: "/",
+        path: "/chart-transaction",
+        name: "Chart",
+        icon: BubbleChart,
+        component: Transaction
+    }
 ];
 
 export const landingRoutes = [
