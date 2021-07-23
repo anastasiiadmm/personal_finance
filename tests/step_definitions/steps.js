@@ -50,6 +50,26 @@ Then('попадаю на страницу группы New group', () => {
     I.amOnPage('/groups/3');
 });
 
+Then('я попадаю на страницу группы Test4', num => {
+    I.amOnPage('/groups/4');
+});
+
+Then('попадаю на страницу группы Test5', () => {
+    I.amOnPage('/groups/5');
+});
+
+Then('попадаю на страницу группы Test6', () => {
+    I.amOnPage('/groups/6');
+});
+
+Then('попадаю на страницу группы Test7', () => {
+    I.amOnPage('/groups/7');
+});
+
+Then('попадаю на страницу группы Test8', () => {
+    I.amOnPage('/groups/8');
+});
+
 When('нажимаю на кнопку редактирования группы', () => {
     I.click(`//button[contains(@id,"edit-button")]`);
 });
