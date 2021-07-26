@@ -50,7 +50,8 @@ const ImageSlider = ({images = [], autoPlay = true, autoPlayTime = 3000, childre
     }, autoPlayTime);
 
     return () => clearTimeout(timer);
-  }, [currentSlide, autoPlayTime]);
+
+  });
 
   return (
     <div className={classes.wrapper} {...props}>

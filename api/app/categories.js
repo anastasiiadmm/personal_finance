@@ -1,6 +1,6 @@
 const express = require('express');
 const auth = require("../middleware/auth");
-const {Category, User, Transaction} = require("../models");
+const {Category, Transaction} = require("../models");
 const upload = require('../multer').categoryIcon;
 
 const router = express.Router();
@@ -63,7 +63,6 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/:id/:newId?', async (req, res) => {
-
   try {
     if (req.params.newId) {
       const CategoryResponse = await Category.findOne({

@@ -27,6 +27,7 @@ const Transactions = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const transactions = useSelector(state => state.transactions.transactions);
+    console.log(transactions)
     const categories = useSelector(state => state.categories.categories);
 
     const [category, setCategory] = useState('');
@@ -79,49 +80,49 @@ const Transactions = () => {
                 <Grid item xs>
                     <Button color='primary' onClick={handleSearch}>Search</Button>
                 </Grid>
-                <Grid item xs>
-                    <TableContainer component={Paper}>
-                        <Table className={classes.table} aria-label="simple table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>id</TableCell>
-                                    <TableCell align="right">userId</TableCell>
-                                    <TableCell align="right">accountFromId</TableCell>
-                                    <TableCell align="right">accountToId</TableCell>
-                                    <TableCell align="right">sumOut</TableCell>
-                                    <TableCell align="right">sumIn</TableCell>
-                                    <TableCell align="right">category</TableCell>
-                                    <TableCell align="right">description</TableCell>
-                                    <TableCell align="right">cashierCheck</TableCell>
-                                    <TableCell align="right">createdAt</TableCell>
+            </Grid>
+            <Grid item xs>
+                <TableContainer component={Paper}>
+                    <Table className={classes.table} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>id</TableCell>
+                                <TableCell align="right">userId</TableCell>
+                                <TableCell align="right">accountFromId</TableCell>
+                                <TableCell align="right">accountToId</TableCell>
+                                <TableCell align="right">sumOut</TableCell>
+                                <TableCell align="right">sumIn</TableCell>
+                                <TableCell align="right">category</TableCell>
+                                <TableCell align="right">description</TableCell>
+                                <TableCell align="right">cashierCheck</TableCell>
+                                <TableCell align="right">createdAt</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {transactions && transactions.map((transaction) => (
+                                <TableRow key={transaction.id}>
+                                    <TableCell component="th" scope="row">{transaction.id}</TableCell>
+                                    <TableCell align="right">{transaction.userId}</TableCell>
+                                    <TableCell align="right">{transaction.accountFromId}</TableCell>
+                                    <TableCell align="right">{transaction.accountToId}</TableCell>
+                                    <TableCell align="right">{transaction.sumOut}</TableCell>
+                                    <TableCell align="right">{transaction.sumIn}</TableCell>
+                                    <TableCell
+                                        align="right">{transaction.category && transaction.category.name}</TableCell>
+                                    <TableCell align="right">{transaction.description}</TableCell>
+                                    <TableCell align="right">{transaction.cashierCheck}</TableCell>
+                                    <TableCell align="right">{transaction.date}</TableCell>
+                                    <TableCell align="right">
+                                        <Button id="delete-button" color="primary" justIcon
+                                                onClick={() => onDeleteTransactHandler(transaction.id)}>
+                                            <DeleteForeverIcon/>
+                                        </Button>
+                                    </TableCell>
                                 </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {transactions && transactions.map((transaction) => (
-                                    <TableRow key={transaction.id}>
-                                        <TableCell component="th" scope="row">{transaction.id}</TableCell>
-                                        <TableCell align="right">{transaction.userId}</TableCell>
-                                        <TableCell align="right">{transaction.accountFromId}</TableCell>
-                                        <TableCell align="right">{transaction.accountToId}</TableCell>
-                                        <TableCell align="right">{transaction.sumOut}</TableCell>
-                                        <TableCell align="right">{transaction.sumIn}</TableCell>
-                                        <TableCell
-                                            align="right">{transaction.category && transaction.category.name}</TableCell>
-                                        <TableCell align="right">{transaction.description}</TableCell>
-                                        <TableCell align="right">{transaction.cashierCheck}</TableCell>
-                                        <TableCell align="right">{transaction.date}</TableCell>
-                                        <TableCell align="right">
-                                            <Button id="delete-button" color="primary" justIcon
-                                                    onClick={() => onDeleteTransactHandler(transaction.id)}>
-                                                <DeleteForeverIcon/>
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </Grid>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </Grid>
         </Grid>
     );

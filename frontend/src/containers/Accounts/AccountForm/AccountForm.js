@@ -12,17 +12,17 @@ const AccountForm = ({onSubmit, loading, error, onClose}) => {
         accountIcon: ''
     });
 
-    const submitFormHandler = e => {
-        e.preventDefault();
-
-        const formData = new FormData();
-
-        Object.keys(state).forEach(key => {
-            formData.append(key, state[key]);
-        });
-
-        onSubmit(formData);
-    };
+    // const submitFormHandler = e => {
+    //     e.preventDefault();
+    //
+    //     const formData = new FormData();
+    //
+    //     Object.keys(state).forEach(key => {
+    //         formData.append(key, state[key]);
+    //     });
+    //
+    //     onSubmit(formData);
+    // };
 
     const inputChangeHandler = e => {
         const name = e.target.name;

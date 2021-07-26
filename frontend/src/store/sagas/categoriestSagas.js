@@ -12,6 +12,7 @@ import {addNotification} from "../actions/notifierActions";
 export function* fetchCategories() {
     try {
         const categoriesResponse = yield axiosApi.get('/categories');
+        console.log(categoriesResponse)
         yield put(fetchCategoriesSuccess(categoriesResponse.data));
     } catch (err) {
 

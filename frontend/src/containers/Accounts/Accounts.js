@@ -50,7 +50,7 @@ const Accounts = (id) => {
 
     useEffect(() => {
         dispatch(fetchAccountsRequest(params.id));
-    }, [dispatch]);
+    }, [dispatch, params.id]);
 
     return (
         <>

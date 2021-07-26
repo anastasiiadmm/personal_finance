@@ -1,5 +1,5 @@
 import React from 'react';
-import Slider from "../Slider.js/Slider";
+import Slider from "../Slider/Slider";
 import FeaturedPost from "../FeaturedPost/FeaturedPost";
 import HelpfulPost from "../HelpfulPost/HelpfulPost";
 import SubmitPost from "../SubmitPost/SubmitPost";
