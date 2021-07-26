@@ -9,7 +9,7 @@ import image1 from "../../../assets/images/slide5.webp";
 import image2 from "../../../assets/images/slide1.webp";
 import image3 from "../../../assets/images/slide3.webp";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     logoText: {
         color: '#3f50b5',
         fontSize: 50
