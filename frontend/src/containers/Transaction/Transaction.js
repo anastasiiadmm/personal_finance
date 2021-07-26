@@ -1,11 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Doughnut} from 'react-chartjs-2';
-import {makeStyles, MenuItem, TextField} from "@material-ui/core";
-import {useDispatch, useSelector} from "react-redux";
+import {makeStyles} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import {transactionsFetchRequest} from "../../store/actions/transactionsActions";
-import {fetchCategoriesRequest} from "../../store/actions/categoriesActions";
-import Button from "../../template/CustomButtons/Button";
 
 const useStyle = makeStyles({
     root: {
@@ -15,19 +11,6 @@ const useStyle = makeStyles({
 
 const Transaction = () => {
     const classes = useStyle();
-    const dispatch = useDispatch();
-    const transactions = useSelector(state => state.transactions.transactions);
-    const categories = useSelector(state => state.categories.categories);
-    const [category, setCategory] = useState();
-
-    useEffect(() => {
-        dispatch(transactionsFetchRequest());
-        dispatch(fetchCategoriesRequest());
-    }, [dispatch]);
-
-    const handleSearch = () => {
-        dispatch(transactionsFetchRequest({id: category}));
-    }
 
     return (
         <Grid item container direction="column" className={classes.root}>
@@ -36,7 +19,7 @@ const Transaction = () => {
 
                 </Grid>
                 <Grid item xs>
-                    <Button color='primary' onClick={handleSearch}>Search</Button>
+
                 </Grid>
             </Grid>
             <Grid item xs>
