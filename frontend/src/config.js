@@ -5,7 +5,7 @@ let domain = 'localhost:8000';
 if (env === 'test') {
     domain = 'localhost:8010';
 } else if (env === 'production') {
-    domain = '178.62.206.204';
+    domain = '178.62.206.204:8000';
 }
 
 export const apiURL = 'http://' + domain;
