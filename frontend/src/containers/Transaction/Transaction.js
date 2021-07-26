@@ -16,7 +16,7 @@ const useStyle = makeStyles({
 const Transaction = () => {
     const classes = useStyle();
     const dispatch = useDispatch();
-    // const transactions = useSelector(state => state.transactions.transactions);
+    const transactions = useSelector(state => state.transactions.transactions);
     const categories = useSelector(state => state.categories.categories);
     const [category, setCategory] = useState();
 
@@ -33,19 +33,7 @@ const Transaction = () => {
         <Grid item container direction="column" className={classes.root}>
             <Grid item container direction='row' spacing={2}>
                 <Grid item xs>
-                    <TextField
-                        required
-                        label={category.category}
-                        name="category"
-                        value={category.category}
-                        onChange={(e) => setCategory(e.target.value)}
-                        select={true}>
-                        {categories.map(cat => (
-                            <MenuItem key={cat.id} value={cat.id}>
-                                {cat.name}
-                            </MenuItem>
-                        ))}
-                    </TextField>
+
                 </Grid>
                 <Grid item xs>
                     <Button color='primary' onClick={handleSearch}>Search</Button>
