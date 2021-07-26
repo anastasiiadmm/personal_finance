@@ -1,10 +1,12 @@
 const env = process.env.REACT_APP_ENV;
 
-let domain = 'http://localhost:8000';
+let domain = 'localhost:8000';
 
 if (env === 'test') {
-    domain = 'http://localhost:8010';
+    domain = 'localhost:8010';
+} else if (env === 'production') {
+    domain = '178.62.206.204';
 }
 
-export const apiURL = domain;
+export const apiURL = 'http://' + domain;
 export const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
