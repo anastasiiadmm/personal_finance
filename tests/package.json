@@ -17,5 +17,8 @@
         "codeceptjs": "^3.0.7",
         "playwright": "^1.12.3",
         "puppeteer": "^10.1.0"
+    },
+    "dependencies": {
+        "pm2": "^5.1.0"
     }
 }

@@ -14,13 +14,17 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     accountFromId: DataTypes.INTEGER,
     accountToId: DataTypes.INTEGER,
     sumOut: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL,
     },
     sumIn: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL,
     },
     categoryId: {
       type: DataTypes.INTEGER,

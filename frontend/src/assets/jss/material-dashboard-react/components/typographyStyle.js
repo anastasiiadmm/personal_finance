@@ -35,6 +35,7 @@ const typographyStyle = {
   },
   mutedText: {
     color: grayColor[1],
+    fontSize: "10px",
   },
   primaryText: {
     color: primaryColor[0],

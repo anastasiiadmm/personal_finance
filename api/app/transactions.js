@@ -15,11 +15,14 @@ router.get('/', async (req, res) => {
     }
 
     const transactions = await Transaction.findAll({
-      include: {
+      include: [{
         association: 'category',
-        attributes: ['id', 'name'],
+        attributes: ['id', 'name', 'icon'],
         where: criteria
-      }
+      }, {association: 'user', attributes: ['id', 'displayName', 'avatar'],}, {
+        association: 'accountFrom',
+        attributes: ['id', 'accountName']
+      }, {association: 'accountTo', attributes: ['id', 'accountName']}]
     });
 
     res.status(200).send(transactions);
@@ -37,8 +40,9 @@ router.post('/transfer', upload.single('cashierCheck'), auth, async (req, res) =
       sumOut: req.body.sumOut,
       sumIn: req.body.sumIn,
       date: req.body.date,
+      type: 'Transfer',
       categoryId: req.body.categoryId,
-      description: req.body.description,
+      description: req.body.description ? req.body.description : null,
       cashierCheck: req.file ? req.file.filename : null
     }
 
@@ -54,6 +58,7 @@ router.post('/expenditure', upload.single('cashierCheck'), auth, async (req, res
     const transactionData = {
       userId: req.user.id,
       date: req.body.date,
+      type: 'Expense',
       categoryId: req.body.categoryId,
       description: req.body.description,
       cashierCheck: req.file ? req.file.filename : null,
@@ -79,6 +84,7 @@ router.post('/income', upload.single('cashierCheck'), auth, async (req, res) => 
       userId: req.user.id,
       categoryId: req.body.categoryId,
       date: req.body.date,
+      type: 'Income',
       description: req.body.description,
       cashierCheck: req.file ? req.file.filename : null,
     };

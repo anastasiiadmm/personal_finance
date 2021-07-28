@@ -7,12 +7,11 @@ const router = express.Router();
 
 router.post('/', auth, upload.single('categoryIcon'), async (req, res) => {
   try {
-    console.log(req.body.category === '0', req.body.category)
     const CategoryResponse = await Category.create({
       name: req.body.name,
       icon: req.file ? req.file.filename : null,
       categoryType: req.body.categoryType,
-      category: req.body.category,
+      // category: req.body.category === 0 ? req.body.category : null,
       userId: req.user.id,
       sub: req.body.category !== 0,
     });
@@ -23,7 +22,7 @@ router.post('/', auth, upload.single('categoryIcon'), async (req, res) => {
 
 });
 
-router.get('/', auth,async (req, res) => {
+router.get('/', auth, async (req, res) => {
 
   try {
     const CategoryResponse = await Category.findAll({

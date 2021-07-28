@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {CircularProgress, Dialog, InputAdornment} from "@material-ui/core";
+import {CircularProgress, Dialog} from "@material-ui/core";
 import Card from "../../template/Card/Card";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
@@ -33,7 +33,6 @@ const NewTransaction = ({handleClose, open, type}) => {
   const loading = useSelector(state => state.transactions.transactionPostLoading);
   const fetchLoading = useSelector(state => state.accounts.accountsLoading);
   const accounts = useSelector(state => state.accounts.accounts);
-  const user = useSelector(state => state.users.user);
   const categories = useSelector(state => state.categories.categories);
 
   const categoryByType = categories.filter(obj => {
@@ -102,7 +101,7 @@ const NewTransaction = ({handleClose, open, type}) => {
     if (cashierCheck !== '') {
       transaction.cashierCheck = cashierCheck;
     }
-    if (description.current !== null) {
+    if (description.current !== '') {
       transaction.description = description.current.value;
     }
     transaction.categoryId = categoryId.current.id;
@@ -118,7 +117,7 @@ const NewTransaction = ({handleClose, open, type}) => {
 
   const getFieldError = fieldName => {
     let errors = undefined;
-    if (error) {
+    if (error && error.errors) {
       error.errors.map(prop => {
         if (prop.path === fieldName) {
           errors = prop.message
@@ -217,7 +216,9 @@ const NewTransaction = ({handleClose, open, type}) => {
                         required
                         disabled={animationCategory}
                         value={categoryId.current ? categoryId.current.name : ''}
-                        onClick={() => setAnimationCategory(v => !v)}
+                        onClick={() => {
+                          setAnimationCategory(v => !v)
+                        }}
                       />
                       <FormElement
                         label="Date"
@@ -234,7 +235,7 @@ const NewTransaction = ({handleClose, open, type}) => {
                         type="number"
                         required
                         InputProps={{
-                          startAdornment: <InputAdornment position="start">{user.preferences}</InputAdornment>,
+                          step: 1.00,
                         }}
                         inputRef={sum}
                         defaultValue=''

@@ -252,6 +252,10 @@ module.exports = {
           key: 'id'
         }
       },
+      type: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       date: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -271,10 +275,10 @@ module.exports = {
         }
       },
       sumOut: {
-        type: Sequelize.INTEGER
+        type: Sequelize.DECIMAL
       },
       sumIn: {
-        type: Sequelize.INTEGER
+        type: Sequelize.DECIMAL
       },
       categoryId: {
         type: Sequelize.INTEGER,
