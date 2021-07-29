@@ -13,7 +13,7 @@ const DeleteAccount = ({id}) => {
    const [state, setState] = useState({
       accountName: ''
    });
-   console.log(state);
+
    const idToDelete = id;
 
 
@@ -25,8 +25,6 @@ const DeleteAccount = ({id}) => {
          ...prevState,
          [name]: value
       }));
-
-
    };
 
 
@@ -38,18 +36,16 @@ const DeleteAccount = ({id}) => {
       }
    };
 
-
-   let disable = true;
+   let disableButton = true;
 
    for (let i = 0; i < deleteAccount.length; i++) {
       if (state.accountName === deleteAccount[i].accountName) {
-         disable = false;
+         disableButton = false;
       }
    }
 
    const onDeleteFormSubmit = (e) => {
       e.preventDefault();
-
 
       for (let i = 0; i < deleteAccount.length; i++) {
          if (state.accountName === deleteAccount[i].accountName) {
@@ -58,8 +54,6 @@ const DeleteAccount = ({id}) => {
       }
 
    }
-
-    console.log(disable)
 
 
    return (
@@ -79,7 +73,7 @@ const DeleteAccount = ({id}) => {
              color="primary"
              variant="contained"
              loading={loading}
-             disabled={disable}
+             disabled={disableButton}
            >
               Delete
            </ButtonWithProgress>

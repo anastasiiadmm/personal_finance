@@ -50,9 +50,8 @@ const accountsSlice = createSlice({
         createAccountRequest: state => {
             state.createAccountLoading = true;
         },
-        createAccountSuccess: (state, {payload: account}) => {
+        createAccountSuccess: (state) => {
             state.createAccountLoading = false;
-            // state.account = account;
         },
         createAccountFailure: (state, {payload: error}) => {
             state.createAccountLoading = false;
