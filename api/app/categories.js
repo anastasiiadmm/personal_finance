@@ -7,14 +7,19 @@ const router = express.Router();
 
 router.post('/', auth, upload.single('categoryIcon'), async (req, res) => {
   try {
-    const CategoryResponse = await Category.create({
+
+    const categoryData = {
       name: req.body.name,
       icon: req.file ? req.file.filename : null,
       categoryType: req.body.categoryType,
-      // category: req.body.category === 0 ? req.body.category : null,
       userId: req.user.id,
-      sub: req.body.category !== 0,
-    });
+    };
+
+    if (req.body.category !== '') {
+      categoryData.category = req.body.category;
+      categoryData.sub = true;
+    }
+    const CategoryResponse = await Category.create(categoryData);
     res.status(200).send(CategoryResponse);
   } catch (e) {
     return res.status(400).send({message: e.message});
@@ -26,9 +31,10 @@ router.get('/', auth, async (req, res) => {
 
   try {
     const CategoryResponse = await Category.findAll({
-      where: {id: req.user.id},
+      where: {userId: req.user.id},
       include: {model: Category, as: 'subCategory'}
     });
+
     res.status(200).send(CategoryResponse);
   } catch (e) {
     return res.status(400).send({message: e.message});

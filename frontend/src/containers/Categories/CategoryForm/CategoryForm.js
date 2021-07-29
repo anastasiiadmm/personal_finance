@@ -23,7 +23,7 @@ const CategoryForm = () => {
         name: '',
         categoryType: '',
         categoryIcon: '',
-        category: 0
+        category: ''
     });
 
     const [update, setUpdate] = useState(false);
@@ -121,7 +121,7 @@ const CategoryForm = () => {
                     ))}
                 </TextField>
 
-
+                {console.log(category, ' --------------->>>>>>>>>>>>>>>')}
                 <Grid item xs>
                     <FileInput
                         name="categoryIcon"
