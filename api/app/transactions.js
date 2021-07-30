@@ -7,201 +7,233 @@ const {Transaction} = require('../models');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  try {
-    const criteria = {};
+    try {
+        const criteria = {};
 
-    if (req.query.category) {
-      criteria.id = req.query.category;
+        if (req.query.category) {
+            criteria.id = req.query.category;
+        }
+
+        const transactions = await Transaction.findAll({
+            include: [{
+                association: 'category',
+                attributes: ['id', 'name', 'icon'],
+                where: criteria
+            }, {association: 'user', attributes: ['id', 'displayName', 'avatar'],}, {
+                association: 'accountFrom',
+                attributes: ['id', 'accountName']
+            }, {association: 'accountTo', attributes: ['id', 'accountName']}]
+        });
+
+        res.status(200).send(transactions);
+    } catch (e) {
+        return res.status(400).send({message: e.message});
     }
+});
 
-    const transactions = await Transaction.findAll({
-      include: [{
-        association: 'category',
-        attributes: ['id', 'name', 'icon'],
-        where: criteria
-      }, {association: 'user', attributes: ['id', 'displayName', 'avatar'],}, {
-        association: 'accountFrom',
-        attributes: ['id', 'accountName']
-      }, {association: 'accountTo', attributes: ['id', 'accountName']}]
-    });
+router.get('/transactionType', auth, async (req, res) => {
+    try {
+        console.log(req)
+        const criteria = {};
 
-    res.status(200).send(transactions);
-  } catch (e) {
-    return res.status(400).send({message: e.message});
-  }
+        if (req.query.categoryType) {
+            criteria.categoryType = req.query.categoryType;
+        }
+
+        const transactions = await Transaction.findAll({
+            include: [{
+                association: 'category',
+                attributes: ['id', 'name', 'icon'],
+                where: criteria
+            }, {
+                association: 'user',
+                attributes: ['id', 'displayName', 'avatar']
+            }, {
+                association: 'accountFrom',
+                attributes: ['id', 'accountName']
+            }, {
+                association: 'accountTo',
+                attributes: ['id', 'accountName']
+            }]
+        });
+
+        res.status(200).send(transactions);
+    } catch (e) {
+        return res.status(400).send({message: e.message});
+    }
 });
 
 router.post('/transfer', upload.single('cashierCheck'), auth, async (req, res) => {
-  try {
-    const transactionData = {
-      userId: req.user.id,
-      accountToId: req.body.accountToId,
-      accountFromId: req.body.accountFromId,
-      sumOut: req.body.sumOut,
-      sumIn: req.body.sumIn,
-      date: req.body.date,
-      type: 'Transfer',
-      categoryId: req.body.categoryId,
-      description: req.body.description ? req.body.description : null,
-      cashierCheck: req.file ? req.file.filename : null
-    }
+    try {
+        const transactionData = {
+            userId: req.user.id,
+            accountToId: req.body.accountToId,
+            accountFromId: req.body.accountFromId,
+            sumOut: req.body.sumOut,
+            sumIn: req.body.sumIn,
+            date: req.body.date,
+            type: 'Transfer',
+            categoryId: req.body.categoryId,
+            description: req.body.description ? req.body.description : null,
+            cashierCheck: req.file ? req.file.filename : null
+        }
 
-    const transaction = await Transaction.create(transactionData);
-    res.status(200).send(transaction.toJSON());
-  } catch (e) {
-    return res.status(400).send({message: e.message});
-  }
+        const transaction = await Transaction.create(transactionData);
+        res.status(200).send(transaction.toJSON());
+    } catch (e) {
+        return res.status(400).send({message: e.message});
+    }
 });
 
 router.post('/expenditure', upload.single('cashierCheck'), auth, async (req, res) => {
-  try {
-    const transactionData = {
-      userId: req.user.id,
-      date: req.body.date,
-      type: 'Expense',
-      categoryId: req.body.categoryId,
-      description: req.body.description,
-      cashierCheck: req.file ? req.file.filename : null,
-    };
+    try {
+        const transactionData = {
+            userId: req.user.id,
+            date: req.body.date,
+            type: 'Expense',
+            categoryId: req.body.categoryId,
+            description: req.body.description,
+            cashierCheck: req.file ? req.file.filename : null,
+        };
 
-    if (req.body.accountFromId) {
-      transactionData.accountFromId = req.body.accountFromId;
-      transactionData.sumOut = req.body.sumOut;
-      transactionData.accountToId = null;
-      transactionData.sumIn = null;
+        if (req.body.accountFromId) {
+            transactionData.accountFromId = req.body.accountFromId;
+            transactionData.sumOut = req.body.sumOut;
+            transactionData.accountToId = null;
+            transactionData.sumIn = null;
+        }
+
+        const transaction = await Transaction.create(transactionData);
+        res.status(200).send(transaction.toJSON());
+    } catch (e) {
+        return res.status(400).send({message: e.message});
     }
-
-    const transaction = await Transaction.create(transactionData);
-    res.status(200).send(transaction.toJSON());
-  } catch (e) {
-    return res.status(400).send({message: e.message});
-  }
 });
 
 router.post('/income', upload.single('cashierCheck'), auth, async (req, res) => {
-  try {
-    const transactionData = {
-      userId: req.user.id,
-      categoryId: req.body.categoryId,
-      date: req.body.date,
-      type: 'Income',
-      description: req.body.description,
-      cashierCheck: req.file ? req.file.filename : null,
-    };
+    try {
+        const transactionData = {
+            userId: req.user.id,
+            categoryId: req.body.categoryId,
+            date: req.body.date,
+            type: 'Income',
+            description: req.body.description,
+            cashierCheck: req.file ? req.file.filename : null,
+        };
 
-    if (req.body.accountToId) {
-      transactionData.accountToId = req.body.accountToId;
-      transactionData.sumIn = req.body.sumIn;
-      transactionData.accountFromId = null;
-      transactionData.sumOut = null;
+        if (req.body.accountToId) {
+            transactionData.accountToId = req.body.accountToId;
+            transactionData.sumIn = req.body.sumIn;
+            transactionData.accountFromId = null;
+            transactionData.sumOut = null;
+        }
+
+        const transaction = await Transaction.create(transactionData);
+        res.status(200).send(transaction.toJSON());
+    } catch (e) {
+        return res.status(400).send({message: e.message});
     }
-
-    const transaction = await Transaction.create(transactionData);
-    res.status(200).send(transaction.toJSON());
-  } catch (e) {
-    return res.status(400).send({message: e.message});
-  }
 });
 
 router.put('/:id', upload.single('cashierCheck'), async (req, res) => {
-  try {
-    const transaction = await Transaction.findOne({
-        where: {id: req.params.id},
-        include: {
-          association: 'user',
-          where: {id: req.body.userId},
-          include: {
-            association: 'groups',
-            through: {
-              attributes: ['userId'],
-              where: {userId: req.body.userId}
+    try {
+        const transaction = await Transaction.findOne({
+                where: {id: req.params.id},
+                include: {
+                    association: 'user',
+                    where: {id: req.body.userId},
+                    include: {
+                        association: 'groups',
+                        through: {
+                            attributes: ['userId'],
+                            where: {userId: req.body.userId}
+                        },
+                        include: [{
+                            association: 'users',
+                            attributes: ['displayName', 'id'],
+                            where: {id: req.body.userId},
+                            through: {
+                                attributes: ['role'],
+                                where: {
+                                    [Op.or]: [
+                                        {role: 'admin'},
+                                        {role: 'owner'}
+                                    ]
+                                }
+                            }
+                        }]
+                    }
+                },
+            }
+        );
+
+        if (!transaction) {
+            return res.status(404).send({message: "No permission"});
+        }
+
+        await Transaction.update({
+                categoryId: req.body.categoryId,
+                sumIn: req.body.sumIn,
+                sumOut: req.body.sumOut,
+                description: req.body.description,
             },
-            include: [{
-              association: 'users',
-              attributes: ['displayName', 'id'],
-              where: {id: req.body.userId},
-              through: {
-                attributes: ['role'],
-                where: {
-                  [Op.or]: [
-                    {role: 'admin'},
-                    {role: 'owner'}
-                  ]
-                }
-              }
-            }]
-          }
-        },
-      }
-    );
+            {where: {id: req.params.id}});
 
-    if (!transaction) {
-      return res.status(404).send({message: "No permission"});
+
+        if (req.file) {
+            await transaction.update({
+                cashierCheck: req.file.filename
+            })
+        }
+
+        res.status(200).send('Success');
+    } catch (e) {
+        res.status(400).send({message: e.message});
     }
-
-    await Transaction.update({
-        categoryId: req.body.categoryId,
-        sumIn: req.body.sumIn,
-        sumOut: req.body.sumOut,
-        description: req.body.description,
-      },
-      {where: {id: req.params.id}});
-
-
-    if (req.file) {
-      await transaction.update({
-        cashierCheck: req.file.filename
-      })
-    }
-
-    res.status(200).send('Success');
-  } catch (e) {
-    res.status(400).send({message: e.message});
-  }
 });
 
 router.delete('/:id', auth, async (req, res) => {
-  try {
-    const transaction = await Transaction.findOne({
-        where: {id: req.params.id},
-        include: {
-          association: 'user',
-          where: {id: req.user.id},
-          include: {
-            association: 'groups',
-            through: {
-              attributes: ['userId'],
-              where: {userId: req.user.id}
-            },
-            include: [{
-              association: 'users',
-              attributes: ['displayName', 'id'],
-              where: {id: req.user.id},
-              through: {
-                attributes: ['role'],
-                where: {
-                  [Op.or]: [
-                    {role: 'admin'},
-                    {role: 'owner'}
-                  ]
-                }
-              }
-            }]
-          }
-        },
-      }
-    );
+    try {
+        const transaction = await Transaction.findOne({
+                where: {id: req.params.id},
+                include: {
+                    association: 'user',
+                    where: {id: req.user.id},
+                    include: {
+                        association: 'groups',
+                        through: {
+                            attributes: ['userId'],
+                            where: {userId: req.user.id}
+                        },
+                        include: [{
+                            association: 'users',
+                            attributes: ['displayName', 'id'],
+                            where: {id: req.user.id},
+                            through: {
+                                attributes: ['role'],
+                                where: {
+                                    [Op.or]: [
+                                        {role: 'admin'},
+                                        {role: 'owner'}
+                                    ]
+                                }
+                            }
+                        }]
+                    }
+                },
+            }
+        );
 
-    if (!transaction) {
-      return res.status(404).send({message: "No permission"});
+        if (!transaction) {
+            return res.status(404).send({message: "No permission"});
+        }
+
+        await transaction.destroy({where: {id: req.params.id}});
+
+        res.status(200).send('Successfully deleted!');
+    } catch (e) {
+        res.status(400).send('Not deleted!')
     }
-
-    await transaction.destroy({where: {id: req.params.id}});
-
-    res.status(200).send('Successfully deleted!');
-  } catch (e) {
-    res.status(400).send('Not deleted!')
-  }
 });
 
 module.exports = router;
