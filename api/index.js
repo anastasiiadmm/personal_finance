@@ -11,9 +11,9 @@ const transactions = require('./app/transactions');
 const config = require("./config/config");
 
 const app = express();
+app.use(cors());
 app.use(express.static('public/uploads'));
 app.use(express.json());
-app.use(cors());
 
 app.use('/users', users);
 app.use('/groups', groups);
