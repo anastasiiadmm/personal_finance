@@ -61,7 +61,7 @@ const Transaction = () => {
                             labels: transactions.map(tr => (tr.category.name)),
                             datasets: [{
                                 label: 'My First Dataset',
-                                data: transactions.map(tr => (tr.sumIn || tr.sumOut)),
+                                data: transactions.map(tr => (+tr.sumIn || -tr.sumOut)),
                                 backgroundColor: [
                                     '#9c27b0',
                                     '#4caf50',
