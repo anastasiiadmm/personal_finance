@@ -20,8 +20,6 @@ const Transaction = () => {
     const classes = useStyle();
     const dispatch = useDispatch();
     const transactions = useSelector(state => state.transactions.transactions);
-    console.log(transactions)
-
     const [state, setState] = useState('');
 
     useEffect(() => {
@@ -31,11 +29,6 @@ const Transaction = () => {
     const handleSearch = () => {
         dispatch(transactionsTypeRequest({categoryType: state}));
     }
-
-    // const inputChangeHandler = (e) => {
-    //     const {name, value} = e.target;
-    //     setState(prev => ({...prev, [name]: value}));
-    // };
 
     return (
         <Grid item container direction="column" className={classes.root}>
