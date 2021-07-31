@@ -9,6 +9,11 @@ export const roles = [
   {id: 'user', title: 'user'}
 ]
 
+export const categoryTypes = [
+  {id: 'Expenditure', title: "Expenditure"},
+  {id: 'Income', title: 'Income'}
+]
+
 export const teams = [
   {id: '1', name: "Anastasiia", position: "FullStack Developer", url: 'https://cdn.dribbble.com/users/1104566/screenshots/9528491/media/9c0f4613fbaeb3f7c907f67b5f1b9de8.png?compress=1&resize=1600x1200'},
   {id: '2', name: "Ignat", position: "FullStack Developer", url: 'https://cdn.dribbble.com/users/35810/screenshots/13268937/media/b902f9e004dcfb6b393e59d36ec07426.jpg?compress=1&resize=1600x1200'},

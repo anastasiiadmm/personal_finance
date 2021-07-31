@@ -20,7 +20,7 @@ const createMulter = (dirName) => {
 };
 
 
-const avatar = createMulter('avatar');
+const avatar = createMulter('avatarImages');
 const group = createMulter('group');
 const cashierCheck = createMulter('cashierCheck');
 const categoryIcon = createMulter('categoryIcon');

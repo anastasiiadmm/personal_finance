@@ -3,26 +3,20 @@ import FormElement from "../../../components/UI/Form/FormElement";
 import ButtonWithProgress from "../../../components/UI/ButtonWithProgress/ButtonWithProgress";
 import Grid from "@material-ui/core/Grid";
 import FileInput from "../../../components/UI/Form/FileInput";
+import {useSelector} from "react-redux";
+import {currencies} from "../../../utils";
 
 const AccountForm = ({onSubmit, loading, error, onClose}) => {
+
+    const accountPreferences = useSelector(state => state.accounts.accounts);
+
     const [state, setState] = useState({
         accountName: '',
         balance: '',
-        preferences: '',
+        preferences: accountPreferences.preferences,
         accountIcon: ''
     });
 
-    // const submitFormHandler = e => {
-    //     e.preventDefault();
-    //
-    //     const formData = new FormData();
-    //
-    //     Object.keys(state).forEach(key => {
-    //         formData.append(key, state[key]);
-    //     });
-    //
-    //     onSubmit(formData);
-    // };
 
     const inputChangeHandler = e => {
         const name = e.target.name;
@@ -58,7 +52,7 @@ const AccountForm = ({onSubmit, loading, error, onClose}) => {
             <Grid container direction="column" spacing={2}>
                 <FormElement
                     required
-                    label="Accounts title"
+                    label="Account title"
                     name="accountName"
                     value={state.accountName}
                     onChange={inputChangeHandler}
@@ -75,9 +69,12 @@ const AccountForm = ({onSubmit, loading, error, onClose}) => {
                 />
 
                 <FormElement
+                    required
                     label="Preferences"
                     name="preferences"
                     value={state.preferences}
+                    select
+                    options={currencies}
                     onChange={inputChangeHandler}
                     error={getFieldError('preferences')}
                 />

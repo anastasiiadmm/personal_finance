@@ -25,6 +25,16 @@ const transactionsSlice = createSlice({
       state.transactionsLoading = false;
       state.transactionsError = error;
     },
+    transactionsTypeRequest: (state) => {
+      state.transactionsLoading = true;
+    },
+    transactionsTypeSuccess: (state, {payload: transaction}) => {
+      state.transactionsLoading = false;
+      state.transactions = transaction;
+    },
+    transactionsTypeFailure: (state) => {
+      state.transactionsLoading = false;
+    },
     transactionPost: (state) => {
       state.transactionPostLoading = true;
     },

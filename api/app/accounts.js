@@ -13,14 +13,11 @@ router.get('/', auth, async (req, res) => {
   } catch (e) {
     return res.status(400).send({message: e.message});
   }
-
 });
 
 router.get('/:id', async (req, res) => {
   try {
-    console.log(req.params.id);
     const accounts = await Account.findAll({where: {groupId: req.params.id}});
-    console.log(accounts + 'get');
     res.status(200).send(accounts);
   } catch (e) {
     return res.status(400).send({message: e.message});
@@ -28,14 +25,6 @@ router.get('/:id', async (req, res) => {
 
 });
 
-// router.get('/:id', async (req, res) => {
-//   try {
-//     const account = await Account.findOne({where: {id: req.params.id}});
-//     res.status(200).send(account);
-//   } catch (e) {
-//     return res.status(400).send({message: e.message});
-//   }
-// });
 
 router.post('/:id', auth, upload.single('accountIcon'), async (req, res) => {
 
@@ -52,7 +41,6 @@ router.post('/:id', auth, upload.single('accountIcon'), async (req, res) => {
       accountIcon: req.file ? req.file.filename : null,
     });
 
-    console.log(account.accountName + ' post');
     res.status(200).send(account);
   } catch (e) {
     return res.status(400).send({message: e.message});
@@ -83,8 +71,11 @@ router.delete('/:id', auth, async (req, res) => {
     const account = await Account.findOne({where: {id: req.params.id}});
     account.destroy();
     res.send("Accounts deleted!");
+    console.log(account + 'delete')
+
   } catch (e) {
     res.status(400).send({message: e.message});
+    console.log(e + 'error')
   }
 
 });
