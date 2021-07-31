@@ -1,0 +1,9 @@
+.d-tree-node {
+    padding: 0.75rem 1.25rem;
+}
+.d-tree-toggler.active {
+    transform: rotate(45deg);
+}
+.d-tree-content {
+    padding-left: 20px;
+}

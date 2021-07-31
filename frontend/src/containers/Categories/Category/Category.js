@@ -6,7 +6,7 @@ import {NavLink} from "react-router-dom";
 const Category = ({category, handleDelete}) => {
     return (
        <Paper>
-           <Box m={1} p={1}>
+           <Box m={1}>
                <Grid
                    container
                    direction="row"
@@ -14,10 +14,12 @@ const Category = ({category, handleDelete}) => {
                    alignItems="baseline"
                >
                    <Grid>Category: {category.name}</Grid>
-                   <Grid>Type: {category.categoryType}</Grid>
+                   <Grid style={{padding: '0px 10px'}}>Type: {category.categoryType}</Grid>
                    <Grid>
-                       <NavLink to={"/category/" + category.id}><Button variant="contained" color="primary">edit</Button></NavLink>
-                       <Button onClick={() => handleDelete(category.id)} variant="contained" color="secondary">delete</Button>
+                       <NavLink to={"/category/" + category.id}>
+                           <Button style={{maxWidth: '10px', maxHeight: '20px'}} variant="contained" color="primary">edit</Button>
+                       </NavLink>
+                       <Button style={{maxWidth: '10px', maxHeight: '20px'}} onClick={() => handleDelete(category.id)} variant="contained" color="secondary">delete</Button>
                    </Grid>
                </Grid>
            </Box>

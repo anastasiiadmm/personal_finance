@@ -10,21 +10,89 @@ import GridItem from "../../template/Grid/GridItem";
 import Button from "@material-ui/core/Button";
 import {NavLink} from "react-router-dom";
 import {
-    Backdrop, Box,
+    Backdrop,
+    Box,
     Fade,
     FormControl,
     FormControlLabel,
     FormLabel,
     makeStyles,
     Modal,
-    Paper, Radio,
+    Paper,
+    Radio,
     RadioGroup
 } from "@material-ui/core";
 import styles from "../../assets/jss/material-dashboard-react/views/dashboardStyle";
 import Grid from "@material-ui/core/Grid";
 import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
+import 'react-sortable-tree/style.css';
+import Tree from "../../components/Tree/Tree";
 
 const useStyles = makeStyles(styles);
+
+// const treeData = [
+//     {
+//         label: "Documents",
+//         icon: "fa fa-folder",
+//         title: "Documents Folder",
+//         children: [
+//             {
+//                 label: "Document 1-1",
+//                 icon: "fa fa-folder",
+//                 title: "Documents Folder",
+//                 children: [
+//                     {
+//                         label: "Document-0-1.doc",
+//                         icon: "fa fa-file",
+//                         title: "Documents Folder",
+//                     },
+//                     {
+//                         label: "Document-0-2.doc",
+//                         icon: "fa fa-file",
+//                         title: "Documents Folder",
+//                     },
+//                     {
+//                         label: "Document-0-3.doc",
+//                         icon: "fa fa-file",
+//                         title: "Documents Folder",
+//                     },
+//                     {
+//                         label: "Document-0-4.doc",
+//                         icon: "fa fa-file",
+//                         title: "Documents Folder",
+//                     },
+//                 ],
+//             },
+//         ],
+//     },
+//     {
+//         key: "1",
+//         label: "Desktop",
+//         icon: "fa fa-desktop",
+//         title: "Desktop Folder",
+//         children: [
+//             {
+//                 key: "1-0",
+//                 label: "document1.doc",
+//                 icon: "fa fa-file",
+//                 title: "Documents Folder",
+//             },
+//             {
+//                 key: "0-0",
+//                 label: "documennt-2.doc",
+//                 icon: "fa fa-file",
+//                 title: "Documents Folder",
+//             },
+//         ],
+//     },
+//     {
+//         key: "2",
+//         label: "Downloads",
+//         icon: "fa fa-download",
+//         title: "Downloads Folder",
+//         children: [],
+//     },
+// ];
 
 const Categories = () => {
     const classes = useStyles();
@@ -38,7 +106,7 @@ const Categories = () => {
 
     useEffect(() => {
         dispatch(fetchCategoriesRequest());
-    }, [dispatch])
+    }, [dispatch]);
 
     useEffect(() => {
         if(categoryToDelete) {
@@ -77,9 +145,10 @@ const Categories = () => {
     return (
         <>
             <GridItem>
-                {categories && categories.map(category => {
-                    return <Category key={category.id} category={category} handleDelete={handleCheckToDelete}/>
-                })}
+                <Tree data={categories} handleDelete={handleCheckToDelete}/>
+                {/*{categories && categories.map(category => {*/}
+                {/*    return <Category key={category.id} category={category} handleDelete={handleCheckToDelete}/>*/}
+                {/*})}*/}
                 <GridItem>
                     <NavLink to={'/category/add'}><Button variant="contained" color="primary" >Add new category</Button></NavLink>
                 </GridItem>

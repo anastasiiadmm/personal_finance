@@ -31,7 +31,7 @@ router.get('/', auth, async (req, res) => {
 
   try {
     const CategoryResponse = await Category.findAll({
-      where: {userId: req.user.id},
+      where: {userId: req.user.id, sub: 0},
       include: {model: Category, as: 'subCategory'}
     });
 
