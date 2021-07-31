@@ -10,7 +10,7 @@ export const roles = [
 ]
 
 export const categoryTypes = [
-  {id: 'Expenditure', title: "Expenditure"},
+  {id: 'Expense', title: "Expense"},
   {id: 'Income', title: 'Income'}
 ]
 

@@ -9,7 +9,11 @@ import FormElement from "../../components/UI/Form/FormElement";
 import {categoryTypes} from "../../utils";
 
 const useStyle = makeStyles({
-    root: {}
+    root: {},
+    chart: {
+        width: 750,
+        height: 750
+    }
 });
 
 const Transaction = () => {
@@ -18,15 +22,20 @@ const Transaction = () => {
     const transactions = useSelector(state => state.transactions.transactions);
     console.log(transactions)
 
-    const [categoryType, setCategoryType] = useState('');
+    const [state, setState] = useState('');
 
     useEffect(() => {
         dispatch(transactionsTypeRequest());
     }, [dispatch]);
 
     const handleSearch = () => {
-        dispatch(transactionsTypeRequest({categoryType: categoryType}));
+        dispatch(transactionsTypeRequest({categoryType: state}));
     }
+
+    // const inputChangeHandler = (e) => {
+    //     const {name, value} = e.target;
+    //     setState(prev => ({...prev, [name]: value}));
+    // };
 
     return (
         <Grid item container direction="column" className={classes.root}>
@@ -35,37 +44,50 @@ const Transaction = () => {
                     required
                     label="Filter by category type"
                     name="categoryType"
-                    value={categoryType}
+                    value={state}
                     select
                     options={categoryTypes}
-                    onChange={(e) => setCategoryType(e.target.value)}
+                    onChange={e => setState(e.target.value)}
                 />
                 <Grid item xs>
                     <Button color='primary' onClick={handleSearch}>Search</Button>
                 </Grid>
             </Grid>
             <Grid item xs>
-                <Doughnut
-                    width={100}
-                    height={100}
-                    type='doughnut'
-                    data={{
-                        labels: transactions.map(tr => (tr.category.name)),
-                        datasets: [{
-                            label: 'My First Dataset',
-                            data: transactions.map(tr => (tr.sumIn)),
-                            backgroundColor: [
-                                '#9c27b0',
-                                '#4caf50',
-                                '#00acc1'
-                            ],
-                            hoverOffset: 4
-                        }]
-                    }}
-                    options={{
-
-                    }}
-                />
+                    <Doughnut
+                        style={{width: 600, height: 600, padding: 20}}
+                        type='doughnut'
+                        data={{
+                            labels: transactions.map(tr => (tr.category.name)),
+                            datasets: [{
+                                label: 'My First Dataset',
+                                data: transactions.map(tr => (tr.sumIn || tr.sumOut)),
+                                backgroundColor: [
+                                    '#9c27b0',
+                                    '#4caf50',
+                                    '#00acc1'
+                                ],
+                                hoverOffset: 4,
+                                borderWidth: 2
+                            }]
+                        }}
+                        options={{
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'right',
+                                    labels: {
+                                        color: '#9c27b0',
+                                        font: {
+                                            size: 18
+                                        }
+                                    }
+                                }
+                            }
+                        }}
+                    />
             </Grid>
         </Grid>
     );

@@ -35,16 +35,17 @@ router.get('/transactionType', auth, async (req, res) => {
     try {
         console.log(req)
         const criteria = {};
+        console.log(criteria)
 
-        if (req.query.categoryType) {
-            criteria.categoryType = req.query.categoryType;
+        if (req.query.type) {
+            criteria.type = req.query.type;
         }
 
         const transactions = await Transaction.findAll({
+            where: criteria,
             include: [{
                 association: 'category',
-                attributes: ['id', 'name', 'icon'],
-                where: criteria
+                attributes: ['id', 'name', 'icon']
             }, {
                 association: 'user',
                 attributes: ['id', 'displayName', 'avatar']
