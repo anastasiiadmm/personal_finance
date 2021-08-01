@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {apiURL} from "../../../config";
 import {deleteGroupRequest, singleGroupRequest} from "../../../store/actions/groupsActions";
 import InviteFriendForm from "./SingleGroupForms/InviteFriendForm";
-import Transaction from "../../Transaction/Transaction";
+import Chart from "../../Chart/Chart";
 import Accounts from "../../Accounts/Accounts";
 import EditGroupForm from "./SingleGroupForms/EditGroupForm";
 import EditUsersGroupForm from "./SingleGroupForms/EditUsersGroupForm";
@@ -175,7 +175,7 @@ const SingleGroup = ({match}) => {
                     <Accounts/>
                 </Grid>
                 <Grid item container spacing={2} justify="center" alignItems="center">
-                    <Transaction/>
+                    <Chart/>
                 </Grid>
 
                 <Button justIcon className={classes.addBtn} color="primary">

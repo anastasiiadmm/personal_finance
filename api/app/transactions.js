@@ -43,6 +43,14 @@ router.get('/transactionType', auth, async (req, res) => {
 
         const transactions = await Transaction.findAll({
             where: criteria,
+            through: {
+                attributes: ['type'],
+                where: {
+                    [Op.ne]: [
+                        {type: 'Transfer'}
+                    ]
+                }
+            },
             include: [{
                 association: 'category',
                 attributes: ['id', 'name', 'icon']
