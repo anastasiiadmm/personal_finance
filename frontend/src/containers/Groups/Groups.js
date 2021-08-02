@@ -21,81 +21,81 @@ import Button from "../../components/UI/CustomButtons/Button";
 const useStyles = makeStyles(styles);
 
 const Groups = () => {
-    const classes = useStyles();
-    const dispatch = useDispatch();
-    const groups = useSelector(state => state.groups.groups);
-    const error = useSelector(state => state.groups.createGroupError);
-    const loading = useSelector(state => state.groups.createGroupLoading);
-    const [open, setOpen] = useState(false);
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const groups = useSelector(state => state.groups.groups);
+  const error = useSelector(state => state.groups.createGroupError);
+  const loading = useSelector(state => state.groups.createGroupLoading);
+  const [open, setOpen] = useState(false);
 
-    const onGroupFormSubmit = async groupData => {
-        dispatch(createGroupRequest(groupData));
-    }
+  const onGroupFormSubmit = async groupData => {
+    dispatch(createGroupRequest(groupData));
+  }
 
-    useEffect(() => {
-        dispatch(groupsRequest());
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(groupsRequest());
+  }, [dispatch]);
 
-    return (
-        <>
-            <Grid item container spacing={6} direction="column">
-                <Grid item>
-                    <Button color="primary" startIcon={<AddCircleOutlineIcon/>} onClick={() => setOpen(true)}>
-                        Add new group
-                    </Button>
-                </Grid>
-                <Grid item container spacing={2}>
-                    {groups && (groups.map(group => (
-                        <GridItem item xs={12} sm={6} md={5} key={group.id}>
-                            <Card>
-                                <CardHeader color="warning" stats icon>
-                                    <CardIcon color="warning">
-                                        {group.avatar ? (
-                                            <Avatar alt={group.title} src={apiURL + '/' + group.avatar}
-                                                    className={classes.small}/>
-                                        ) : (
-                                            <Avatar alt={group.title}
-                                                    src={GroupIcon}
-                                                    className={classes.small}
-                                            />
-                                        )}
-                                    </CardIcon>
-                                    <h3 className={classes.cardTitle}>{group.title}</h3>
-                                </CardHeader>
-                                <CardFooter stats>
-                                    <Link to={`/groups/${group.id}`} className={classes.linkButton}>More info</Link>
-                                </CardFooter>
-                            </Card>
-                        </GridItem>
-                    )))}
-                </Grid>
-            </Grid>
+  return (
+    <>
+      <Grid item container spacing={6} direction="column">
+        <Grid item>
+          <Button color="primary" startIcon={<AddCircleOutlineIcon/>} onClick={() => setOpen(true)}>
+            Add new group
+          </Button>
+        </Grid>
+        <Grid item container spacing={2}>
+          {groups && (groups.map(group => (
+            <GridItem item xs={12} sm={6} md={5} key={group.id}>
+              <Card>
+                <CardHeader color="warning" stats icon>
+                  <CardIcon color="warning">
+                    {group.avatar ? (
+                      <Avatar alt={group.title} src={apiURL + '/' + group.avatar}
+                              className={classes.small}/>
+                    ) : (
+                      <Avatar alt={group.title}
+                              src={GroupIcon}
+                              className={classes.small}
+                      />
+                    )}
+                  </CardIcon>
+                  <h3 className={classes.cardTitle}>{group.title}</h3>
+                </CardHeader>
+                <CardFooter stats>
+                  <Link to={`/groups/${group.id}`} className={classes.linkButton}>More info</Link>
+                </CardFooter>
+              </Card>
+            </GridItem>
+          )))}
+        </Grid>
+      </Grid>
 
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                className={classes.modal}
-                open={open}
-                onClose={() => setOpen(false)}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 500,
-                }}
-            >
-                <Fade in={open}>
-                    <div className={classes.paper}>
-                        <GroupForm
-                            onSubmit={onGroupFormSubmit}
-                            loading={loading}
-                            error={error}
-                            onClose={() => setOpen(false)}
-                        />
-                    </div>
-                </Fade>
-            </Modal>
-        </>
-    );
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={open}
+        onClose={() => setOpen(false)}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <div className={classes.paper}>
+            <GroupForm
+              onSubmit={onGroupFormSubmit}
+              loading={loading}
+              error={error}
+              onClose={() => setOpen(false)}
+            />
+          </div>
+        </Fade>
+      </Modal>
+    </>
+  );
 }
 
 export default Groups;

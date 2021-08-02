@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const EditGroupForm = ({onClose}) => {
+const EditGroupForm = ({onClose, disableButton}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const params = useParams();
@@ -81,6 +81,7 @@ const EditGroupForm = ({onClose}) => {
                     onChange={inputChangeHandler}
                     name="title"
                     value={state.title}
+                    disabled={disableButton}
                 />
                 <Grid item xs>
                     <FileInput

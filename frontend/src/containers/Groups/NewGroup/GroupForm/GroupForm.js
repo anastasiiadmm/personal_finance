@@ -5,85 +5,85 @@ import FileInput from "../../../../components/UI/Form/FileInput";
 import ButtonWithProgress from "../../../../components/UI/ButtonWithProgress/ButtonWithProgress";
 
 const GroupForm = ({onSubmit, loading, error, onClose}) => {
-    const [group, setGroup] = useState({
-        title: '',
-        avatar: ''
+  const [group, setGroup] = useState({
+    title: '',
+    avatar: ''
+  });
+
+  const submitFormHandler = e => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    Object.keys(group).forEach(key => {
+      formData.append(key, group[key]);
     });
 
-    const submitFormHandler = e => {
-        e.preventDefault();
+    onSubmit(formData);
+  };
 
-        const formData = new FormData();
+  const inputChangeHandler = e => {
+    const name = e.target.name;
+    const value = e.target.value;
 
-        Object.keys(group).forEach(key => {
-            formData.append(key, group[key]);
-        });
+    setGroup(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
 
-        onSubmit(formData);
-    };
+  const fileChangeHandler = e => {
+    const name = e.target.name;
+    const file = e.target.files[0];
 
-    const inputChangeHandler = e => {
-        const name = e.target.name;
-        const value = e.target.value;
+    setGroup(prevState => ({
+      ...prevState,
+      [name]: file
+    }));
+  };
 
-        setGroup(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
-    };
+  const getFieldError = fieldName => {
+    try {
+      return error.errors[fieldName].message;
+    } catch (e) {
+      return undefined;
+    }
+  };
 
-    const fileChangeHandler = e => {
-        const name = e.target.name;
-        const file = e.target.files[0];
+  return (
+    <form onSubmit={submitFormHandler} noValidate>
+      <Grid container direction="column" spacing={2}>
+        <FormElement
+          required
+          label="Title"
+          name="title"
+          value={group.title}
+          onChange={inputChangeHandler}
+          error={getFieldError('title')}
+        />
 
-        setGroup(prevState => ({
-            ...prevState,
-            [name]: file
-        }));
-    };
+        <Grid item xs>
+          <FileInput
+            name="avatar"
+            label="Image"
+            onChange={fileChangeHandler}
+            error={getFieldError('avatar')}
+          />
+        </Grid>
 
-    const getFieldError = fieldName => {
-        try {
-            return error.errors[fieldName].message;
-        } catch (e) {
-            return undefined;
-        }
-    };
+        <Grid item xs>
+          <ButtonWithProgress
+            type="submit" color="primary" variant="contained"
+            loading={loading} disabled={loading}
+            onClick={onClose}
+          >
+            Create
+          </ButtonWithProgress>
+        </Grid>
 
-    return (
-        <form onSubmit={submitFormHandler} noValidate>
-            <Grid container direction="column" spacing={2}>
-                <FormElement
-                    required
-                    label="Title"
-                    name="title"
-                    value={group.title}
-                    onChange={inputChangeHandler}
-                    error={getFieldError('title')}
-                />
-
-                <Grid item xs>
-                    <FileInput
-                        name="avatar"
-                        label="Image"
-                        onChange={fileChangeHandler}
-                        error={getFieldError('avatar')}
-                    />
-                </Grid>
-
-                <Grid item xs>
-                    <ButtonWithProgress
-                        type="submit" color="primary" variant="contained"
-                        loading={loading} disabled={loading}
-                        onClick={onClose}
-                    >
-                        Create
-                    </ButtonWithProgress>
-                </Grid>
-
-            </Grid>
-        </form>
-    );
+      </Grid>
+    </form>
+  );
 };
 
 export default GroupForm;
