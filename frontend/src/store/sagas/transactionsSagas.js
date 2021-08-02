@@ -5,8 +5,13 @@ import {
   deleteTransactionSuccess,
   transactionPost,
   transactionPostFailure,
-  transactionPostSuccess, transactionsFetchFailure,
-  transactionsFetchRequest, transactionsFetchSuccess
+  transactionPostSuccess,
+  transactionsFetchFailure,
+  transactionsFetchRequest,
+  transactionsFetchSuccess,
+  transactionsTypeFailure,
+  transactionsTypeRequest,
+  transactionsTypeSuccess
 } from "../actions/transactionsActions";
 import {addNotification} from "../actions/notifierActions";
 
@@ -40,6 +45,15 @@ export function* transactionsFetch({payload: data}) {
   }
 }
 
+export function* transactionsTypeFetch({payload: data}) {
+  try {
+    const response = yield axiosApi.get(`/transactions/transactionType?type=${data.categoryType}`);
+    yield put(transactionsTypeSuccess(response.data));
+  } catch (err) {
+    yield put(transactionsTypeFailure());
+  }
+}
+
 export function* deleteTransaction({payload: id}) {
     try {
         yield axiosApi.delete(`/transactions/${id}`);
@@ -53,7 +67,8 @@ export function* deleteTransaction({payload: id}) {
 const transactionsSagas = [
   takeEvery(transactionPost, postTransaction),
   takeEvery(transactionsFetchRequest, transactionsFetch),
-  takeEvery(deleteTransactionRequest, deleteTransaction)
+  takeEvery(deleteTransactionRequest, deleteTransaction),
+  takeEvery(transactionsTypeRequest, transactionsTypeFetch)
 ];
 
 export default transactionsSagas;
