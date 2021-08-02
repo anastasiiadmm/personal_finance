@@ -114,7 +114,14 @@ const Transactions = () => {
 
   const handleClose = (type) => {
     setOpenDialog({...openDialog, [type]: false});
+    if (!clear) {
+      setClear(!clear)
+    }
   };
+
+  const handleDialogOpen = (type) => {
+    setOpenDialog({...openDialog, [type]: !openDialog[type]})
+  }
 
   return (
     <Grid container direction="column" spacing={2}>
@@ -127,7 +134,7 @@ const Transactions = () => {
         <Grid container item xs={3} className={classes.criteriaContainer} alignItems="center">
           <Button block color={'grey'}
                   inputStyled
-                  onClick={() => setOpenDialog({...openDialog, category: true})}>
+                  onClick={() => handleDialogOpen('category')}>
             {criteria.category.name ? criteria.category.name : 'Category'}
             {<CategoryIcon/>}
           </Button>
@@ -135,7 +142,7 @@ const Transactions = () => {
         <Grid container item xs={3} className={classes.criteriaContainer} alignItems="center">
           <Button block color={'grey'}
                   inputStyled
-                  onClick={() => setOpenDialog({...openDialog, date: true})}>
+                  onClick={() => handleDialogOpen('date')}>
             {criteria.range[0].endDate ? ('0' + criteria.range[0].startDate?.getDate()).slice(-2) + '.' + ('0' + (criteria.range[0].startDate?.getMonth() + 1)).slice(-2) + '.' + criteria.range[0].startDate?.getFullYear() : 'Start date'}
             {<DateRangeIcon/>}
           </Button>
@@ -143,7 +150,7 @@ const Transactions = () => {
         <Grid container item xs={3} className={classes.criteriaContainer} alignItems="center">
           <Button block color={'grey'}
                   inputStyled
-                  onClick={() => setOpenDialog({...openDialog, date: true})}>
+                  onClick={() => handleDialogOpen('date')}>
             {criteria.range[0].endDate ? ('0' + criteria.range[0].endDate?.getDate()).slice(-2) + '.' + ('0' + (criteria.range[0].endDate?.getMonth() + 1)).slice(-2) + '.' + criteria.range[0].endDate?.getFullYear() : 'End date'}
             {<DateRangeIcon/>}
           </Button>
