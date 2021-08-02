@@ -108,7 +108,7 @@ router.post('/transfer', upload.single('cashierCheck'), auth, async (req, res) =
     const accountTo = await Account.findOne({where: {id: req.body.accountToId}});
     accountTo.balance = accountTo.balance + parseInt(req.body.sumIn);
     await accountTo.save();
-    await accountFrom.save()
+    await accountFrom.save();
 
     const transaction = await Transaction.create(transactionData);
     res.status(200).send(transaction.toJSON());
