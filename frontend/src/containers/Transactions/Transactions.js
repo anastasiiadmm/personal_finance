@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import { transactionsFetchRequest} from "../../store/actions/transactionsActions";
+import {transactionsFetchRequest} from "../../store/actions/transactionsActions";
 import {useDispatch, useSelector} from "react-redux";
 import Button from "../../template/CustomButtons/Button";
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
@@ -61,6 +61,7 @@ const Transactions = () => {
   });
   const [openDialog, setOpenDialog] = useState({date: false, category: false, details: true});
   const [search, setSearch] = useState(true);
+  const [clear, setClear] = useState(true);
 
 
   useEffect(() => {
@@ -76,8 +77,23 @@ const Transactions = () => {
   }, [dispatch, criteria, search]);
 
   const handleSearch = () => {
-    setSearch(!search)
-    console.log(criteria)
+    setSearch(!search);
+    setClear(!clear);
+  }
+  const handleClearSearch = () => {
+    setCriteria({
+      ...criteria, range: [{
+        startDate: null,
+        endDate: null,
+        key: 'selection',
+        color: primaryColor[1]
+      }],
+      category: {
+        id: null, name: null
+      }
+    })
+    setSearch(!search);
+    setClear(!clear);
   }
   //
   // const onDeleteTransactHandler = id => {
@@ -133,7 +149,8 @@ const Transactions = () => {
           </Button>
         </Grid>
         <Grid container item xs={3} className={classes.criteriaContainer} alignItems="center">
-          <Button block color='primary' onClick={handleSearch}>Search</Button>
+          {clear ? <Button block color='success' onClick={handleSearch}>Search</Button> :
+            <Button block color='rose' onClick={handleClearSearch}>Show all</Button>}
         </Grid>
       </Grid>
       <Grid container item xs={12}>
