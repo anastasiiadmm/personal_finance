@@ -122,34 +122,39 @@ const SingleGroup = ({match}) => {
                             <Grid item sm={6} md={6}>
                                 <Typography variant="h4">{group.title}</Typography>
                             </Grid>
-                            {group.title !== 'Personal' && (
-                                <>
-                                    {group.users && group.users.map(user => (
-                                        <Grid item sm={6} md={6} key={user.id}>
-                                            {user.GroupUsers.role === 'owner' && (
-                                                <Grid item container direction='row' spacing={1} alignItems='center'
-                                                      justify='flex-end'>
-                                                    <Grid item>
-                                                        <Button id="add-button" color="primary" justIcon onClick={() => setOpen(true)}>
-                                                            <GroupAddIcon/>
-                                                        </Button>
-                                                    </Grid>
-                                                    <Grid item>
-                                                        <Button id="delete-button" color="primary" justIcon onClick={onDeleteGroupHandler}>
-                                                            <DeleteForeverIcon/>
-                                                        </Button>
-                                                    </Grid>
-                                                    <Grid item>
-                                                        <Button id="edit-button" color="primary" justIcon onClick={() => setModalOpen(true)}>
-                                                            <EditIcon/>
-                                                        </Button>
-                                                    </Grid>
+                            <>
+                                {group.users && group.users.map(user => (
+                                    <Grid item sm={6} md={6} key={user.id}>
+                                        {user.GroupUsers.role === 'owner' && (
+                                            <Grid item container direction='row' spacing={1} alignItems='center'
+                                                  justify='flex-end'>
+                                                <Grid item>
+                                                    <Button id="add-button" color="primary" justIcon
+                                                            onClick={() => setOpen(true)}>
+                                                        <GroupAddIcon/>
+                                                    </Button>
                                                 </Grid>
-                                            )}
-                                        </Grid>
-                                    ))}
-                                </>
-                            )}
+                                                {group.title !== 'Personal' && (
+                                                    <>
+                                                        <Grid item>
+                                                            <Button id="edit-button" color="primary" justIcon
+                                                                    onClick={() => setModalOpen(true)}>
+                                                                <EditIcon/>
+                                                            </Button>
+                                                        </Grid>
+                                                        <Grid item>
+                                                            <Button id="delete-button" color="primary" justIcon
+                                                                    onClick={onDeleteGroupHandler}>
+                                                                <DeleteForeverIcon/>
+                                                            </Button>
+                                                        </Grid>
+                                                    </>
+                                                )}
+                                            </Grid>
+                                        )}
+                                    </Grid>
+                                ))}
+                            </>
                         </Grid>
                         {group.nameGroup !== 'personal' && (
                             <Grid item container spacing={2} alignItems="center">
