@@ -98,7 +98,7 @@ const NewTransaction = ({handleClose, open, type}) => {
     if (cashierCheck !== '') {
       transaction.cashierCheck = cashierCheck;
     }
-    if (description.current !== '') {
+    if (description.current !== '' && description.current != null) {
       transaction.description = description.current.value;
     }
     transaction.categoryId = categoryId.current.id;
@@ -108,6 +108,7 @@ const NewTransaction = ({handleClose, open, type}) => {
     transaction.sumOut = sum.current.value;
     transaction.type = type;
     transaction.date = new Date(transactionDate.current.value);
+    console.log(transaction)
     await dispatch(transactionPost(transaction))
     handleClose()
   };
