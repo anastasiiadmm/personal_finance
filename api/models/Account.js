@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
      },
      accountIcon: DataTypes.STRING,
      balance: {
-       type: DataTypes.INTEGER,
+       type: DataTypes.DECIMAL,
        allowNull: false,
        defaultValue: 0,
      },

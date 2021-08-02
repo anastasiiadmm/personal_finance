@@ -50,7 +50,7 @@ const Transactions = () => {
     limit: 5,
     offset: 0,
     range: [{
-      startDate: null,
+      startDate: new Date(),
       endDate: null,
       key: 'selection',
       color: primaryColor[1]
@@ -141,25 +141,20 @@ const Transactions = () => {
             {<CategoryIcon/>}
           </Button>
         </Grid>
-        <Grid container item xs={3} className={classes.criteriaContainer} alignItems="center">
+        <Grid container item xs={6} className={classes.criteriaContainer} alignItems="center">
           <Button block color={'grey'}
                   inputStyled
                   onClick={() => handleDialogOpen('date')}>
             {criteria.range[0].endDate ? ('0' + criteria.range[0].startDate?.getDate()).slice(-2) + '.' + ('0' + (criteria.range[0].startDate?.getMonth() + 1)).slice(-2) + '.' + criteria.range[0].startDate?.getFullYear() : 'Start date'}
-            {<DateRangeIcon/>}
-          </Button>
-        </Grid>
-        <Grid container item xs={3} className={classes.criteriaContainer} alignItems="center">
-          <Button block color={'grey'}
-                  inputStyled
-                  onClick={() => handleDialogOpen('date')}>
+            {'  -  '}
             {criteria.range[0].endDate ? ('0' + criteria.range[0].endDate?.getDate()).slice(-2) + '.' + ('0' + (criteria.range[0].endDate?.getMonth() + 1)).slice(-2) + '.' + criteria.range[0].endDate?.getFullYear() : 'End date'}
+
             {<DateRangeIcon/>}
           </Button>
         </Grid>
         <Grid container item xs={3} className={classes.criteriaContainer} alignItems="center">
           {clear ? <Button block color='success'
-                           disabled={!criteria.range[0].startDate && !criteria.category.id}
+                           disabled={!criteria.range[0].endDate && !criteria.category.id}
                            onClick={handleSearch}>Search</Button> :
             <Button block color='rose' onClick={handleClearSearch}>Clear all</Button>}
         </Grid>
