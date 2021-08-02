@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TreeItem from '@material-ui/lab/TreeItem';
 import Typography from '@material-ui/core/Typography';
-import styles from "../../assets/jss/material-dashboard-react/components/styledTreeItem";
+import styles from "../../../assets/jss/material-dashboard-react/components/styledTreeItem";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {Avatar} from "@material-ui/core";
 import CategoryIcon from "@material-ui/icons/Category";
-import {apiURL} from "../../config";
+import {apiURL} from "../../../config";
 
 
 const useStyles = makeStyles(styles);

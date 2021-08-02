@@ -5,7 +5,7 @@ import {
     fetchCategoriesRequest,
     fetchCategoryRequest
 } from "../../store/actions/categoriesActions";
-import GridItem from "../../template/Grid/GridItem";
+import GridItem from "../../components/UI/Grid/GridItem";
 import Button from "@material-ui/core/Button";
 import {NavLink} from "react-router-dom";
 import {

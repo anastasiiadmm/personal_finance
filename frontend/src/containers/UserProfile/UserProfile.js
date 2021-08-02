@@ -1,22 +1,22 @@
 import React, {useEffect, useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import GridItem from "../../template/Grid/GridItem.js";
-import GridContainer from "../../template/Grid/GridContainer.js";
-import Card from "../../template/Card/Card.js";
-import CardHeader from "../../template/Card/CardHeader.js";
-import CardBody from "../../template/Card/CardBody.js";
-import CardFooter from "../../template/Card/CardFooter.js";
+import GridItem from "../../components/UI/Grid/GridItem.js";
+import GridContainer from "../../components/UI/Grid/GridContainer.js";
+import Card from "../../components/UI/Card/Card.js";
+import CardHeader from "../../components/UI/Card/CardHeader.js";
+import CardBody from "../../components/UI/Card/CardBody.js";
+import CardFooter from "../../components/UI/Card/CardFooter.js";
 import {useDispatch, useSelector} from "react-redux";
 import FormElement from "../../components/UI/Form/FormElement";
 import {cleanUserErrorsRequest, updateRequest} from "../../store/actions/usersActions";
 import FileInput from "../../components/UI/Form/FileInput";
 import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
 import {currencies} from "../../utils";
-import CardAvatar from "../../template/Card/CardAvatar";
+import CardAvatar from "../../components/UI/Card/CardAvatar";
 import unknownUser from "../../assets/images/unknownUser.png";
-import Primary from "../../template/Typography/Primary";
+import Primary from "../../components/UI/Typography/Primary";
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import Button from "../../template/CustomButtons/Button";
+import Button from "../../components/UI/CustomButtons/Button";
 
 const styles = {
   cardCategoryWhite: {

@@ -2,7 +2,7 @@ import React from 'react';
 import {Box, CardActionArea, CardMedia, Grid} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import {teams} from "../../../../utils";
-import Card from "../../../../template/Card/Card";
+import Card from "../../../../components/UI/Card/Card";
 import CardContent from "@material-ui/core/CardContent";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 

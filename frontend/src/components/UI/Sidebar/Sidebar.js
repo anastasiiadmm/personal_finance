@@ -9,9 +9,9 @@ import Hidden from "@material-ui/core/Hidden";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Icon from "@material-ui/core/Icon";
-import styles from "../../assets/jss/material-dashboard-react/components/sidebarStyle";
+import styles from "../../../assets/jss/material-dashboard-react/components/sidebarStyle";
 import {ListItemText} from "@material-ui/core";
-import {logoutRequest} from "../../store/actions/usersActions";
+import {logoutRequest} from "../../../store/actions/usersActions";
 import {useDispatch} from "react-redux";
 import Grid from "@material-ui/core/Grid";
 

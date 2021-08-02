@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {transactionsFetchRequest} from "../../store/actions/transactionsActions";
 import {useDispatch, useSelector} from "react-redux";
-import Button from "../../template/CustomButtons/Button";
+import Button from "../../components/UI/CustomButtons/Button";
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import {CircularProgress, Dialog, InputBase, MenuItem, Select, withStyles} from "@material-ui/core";
@@ -80,6 +80,7 @@ const Transactions = () => {
     setSearch(!search);
     setClear(!clear);
   }
+
   const handleClearSearch = () => {
     setCriteria({
       ...criteria, range: [{
@@ -102,6 +103,7 @@ const Transactions = () => {
 
   const setTransactionPerPage = (event) => {
     setCriteria({...criteria, limit: event.target.value});
+    setSearch(!search);
   };
   const setNext = (next) => {
     if (next && criteria.offset + criteria.limit < transactions.count) {
@@ -156,8 +158,10 @@ const Transactions = () => {
           </Button>
         </Grid>
         <Grid container item xs={3} className={classes.criteriaContainer} alignItems="center">
-          {clear ? <Button block color='success' onClick={handleSearch}>Search</Button> :
-            <Button block color='rose' onClick={handleClearSearch}>Show all</Button>}
+          {clear ? <Button block color='success'
+                           disabled={!criteria.range[0].startDate && !criteria.category.id}
+                           onClick={handleSearch}>Search</Button> :
+            <Button block color='rose' onClick={handleClearSearch}>Clear all</Button>}
         </Grid>
       </Grid>
       <Grid container item xs={12}>

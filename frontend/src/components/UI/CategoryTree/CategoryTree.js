@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import {TreeView} from "@material-ui/lab";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
-import StyledTreeItem from "../../../template/StyledTreeItem/StyledTreeItem";
+import StyledTreeItem from "../StyledTreeItem/StyledTreeItem";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import styles from "../../../assets/jss/material-dashboard-react/components/categoryTreeStyle";
 

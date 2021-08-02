@@ -7,10 +7,10 @@ import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import SyncAltIcon from '@material-ui/icons/SyncAlt';
 import Person from "@material-ui/icons/Person";
 import styles from "../../assets/jss/material-dashboard-react/components/oneTransactionStyle";
-import Success from "../../template/Typography/Success";
-import Danger from "../../template/Typography/Danger";
-import Info from "../../template/Typography/Info";
-import Muted from "../../template/Typography/Muted";
+import Success from "../../components/UI/Typography/Success";
+import Danger from "../../components/UI/Typography/Danger";
+import Info from "../../components/UI/Typography/Info";
+import Muted from "../../components/UI/Typography/Muted";
 import Hidden from "@material-ui/core/Hidden";
 
 

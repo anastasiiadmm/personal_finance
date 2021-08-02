@@ -11,12 +11,12 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 import styles from "../../assets/jss/material-dashboard-react/views/dashboardStyle.js";
 
-import GridItem from "../../template/Grid/GridItem";
-import Card from "../../template/Card/Card";
-import CardHeader from "../../template/Card/CardHeader";
-import CardIcon from "../../template/Card/CardIcon";
-import CardFooter from "../../template/Card/CardFooter";
-import Button from "../../template/CustomButtons/Button";
+import GridItem from "../../components/UI/Grid/GridItem";
+import Card from "../../components/UI/Card/Card";
+import CardHeader from "../../components/UI/Card/CardHeader";
+import CardIcon from "../../components/UI/Card/CardIcon";
+import CardFooter from "../../components/UI/Card/CardFooter";
+import Button from "../../components/UI/CustomButtons/Button";
 
 const useStyles = makeStyles(styles);
 

@@ -17,7 +17,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 
 import GroupIcon from "../../../assets/images/group-icon.jpeg";
-import Button from "../../../template/CustomButtons/Button";
+import Button from "../../../components/UI/CustomButtons/Button";
 
 const useStyles = makeStyles(theme => ({
     root: {

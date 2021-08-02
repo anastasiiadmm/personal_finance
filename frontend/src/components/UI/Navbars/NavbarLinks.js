@@ -12,14 +12,14 @@ import Divider from "@material-ui/core/Divider";
 import Person from "@material-ui/icons/Person";
 import ReceiptIcon from '@material-ui/icons/Receipt';
 import Button from "../CustomButtons/Button";
-import styles from "../../assets/jss/material-dashboard-react/components/headerLinksStyle.js";
-import {logoutRequest} from "../../store/actions/usersActions";
+import styles from "../../../assets/jss/material-dashboard-react/components/headerLinksStyle.js";
+import {logoutRequest} from "../../../store/actions/usersActions";
 import {useDispatch} from "react-redux";
 import {Avatar} from "@material-ui/core";
-import NewTransaction from "../../containers/NewTransaction/NewTransaction";
+import NewTransaction from "../../../containers/NewTransaction/NewTransaction";
 import Typography from "@material-ui/core/Typography";
 import Primary from "../Typography/Primary";
-import {historyPush} from "../../store/actions/historyActions";
+import {historyPush} from "../../../store/actions/historyActions";
 
 const useStyles = makeStyles(styles);
 

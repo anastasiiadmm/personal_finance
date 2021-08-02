@@ -10,7 +10,7 @@ import Menu from "@material-ui/icons/Menu";
 import NavbarLinks from "./NavbarLinks";
 import Button from "../CustomButtons/Button";
 
-import styles from "../../assets/jss/material-dashboard-react/components/headerStyle.js";
+import styles from "../../../assets/jss/material-dashboard-react/components/headerStyle.js";
 import {useLocation} from "react-router-dom";
 
 const useStyles = makeStyles(styles);

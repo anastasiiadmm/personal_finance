@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {makeStyles} from "@material-ui/core";
 import appStyle from "../../../assets/jss/material-dashboard-react/layouts/adminStyle";
-import Sidebar from "../../../template/Sidebar/Sidebar";
+import Sidebar from "../Sidebar/Sidebar";
 import {appRoutes} from "../../../routes";
 import logo from "../../../assets/images/personalLogo.png";
 import sideBarImg from "../../../assets/images/sidebar.jpg";
-import Navbar from "../../../template/Navbars/Navbar";
+import Navbar from "../Navbars/Navbar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Notifier from "../../../containers/Notifier/Notifier";
 import {Redirect, Route, Switch} from "react-router-dom";
