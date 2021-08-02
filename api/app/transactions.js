@@ -73,7 +73,8 @@ router.get('/transactionType', auth, async (req, res) => {
         attributes: ['id', 'name', 'icon']
       }, {
         association: 'user',
-        attributes: ['id', 'displayName', 'avatar']
+        attributes: ['id', 'displayName', 'avatar'],
+        where: {id: req.user.id}
       }, {
         association: 'accountFrom',
         attributes: ['id', 'accountName']
@@ -104,9 +105,9 @@ router.post('/transfer', upload.single('cashierCheck'), auth, async (req, res) =
       cashierCheck: req.file ? req.file.filename : null
     };
     const accountFrom = await Account.findOne({where: {id: req.body.accountFromId}});
-    accountFrom.balance = accountFrom.balance - parseInt(req.body.sumIn);
+    accountFrom.balance = parseInt(accountFrom.balance) - parseInt(req.body.sumIn);
     const accountTo = await Account.findOne({where: {id: req.body.accountToId}});
-    accountTo.balance = accountTo.balance + parseInt(req.body.sumIn);
+    accountTo.balance = parseInt(accountTo.balance) + parseInt(req.body.sumIn);
     await accountTo.save();
     await accountFrom.save();
 
@@ -136,7 +137,7 @@ router.post('/expenditure', upload.single('cashierCheck'), auth, async (req, res
     }
 
     const account = await Account.findOne({where: {id: req.body.accountFromId}});
-    account.balance = account.balance - parseInt(req.body.sumOut);
+    account.balance = parseInt(account.balance) - parseInt(req.body.sumOut);
     account.save();
 
     const transaction = await Transaction.create(transactionData);
@@ -164,7 +165,7 @@ router.post('/income', upload.single('cashierCheck'), auth, async (req, res) => 
       transactionData.sumOut = null;
     }
     const account = await Account.findOne({where: {id: req.body.accountToId}});
-    account.balance = account.balance + parseInt(req.body.sumIn);
+    account.balance = parseInt(account.balance) + parseInt(req.body.sumIn);
     account.save();
 
     const transaction = await Transaction.create(transactionData);

@@ -18,8 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     categoryType: {
       type: DataTypes.ENUM,
       allowNull: false,
-      defaultValue: 'income',
-      values: ['income', 'expenditure']
+      values: ['income', 'expenditure', 'transfer']
     },
   }, {
     sequelize,

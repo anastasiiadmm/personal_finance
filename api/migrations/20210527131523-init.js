@@ -210,8 +210,7 @@ module.exports = {
       categoryType: {
         type: Sequelize.ENUM,
         allowNull: false,
-        defaultValue: 'income',
-        values: ['income', 'expenditure']
+        values: ['income', 'expenditure','transfer']
       },
       category: {
         type: Sequelize.INTEGER,

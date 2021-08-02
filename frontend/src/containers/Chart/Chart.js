@@ -11,17 +11,17 @@ import Grid from "@material-ui/core/Grid";
 
 const Chart = () => {
   const dispatch = useDispatch();
-  const transactions = useSelector(state => state.transactions.transactions);
-  console.log(transactions)
+  const transactions = useSelector(state => state.transactions.transactions.rows);
+  // console.log(transactions)
   const [state, setState] = useState('Expense');
 
-  useEffect(() => {
-    dispatch(transactionsTypeRequest({categoryType: state}));
-  }, [dispatch, state]);
+    useEffect(() => {
+        dispatch(transactionsTypeRequest({categoryType: state}));
+    }, [dispatch, state]);
 
-  // const handleSearch = () => {
-  //     dispatch(transactionsTypeRequest({categoryType: state}));
-  // }
+    // const handleSearch = () => {
+    //     dispatch(transactionsTypeRequest({categoryType: state}));
+    // }
 
   return (
     <Grid item container direction="column">

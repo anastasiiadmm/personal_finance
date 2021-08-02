@@ -5,7 +5,7 @@ export const initialState = {
   transactionsError: null,
   transactionPostLoading: false,
   transactionPostError: null,
-  transactions: [],
+  transactions: {count: null, rows: []},
 };
 
 const name = 'transactions';
@@ -30,7 +30,7 @@ const transactionsSlice = createSlice({
     },
     transactionsTypeSuccess: (state, {payload: transaction}) => {
       state.transactionsLoading = false;
-      state.transactions = transaction;
+      state.transactions.rows = transaction;
     },
     transactionsTypeFailure: (state) => {
       state.transactionsLoading = false;
@@ -41,11 +41,12 @@ const transactionsSlice = createSlice({
     transactionPostSuccess: (state) => {
       state.transactionPostLoading = false;
     },
-    transactionPostFailure:  (state, {payload: error}) => {
+    transactionPostFailure: (state, {payload: error}) => {
       state.transactionPostLoading = false;
       state.transactionPostError = error;
     },
-    deleteTransactionRequest: () => {},
+    deleteTransactionRequest: () => {
+    },
     deleteTransactionSuccess: (state, {payload: id}) => {
       state.transactions = state.transactions.filter(c => c.id !== id);
     }
