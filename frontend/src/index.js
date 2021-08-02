@@ -10,6 +10,8 @@ import theme from './theme';
 import App from './App';
 
 import "./assets/css/material-dashboard-react.css";
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
 
 
 const app = (

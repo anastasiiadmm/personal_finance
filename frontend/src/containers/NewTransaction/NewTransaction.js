@@ -2,11 +2,9 @@ import React, {useEffect, useRef, useState} from 'react';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {CircularProgress, Dialog} from "@material-ui/core";
 import Card from "../../template/Card/Card";
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import CardHeader from "../../template/Card/CardHeader";
 import CardFooter from "../../template/Card/CardFooter";
-import styles from "../../assets/jss/material-dashboard-react/views/newTransactionStyle";
+import styles from "../../assets/jss/material-dashboard-react/components/newTransactionStyle";
 import GridItem from "../../template/Grid/GridItem";
 import GridContainer from "../../template/Grid/GridContainer";
 import {animated, useSpring} from "react-spring";
@@ -20,8 +18,7 @@ import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWit
 import {transactionPost} from "../../store/actions/transactionsActions";
 import {fetchAccountsRequest} from "../../store/actions/accountsActions";
 import {fetchCategoriesRequest} from "../../store/actions/categoriesActions";
-import {TreeView} from "@material-ui/lab";
-import StyledTreeItem from "../../template/StyledTreeItem/StyledTreeItem";
+import CategoryTree from "../../components/UI/CategoryTree/CategoryTree";
 
 const useStyles = makeStyles(styles);
 
@@ -132,25 +129,11 @@ const NewTransaction = ({handleClose, open, type}) => {
     categoryId.current = prop;
   }
 
-  const categoryItem = categories => (
-    categories.map((category) => (
-      <div key={category.id}>
-        <StyledTreeItem nodeId={category.id.toString()} labelText={category.name}
-                        labelIcon={category.icon ? category.icon : undefined}
-                        labelInfo={category.subCategory ? category.subCategory.length : null}
-                        color="#9c27b0"
-                        bgColor="#fcefe3"
-                        onLabelClick={() => chooseCategory({id: category.id, name: category.name})}
-        >
-          {category.subCategory ? <>{categoryItem(category.subCategory)}</> : null}
-        </StyledTreeItem>
-      </div>
-    ))
-  )
   return (
     <div>
       <Dialog
         maxWidth={'lg'}
+        disableScrollLock
         PaperProps={{
           style: {
             backgroundColor: 'transparent',
@@ -218,6 +201,8 @@ const NewTransaction = ({handleClose, open, type}) => {
                         value={categoryId.current ? categoryId.current.name : ''}
                         onClick={() => {
                           setAnimationCategory(v => !v)
+                          setAnimationStatus(v => v ? !v : v)
+
                         }}
                       />
                       <FormElement
@@ -242,7 +227,10 @@ const NewTransaction = ({handleClose, open, type}) => {
                       />
                       <Grid item xs>
                         <Button disabled={animationStatus} block size={'sm'} color={'info'}
-                                onClick={() => setAnimationStatus(v => !v)}>Add
+                                onClick={() => {
+                                  setAnimationStatus(v => !v)
+                                  setAnimationCategory(v => v ? !v : v)
+                                }}>Add
                           description</Button>
                       </Grid>
                     </GridContainer>
@@ -310,14 +298,7 @@ const NewTransaction = ({handleClose, open, type}) => {
                     <CardBody plain>
                       <GridContainer spacing={1} direction="column">
                         <Grid item xs>
-                          <TreeView
-                            className={classes.treeCategory}
-                            defaultExpanded={['1']}
-                            defaultCollapseIcon={<ArrowDropDownIcon/>}
-                            defaultExpandIcon={<ArrowRightIcon/>}
-                          >
-                            {categoryItem(categoryByType)}
-                          </TreeView>
+                          <CategoryTree categories={categoryByType} chooseCategory={chooseCategory}/>
                         </Grid>
                       </GridContainer>
                     </CardBody>
@@ -329,7 +310,6 @@ const NewTransaction = ({handleClose, open, type}) => {
                 </animated.div>
               </GridItem> : null}
           </Grid>}
-
       </Dialog>
     </div>
   );

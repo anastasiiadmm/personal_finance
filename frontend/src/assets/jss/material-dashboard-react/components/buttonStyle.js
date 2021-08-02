@@ -70,7 +70,7 @@ const buttonStyle = {
       marginBottom: "-1em",
       fontSize: "1.1rem",
       marginRight: "4px",
-      verticalAlign: "middle",
+      verticalAlign: "left",
     },
     "& svg": {
       position: "relative",
@@ -79,6 +79,7 @@ const buttonStyle = {
       width: "18px",
       height: "18px",
       marginRight: "4px",
+      marginLeft: 'auto',
       verticalAlign: "middle",
     },
     "&$justIcon": {
@@ -99,6 +100,11 @@ const buttonStyle = {
     "&,&:focus,&:hover": {
       backgroundColor: whiteColor,
       color: blackColor,
+    },
+  },
+  grey: {
+    "&,&:focus,&:hover": {
+      border: '1px solid ' + blackColor,
     },
   },
   rose: {
@@ -231,6 +237,25 @@ const buttonStyle = {
         ", 0.12), 0 8px 10px -5px rgba(" +
         hexToRgb(dangerColor[0]) +
         ", 0.2)",
+    },
+  },
+  inputStyled: {
+    border: '1px solid' + grayColor[6],
+    borderRadius: 5,
+    fontSize: "15px",
+    height: '40px',
+    textTransform: "none",
+    padding: '12px 10px',
+    color: blackColor,
+    "&,&:focus,&:hover": {
+      color: blackColor,
+      background: "transparent",
+      boxShadow: "none",
+    },
+    "&grey": {
+      "&,&:focus,&:hover,&:visited": {
+        color: grayColor[2],
+      },
     },
   },
   simple: {

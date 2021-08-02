@@ -12,20 +12,21 @@ import styles from "../../assets/jss/material-dashboard-react/components/buttonS
 
 const useStyles = makeStyles(styles);
 
- const RegularButton = ({
-                                        color,
-                                        round,
-                                        children,
-                                        disabled,
-                                        simple,
-                                        size,
-                                        block,
-                                        link,
-                                        justIcon,
-                                        className,
-                                        muiClasses,
-                                        ...props
-                                      }) => {
+const RegularButton = ({
+                         color,
+                         round,
+                         children,
+                         disabled,
+                         simple,
+                         size,
+                         block,
+                         link,
+                         justIcon,
+                         className,
+                         muiClasses,
+                         inputStyled,
+                         ...props
+                       }) => {
   const classes = useStyles();
   const btnClasses = classNames({
     [classes.button]: true,
@@ -34,6 +35,7 @@ const useStyles = makeStyles(styles);
     [classes.round]: round,
     [classes.disabled]: disabled,
     [classes.simple]: simple,
+    [classes.inputStyled]: inputStyled,
     [classes.block]: block,
     [classes.link]: link,
     [classes.justIcon]: justIcon,
@@ -54,6 +56,7 @@ RegularButton.propTypes = {
     "warning",
     "danger",
     "rose",
+    "grey",
     "white",
     "transparent",
   ]),
@@ -62,6 +65,7 @@ RegularButton.propTypes = {
   round: PropTypes.bool,
   disabled: PropTypes.bool,
   block: PropTypes.bool,
+  inputStyled: PropTypes.bool,
   link: PropTypes.bool,
   justIcon: PropTypes.bool,
   className: PropTypes.string,

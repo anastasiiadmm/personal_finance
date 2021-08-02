@@ -11,19 +11,22 @@ import Success from "../../template/Typography/Success";
 import Danger from "../../template/Typography/Danger";
 import Info from "../../template/Typography/Info";
 import Muted from "../../template/Typography/Muted";
+import Hidden from "@material-ui/core/Hidden";
 
 
 const useStyles = makeStyles(styles);
 
 
-const OneTransaction = ({transaction, currency}) => {
+const OneTransaction = ({transaction, currency, openDetails}) => {
   const classes = useStyles();
   const date = new Date(transaction.date);
-
+  const truncate = (source, size) => {
+    return source?.length > size ? source.slice(0, size - 1) + "…" : source;
+  }
   return (
-    <Grid item className={classes.transactionContainer}>
+    <Grid item className={classes.transactionContainer} onClick={openDetails}>
       <Grid container alignItems="center">
-        <Grid item xs={3} md={2} className={classes.grid}>
+        <Grid item xs={5} sm={3} md={2} className={classes.grid}>
           <Grid container>
             <Grid item xs={12} className={classes.iconContainer}>
               <Tooltip title={transaction.user.displayName}>
@@ -47,7 +50,7 @@ const OneTransaction = ({transaction, currency}) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={2} md={2} className={classes.grid}>
+        <Grid item xs={3} sm={2} className={classes.grid}>
           <Grid container>
             <Grid item xs={12}>
               {transaction.type === 'Transfer' ?
@@ -61,13 +64,14 @@ const OneTransaction = ({transaction, currency}) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={5} md={6} className={classes.grid}>
-          <div className={classes.descriptionContainer}>
-            {transaction.description ? transaction.description.slice(0,150) :
-              <span className={classes.button}> Add description</span>}
-          </div>
-        </Grid>
-        <Grid item xs={2} md={2} className={classes.amountContainer}>
+        <Hidden xsDown implementation="js">
+          <Grid item sm={4} md={5} className={classes.grid}>
+            <div className={classes.descriptionContainer}>
+              {truncate(transaction?.description, 45)}
+            </div>
+          </Grid>
+        </Hidden>
+        <Grid item xs={4} sm={3} md={3} className={classes.amountContainer}>
           {transaction.type === 'Transfer' ?
             <Info>{transaction.sumOut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} {currency}</Info> : <>{transaction.type === 'Income' ?
               <Success>+ {transaction.sumIn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} {currency}</Success> :
