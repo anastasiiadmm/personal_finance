@@ -66,7 +66,6 @@ const AccountItem = ({accountName, preferences, balance, id, accountIcon}) => {
     const classes = useStyles();
     const [editOpen, setEditOpen] = useState(false);
     const [openListToDelete, setOpenListToDelete] = useState(false);
-    // const accounts = useSelector(state => state.accounts.accounts);
     const editLoading = useSelector(state => state.accounts.updateAccountLoading);
     const editError = useSelector(state => state.accounts.updateAccountError);
     const deleteError = useSelector(state => state.accounts.deleteAccountError);

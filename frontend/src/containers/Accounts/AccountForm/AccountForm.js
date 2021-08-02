@@ -12,7 +12,7 @@ const AccountForm = ({onSubmit, loading, error, onClose}) => {
 
     const [state, setState] = useState({
         accountName: '',
-        balance: '',
+        balance: 0,
         preferences: accountPreferences.preferences,
         accountIcon: ''
     });
@@ -59,14 +59,14 @@ const AccountForm = ({onSubmit, loading, error, onClose}) => {
                     error={getFieldError('accountName')}
                 />
 
-                <FormElement
-                    required
-                    label="Balance"
-                    name="balance"
-                    value={state.balance}
-                    onChange={inputChangeHandler}
-                    error={getFieldError('balance')}
-                />
+                {/*<FormElement*/}
+                {/*    required*/}
+                {/*    label="Balance"*/}
+                {/*    name="balance"*/}
+                {/*    value={state.balance}*/}
+                {/*    onChange={inputChangeHandler}*/}
+                {/*    error={getFieldError('balance')}*/}
+                {/*/>*/}
 
                 <FormElement
                     required

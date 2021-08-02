@@ -6,7 +6,7 @@ module.exports = {
       userId: 1,
       groupId: 1,
       accountName: "Cash",
-      balance: 200,
+      balance: 9000,
       accountIcon: 'accountIcon/XbqRRsYTkMHz0ZJ9iyfCE.JPG',
       createdAt: new Date(),
       updatedAt: new Date()
@@ -21,7 +21,7 @@ module.exports = {
     }, {
       userId: 2,
       groupId: 2,
-      balance: 1000,
+      balance: 0,
       accountName: "Cash",
       accountIcon: 'accountIcon/XbqRRsYTkMHz0ZJ9iyfCE.JPG',
       createdAt: new Date(),
