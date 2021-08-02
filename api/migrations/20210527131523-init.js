@@ -169,7 +169,7 @@ module.exports = {
       },
       balance: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.DECIMAL,
         defaultValue: 0,
 
       },

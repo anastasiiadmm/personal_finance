@@ -2,7 +2,7 @@ const express = require('express');
 const {Op} = require('sequelize');
 const upload = require('../multer').cashierCheck;
 const auth = require("../middleware/auth");
-const {Transaction} = require('../models');
+const {Transaction, Account} = require('../models');
 
 const router = express.Router();
 
@@ -53,42 +53,41 @@ router.get('/', auth, async (req, res) => {
 });
 
 router.get('/transactionType', auth, async (req, res) => {
-    try {
-        const criteria = {};
+  try {
+    const criteria = {};
 
-        if (req.query.type) {
-            criteria.type = req.query.type;
-        }
-
-        const transactions = await Transaction.findAll({
-            where: {
-                [Op.and]: [{
-                    type: {
-                        [Op.ne]: 'Transfer'
-                    }
-                }, criteria]
-            },
-            include: [{
-                association: 'category',
-                attributes: ['id', 'name', 'icon']
-            }, {
-                association: 'user',
-                attributes: ['id', 'displayName', 'avatar']
-            }, {
-                association: 'accountFrom',
-                attributes: ['id', 'accountName']
-            }, {
-                association: 'accountTo',
-                attributes: ['id', 'accountName']
-            }]
-        });
-
-        res.status(200).send(transactions);
-    } catch (e) {
-        return res.status(400).send({message: e.message});
+    if (req.query.type) {
+      criteria.type = req.query.type;
     }
-});
 
+    const transactions = await Transaction.findAll({
+      where: {
+        [Op.and]: [{
+          type: {
+            [Op.ne]: 'Transfer'
+          }
+        }, criteria]
+      },
+      include: [{
+        association: 'category',
+        attributes: ['id', 'name', 'icon']
+      }, {
+        association: 'user',
+        attributes: ['id', 'displayName', 'avatar']
+      }, {
+        association: 'accountFrom',
+        attributes: ['id', 'accountName']
+      }, {
+        association: 'accountTo',
+        attributes: ['id', 'accountName']
+      }]
+    });
+
+    res.status(200).send(transactions);
+  } catch (e) {
+    return res.status(400).send({message: e.message});
+  }
+});
 
 router.post('/transfer', upload.single('cashierCheck'), auth, async (req, res) => {
   try {
@@ -103,7 +102,13 @@ router.post('/transfer', upload.single('cashierCheck'), auth, async (req, res) =
       categoryId: req.body.categoryId,
       description: req.body.description ? req.body.description : null,
       cashierCheck: req.file ? req.file.filename : null
-    }
+    };
+    const accountFrom = await Account.findOne({where: {id: req.body.accountFromId}});
+    accountFrom.balance = accountFrom.balance - parseInt(req.body.sumIn);
+    const accountTo = await Account.findOne({where: {id: req.body.accountToId}});
+    accountTo.balance = accountTo.balance + parseInt(req.body.sumIn);
+    await accountTo.save();
+    await accountFrom.save()
 
     const transaction = await Transaction.create(transactionData);
     res.status(200).send(transaction.toJSON());
@@ -130,6 +135,10 @@ router.post('/expenditure', upload.single('cashierCheck'), auth, async (req, res
       transactionData.sumIn = null;
     }
 
+    const account = await Account.findOne({where: {id: req.body.accountFromId}});
+    account.balance = account.balance - parseInt(req.body.sumOut);
+    account.save();
+
     const transaction = await Transaction.create(transactionData);
     res.status(200).send(transaction.toJSON());
   } catch (e) {
@@ -154,6 +163,9 @@ router.post('/income', upload.single('cashierCheck'), auth, async (req, res) => 
       transactionData.accountFromId = null;
       transactionData.sumOut = null;
     }
+    const account = await Account.findOne({where: {id: req.body.accountToId}});
+    account.balance = account.balance + parseInt(req.body.sumIn);
+    account.save();
 
     const transaction = await Transaction.create(transactionData);
     res.status(200).send(transaction.toJSON());
