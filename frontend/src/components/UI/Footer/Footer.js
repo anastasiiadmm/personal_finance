@@ -1,16 +1,15 @@
 /*eslint-disable*/
 import React from "react";
-import PropTypes from "prop-types";
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
 // core components
-import styles from "assets/jss/material-dashboard-react/components/footerStyle.js";
+import styles from "../../../assets/jss/material-dashboard-react/components/footerStyle.js";
 
 const useStyles = makeStyles(styles);
 
-export default function Footer(props) {
+export default function Footer() {
   const classes = useStyles();
   return (
     <footer className={classes.footer}>
@@ -18,22 +17,22 @@ export default function Footer(props) {
         <div className={classes.left}>
           <List className={classes.list}>
             <ListItem className={classes.inlineBlock}>
-              <a href="#home" className={classes.block}>
+              <a href="/" className={classes.block}>
                 Home
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="#company" className={classes.block}>
+              <a href="/" className={classes.block}>
                 Company
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="#portfolio" className={classes.block}>
+              <a href="/" className={classes.block}>
                 Portfolio
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="#blog" className={classes.block}>
+              <a href="/" className={classes.block}>
                 Blog
               </a>
             </ListItem>
