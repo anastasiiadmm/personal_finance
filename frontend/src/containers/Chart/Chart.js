@@ -12,16 +12,37 @@ import Grid from "@material-ui/core/Grid";
 const Chart = () => {
   const dispatch = useDispatch();
   const transactions = useSelector(state => state.transactions.transactions.rows);
-  // console.log(transactions)
+  console.log(transactions)
   const [state, setState] = useState('Expense');
 
-    useEffect(() => {
-        dispatch(transactionsTypeRequest({categoryType: state}));
-    }, [dispatch, state]);
+  useEffect(() => {
+    dispatch(transactionsTypeRequest({categoryType: state}));
+  }, [dispatch, state]);
 
-    // const handleSearch = () => {
-    //     dispatch(transactionsTypeRequest({categoryType: state}));
-    // }
+  // const handleSearch = () => {
+  //     dispatch(transactionsTypeRequest({categoryType: state}));
+  // }
+
+  const holder = {};
+
+  transactions.forEach(function (d) {
+    if (holder.hasOwnProperty(d.type && d.category.name)) {
+      if (d.type === 'Expense') {
+        holder[d.category.name] = parseInt(holder[d.category.name]) + parseInt(d.sumOut);
+      } else if (d.type === 'Income') {
+        holder[d.category.name] = parseInt(holder[d.category.name]) + parseInt(d.sumIn);
+      }
+
+    } else {
+      holder[d.category.name] = d.sumOut || d.sumIn;
+    }
+  });
+
+  const obj2 = [];
+
+  for (const prop in holder) {
+    obj2.push({category: prop, sum: holder[prop]});
+  }
 
   return (
     <Grid item container direction="column">
@@ -44,10 +65,10 @@ const Chart = () => {
           style={{width: 600, height: 600, padding: 20}}
           type='doughnut'
           data={{
-            labels: transactions.map(tr => (tr.category.name)),
+            labels: obj2.map(o => (o.category)),
             datasets: [{
               label: 'My Chart',
-              data: transactions.map(tr => (tr.sumIn || -tr.sumOut)),
+              data: obj2.map(o => (o.sum)),
               backgroundColor: [
                 '#9c27b0',
                 '#4caf50',
