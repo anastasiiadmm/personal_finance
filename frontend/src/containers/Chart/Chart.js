@@ -11,8 +11,8 @@ import Grid from "@material-ui/core/Grid";
 
 const Chart = () => {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.users.user);
   const transactions = useSelector(state => state.transactions.transactions.rows);
-  console.log(transactions)
   const [state, setState] = useState('Expense');
 
   useEffect(() => {
@@ -65,7 +65,7 @@ const Chart = () => {
           style={{width: 600, height: 600, padding: 20}}
           type='doughnut'
           data={{
-            labels: obj2.map(o => (o.category)),
+            labels: obj2.map(o => (o.category + ': ' + o.sum + ' ' + user.preferences)),
             datasets: [{
               label: 'My Chart',
               data: obj2.map(o => (o.sum)),
