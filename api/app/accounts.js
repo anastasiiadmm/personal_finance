@@ -1,6 +1,7 @@
 const express = require('express');
+const {Op} = require('sequelize');
 const auth = require("../middleware/auth");
-const {Account, Group} = require('../models');
+const {Account, Group, Transaction} = require('../models');
 const upload = require('../multer').accountIcon;
 
 
@@ -66,16 +67,23 @@ router.put('/:id', upload.single('accountIcon'), async (req, res) => {
 });
 
 router.delete('/:id', auth, async (req, res) => {
-
   try {
+
     const account = await Account.findOne({where: {id: req.params.id}});
+    await Transaction.destroy({
+      where: {
+        [Op.or]:
+            {accountToId: req.params.id, accountFromId: req.params.id}
+      }
+    });
+
     account.destroy();
     res.send("Accounts deleted!");
-    console.log(account + 'delete')
+    console.log(account + 'delete');
 
   } catch (e) {
     res.status(400).send({message: e.message});
-    console.log(e + 'error')
+    console.log(e + 'error');
   }
 
 });
