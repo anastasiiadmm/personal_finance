@@ -92,7 +92,11 @@ const SingleGroup = ({match}) => {
     setModal(true);
   }
 
-  let disableButtonHandler = true;
+  let disableButtonHandler = false;
+
+  if (group.title === 'Personal') {
+    disableButtonHandler = true;
+  }
 
   return (
     <>
