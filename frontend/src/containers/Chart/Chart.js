@@ -32,7 +32,6 @@ const Chart = () => {
       } else if (d.type === 'Income') {
         holder[d.category.name] = parseInt(holder[d.category.name]) + parseInt(d.sumIn);
       }
-
     } else {
       holder[d.category.name] = d.sumOut || d.sumIn;
     }
@@ -62,7 +61,7 @@ const Chart = () => {
       </Grid>
       <Grid item xs>
         <Doughnut
-          style={{width: 600, height: 600, padding: 20}}
+          style={{width: 550, height: 550, padding: 20}}
           type='doughnut'
           data={{
             labels: obj2.map(o => (o.category + ': ' + o.sum + ' ' + user.preferences)),

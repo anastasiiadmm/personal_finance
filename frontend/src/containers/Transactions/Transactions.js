@@ -7,8 +7,6 @@ import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import {CircularProgress, Dialog, InputBase, MenuItem, Select, withStyles} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import DonutSmallIcon from '@material-ui/icons/DonutSmall';
-import {Link} from "react-router-dom";
 import OneTransaction from "../OneTransaction/OneTransaction";
 import styles from "../../assets/jss/material-dashboard-react/components/transactionsStyle";
 import {primaryColor} from "../../assets/jss/material-dashboard-react";
@@ -62,7 +60,6 @@ const Transactions = () => {
   const [openDialog, setOpenDialog] = useState({date: false, category: false, details: true});
   const [search, setSearch] = useState(true);
   const [clear, setClear] = useState(true);
-
 
   useEffect(() => {
     dispatch(fetchCategoriesRequest());
@@ -127,11 +124,11 @@ const Transactions = () => {
 
   return (
     <Grid container direction="column" spacing={2}>
-      <Grid item xs>
-        <Button component={Link} to='/chart-transaction' color="primary" startIcon={<DonutSmallIcon/>}>
-          Show chart
-        </Button>
-      </Grid>
+      {/*<Grid item xs>*/}
+      {/*  <Button component={Link} to='/chart-transaction' color="primary" startIcon={<DonutSmallIcon/>}>*/}
+      {/*    Show chart*/}
+      {/*  </Button>*/}
+      {/*</Grid>*/}
       <Grid container direction='row'>
         <Grid container item xs={3} className={classes.criteriaContainer} alignItems="center">
           <Button block color={'grey'}

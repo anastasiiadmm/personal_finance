@@ -45,7 +45,6 @@ FormElement.propTypes = {
   error: PropTypes.string,
   select: PropTypes.bool,
   options: PropTypes.arrayOf(PropTypes.object)
-}
-;
+};
 
 export default FormElement;

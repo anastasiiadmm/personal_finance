@@ -16,6 +16,7 @@ import LandingPage from "./containers/LandingPages/LandingPage/LandingPage";
 import About from "./containers/LandingPages/Footer/FooterComponents/About";
 import Transactions from "./containers/Transactions/Transactions";
 import Chart from "./containers/Chart/Chart";
+import TransactionsTabs from "./containers/Transactions/TransactionsTabs/TransactionsTabs";
 
 
 export const appRoutes = [
@@ -35,12 +36,18 @@ export const appRoutes = [
     },
     {
         layout: "/",
+        path: "/transactions-tabs",
+        name: "TabsMenu",
+        icon: BubbleChart,
+        component: TransactionsTabs
+    },
+    {
+        layout: "/",
         path: "/groups",
         name: "My Groups",
         icon: BubbleChart,
         component: Groups,
     },
-
     {
         layout: "/groups",
         path: "/:id",
