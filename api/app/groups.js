@@ -77,7 +77,7 @@ router.get('/', auth, async (req, res) => {
         association: 'users',
         attributes: ['id'],
         where: {id: req.user.id}
-      }]
+      }, {association: 'accounts'}]
     });
 
     return res.status(200).send(groups);

@@ -1,22 +1,18 @@
 import React from 'react';
-import {Dialog} from "@material-ui/core";
 import {DateRange} from "react-date-range";
+import DialogContainer from "../DialogContainer/DialogContainer";
+
 
 const DateRangeDialog = ({handleClose, open, setCriteria, ranges}) => {
   return (
     <>
-      <Dialog
-        disableScrollLock
-        fullWidth
-        maxWidth="sm"
-        PaperProps={{
-          style: {
-            minWidth: '335px',
-            backgroundColor: 'transparent',
-            boxShadow: 'none',
-            maxWidth: '335px',
-          },
-        }} open={open} onClose={handleClose}>
+      <DialogContainer open={open} handleClose={handleClose} style={
+        {
+          minWidth: '335px',
+          maxWidth: '335px',
+          backgroundColor: 'transparent',
+          boxShadow: 'none',
+        }}>
         <DateRange
           showDateDisplay={false}
           fixedHeight={true}
@@ -24,7 +20,7 @@ const DateRangeDialog = ({handleClose, open, setCriteria, ranges}) => {
           moveRangeOnFirstSelection={true}
           ranges={ranges}
         />
-      </Dialog>
+      </DialogContainer>
     </>
   );
 };

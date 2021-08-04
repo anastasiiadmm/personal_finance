@@ -57,7 +57,7 @@ StyledTreeItem.propTypes = {
   bgColor: PropTypes.string,
   color: PropTypes.string,
   labelIcon: PropTypes.elementType,
-  labelInfo: PropTypes.number,
+  labelInfo: PropTypes.string,
   labelText: PropTypes.string.isRequired,
 
 };

@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     accountFromId: DataTypes.INTEGER,
     accountToId: DataTypes.INTEGER,
+    groupId: DataTypes.INTEGER,
     sumOut: {
       type: DataTypes.DECIMAL,
     },
@@ -65,6 +66,9 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       as: 'user',
       allowNull: false,
+    });
+    Transaction.belongsTo(models.Group, {
+      as: 'group'
     });
 
     Transaction.belongsTo(models.Account, {

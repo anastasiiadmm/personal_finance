@@ -9,7 +9,16 @@ const router = express.Router();
 
 router.get('/', auth, async (req, res) => {
   try {
-    const accounts = await Account.findAll({include: Group, where: {userId: req.user.id}});
+    const accounts = await Account.findAll({
+      include: {
+        model: Group,
+        include: [{
+          association: 'users',
+          attributes: ['displayName', 'id'],
+          where: {id: req.user.id},
+        }],
+      }
+    });
     res.status(200).send(accounts);
   } catch (e) {
     return res.status(400).send({message: e.message});
@@ -73,7 +82,7 @@ router.delete('/:id', auth, async (req, res) => {
     await Transaction.destroy({
       where: {
         [Op.or]:
-            {accountToId: req.params.id, accountFromId: req.params.id}
+          {accountToId: req.params.id, accountFromId: req.params.id}
       }
     });
 

@@ -29,7 +29,7 @@ module.exports = {
     }, {
       userId: 2,
       name: "Transfer",
-      categoryType: 'income',
+      categoryType: 'transfer',
       createdAt: new Date(),
       updatedAt: new Date()
     }]);

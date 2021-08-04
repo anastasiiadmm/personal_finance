@@ -5,16 +5,18 @@ import {useDispatch, useSelector} from "react-redux";
 import Button from "../../components/UI/CustomButtons/Button";
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import {CircularProgress, Dialog, InputBase, MenuItem, Select, withStyles} from "@material-ui/core";
+import {CircularProgress, InputBase, MenuItem, Select, withStyles} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import OneTransaction from "../OneTransaction/OneTransaction";
 import styles from "../../assets/jss/material-dashboard-react/components/transactionsStyle";
-import {primaryColor} from "../../assets/jss/material-dashboard-react";
+import {primaryColor, whiteColor} from "../../assets/jss/material-dashboard-react";
 import DateRangeDialog from "../../components/UI/DateRangeDialog/DateRangeDialog";
 import {fetchCategoriesRequest} from "../../store/actions/categoriesActions";
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import CategoryIcon from '@material-ui/icons/Category';
-import CategoryTree from "../../components/UI/CategoryTree/CategoryTree";
+import ComponentTree from "../../components/UI/ComponentTree/ComponentTree";
+import EditTransaction from "./EditTransaction/EditTransaction";
+import DialogContainer from "../../components/UI/DialogContainer/DialogContainer";
 
 
 const BootstrapInput = withStyles((theme) => ({
@@ -57,9 +59,10 @@ const Transactions = () => {
       id: null, name: null
     }
   });
-  const [openDialog, setOpenDialog] = useState({date: false, category: false, details: true});
+  const [openDialog, setOpenDialog] = useState({date: false, category: false, editTransaction: null});
   const [search, setSearch] = useState(true);
   const [clear, setClear] = useState(true);
+
 
   useEffect(() => {
     dispatch(fetchCategoriesRequest());
@@ -81,7 +84,7 @@ const Transactions = () => {
   const handleClearSearch = () => {
     setCriteria({
       ...criteria, range: [{
-        startDate: null,
+        startDate: new Date(),
         endDate: null,
         key: 'selection',
         color: primaryColor[1]
@@ -112,7 +115,11 @@ const Transactions = () => {
   };
 
   const handleClose = (type) => {
-    setOpenDialog({...openDialog, [type]: false});
+    if (type === 'editTransaction') {
+      setOpenDialog({...openDialog, editTransaction: null});
+    } else {
+      setOpenDialog({...openDialog, [type]: false});
+    }
     if (!clear) {
       setClear(!clear)
     }
@@ -162,7 +169,7 @@ const Transactions = () => {
           {!loading ?
             transactions?.rows && transactions.rows.map(transaction => (
               <OneTransaction key={transaction.id} currency={user.preferences}
-                              openDetails={() => setOpenDialog({...openDialog, details: transaction.id})}
+                              openDetails={() => setOpenDialog({...openDialog, editTransaction: transaction.id})}
                               transaction={transaction}/>
             )) : <CircularProgress size={40} className={classes.progressCircle} color="inherit"/>}
         </Grid>
@@ -191,21 +198,22 @@ const Transactions = () => {
                   onClick={() => setNext(true)}><ArrowRightIcon/></Button>
         </Grid>
       </Grid>
-      <Dialog
-        disableScrollLock
-        fullWidth
-        maxWidth="sm"
-        PaperProps={{
-          style: {
-            minWidth: '335px',
-            backgroundColor: 'white',
-            boxShadow: 'none',
-            maxWidth: '335px',
-            padding: "20px 20px"
-          },
-        }} open={openDialog.category} onClose={() => handleClose('category')}>
-        <CategoryTree categories={categories} chooseCategory={(prop) => setCriteria({...criteria, category: prop})}/>
-      </Dialog>
+      <DialogContainer style={{
+        minWidth: '335px', maxWidth: '335px', backgroundColor: whiteColor,
+        boxShadow: 'none',
+      }} open={openDialog.category} handleClose={() => handleClose('category')}>
+        <ComponentTree items={categories} chooseItem={(prop) => setCriteria({...criteria, category: prop})}
+                       recursive={true}/>
+      </DialogContainer>
+      {!!openDialog?.editTransaction && <DialogContainer open={!!openDialog.editTransaction} style={{
+        maxWidth: '80%', backgroundColor: whiteColor,
+        boxShadow: 'none',
+      }} handleClose={() => handleClose('editTransaction')}>
+        <EditTransaction transaction={transactions.rows.find(transaction => {
+          return transaction.id === openDialog.editTransaction
+        })} userId={user.id}/>
+      </DialogContainer>
+      }
       <DateRangeDialog open={openDialog.date} handleClose={() => handleClose('date')} ranges={criteria.range}
                        setCriteria={(prop) => setCriteria({...criteria, range: [prop]})}/>
     </Grid>

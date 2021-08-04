@@ -15,6 +15,7 @@ const oneTransactionStyle = (theme) => ({
     borderTop: '1px solid ' + grayColor[6],
 
     "&:hover,&:focus": {
+      cursor: "pointer",
       backgroundColor: grayColor[10],
       boxShadow:
         "0 14px 26px -12px rgba(" +

@@ -9,8 +9,8 @@ const FormElement = ({error, select, options, hide, ...props}) => {
   if (select) {
     inputChildren = options.map(option => (
       <MenuItem key={option.id} value={option.id}>
-        {option?.title}
-        {option.accountName ? <>{option.accountName} in {option.Group.title} group</> : null}
+        {option?.title} {option.users ? ', ' + option.users[0].GroupUsers.role : null}
+        {option.accountName ? option.accountName : null}
         {option?.name}
         {option?.nameGroup}
       </MenuItem>

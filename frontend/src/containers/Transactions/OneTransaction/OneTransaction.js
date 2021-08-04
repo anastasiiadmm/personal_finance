@@ -6,11 +6,11 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import SyncAltIcon from '@material-ui/icons/SyncAlt';
 import Person from "@material-ui/icons/Person";
-import styles from "../../assets/jss/material-dashboard-react/components/oneTransactionStyle";
-import Success from "../../components/UI/Typography/Success";
-import Danger from "../../components/UI/Typography/Danger";
-import Info from "../../components/UI/Typography/Info";
-import Muted from "../../components/UI/Typography/Muted";
+import styles from "../../../assets/jss/material-dashboard-react/components/oneTransactionStyle";
+import Success from "../../../components/UI/Typography/Success";
+import Danger from "../../../components/UI/Typography/Danger";
+import Info from "../../../components/UI/Typography/Info";
+import Muted from "../../../components/UI/Typography/Muted";
 import Hidden from "@material-ui/core/Hidden";
 
 
@@ -50,20 +50,23 @@ const OneTransaction = ({transaction, currency, openDetails}) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={3} sm={2} className={classes.grid}>
-          <Grid container>
-            <Grid item xs={12}>
-              {transaction.type === 'Transfer' ?
-                <Success>{transaction.accountTo.accountName}</Success> : <>{transaction.type === 'Income' ?
-                  <Success>{transaction.accountTo.accountName}</Success> :
-                  <Danger>{transaction.accountFrom.accountName}</Danger>}</>}
-            </Grid>
-            <Grid item xs={12}>
-              {transaction.type === 'Transfer' ?
-                <Danger>{transaction.accountFrom.accountName}</Danger> : transaction.category.name}
+        <Tooltip
+          title={transaction.group.title + ' group'}>
+          <Grid item xs={3} sm={2} className={classes.grid}>
+            <Grid container>
+              <Grid item xs={12}>
+                {transaction.type === 'Transfer' ?
+                  <Success>{transaction.accountTo.accountName}</Success> : <>{transaction.type === 'Income' ?
+                    <Success>{transaction.accountTo.accountName}</Success> :
+                    <Danger>{transaction.accountFrom.accountName}</Danger>}</>}
+              </Grid>
+              <Grid item xs={12}>
+                {transaction.type === 'Transfer' ?
+                  <Danger>{transaction.accountFrom.accountName}</Danger> : transaction.category.name}
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </Tooltip>
         <Hidden xsDown implementation="js">
           <Grid item sm={4} md={5} className={classes.grid}>
             <div className={classes.descriptionContainer}>

@@ -1,6 +1,4 @@
-import {
-  grayColor,
-} from "../../material-dashboard-react";
+import {grayColor,} from "../../material-dashboard-react";
 
 const transactionsStyle = () => ({
   table: {
@@ -24,11 +22,15 @@ const transactionsStyle = () => ({
     position: 'absolute',
     top: '50%',
     left: '50%',
-    // transform: 'translate(-50%, -50%)',
     marginTop: '-10px',
     marginLeft: '-10px',
-  }
+  },
 
+  checkImage: {
+    width: "100%",
+    transform: "none",
+    height: "100%",
+  },
 
 });
 

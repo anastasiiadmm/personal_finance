@@ -28,23 +28,36 @@ router.get('/', auth, async (req, res) => {
       }
     }
 
+
     const transactions = await Transaction.findAndCountAll({
-        where: range,
-        limit: criteria.limit,
-        offset: criteria.offset,
-        order: [['createdAt', 'DESC']],
-        include: [
-          {
-            association: 'category',
-            attributes: ['id', 'name', 'icon'],
-            where: category
+      where: range,
+      limit: criteria.limit,
+      offset: criteria.offset,
+      order: [['date', 'DESC']],
+      include: [
+        {
+          association: 'category',
+          attributes: ['id', 'name', 'icon'],
+          where: category,
+          required: true
+        },
+        {
+          association: 'group', required: true,
+          include: {
+            association: 'users',
+            required: true,
+            where: {id: req.user.id},
+            attributes: ['displayName', 'id'],
+            through: {
+              attributes: ['role', 'userId'],
+            },
           },
-          {association: 'user', attributes: ['id', 'displayName', 'avatar'], where: {id: req.user.id}},
-          {association: 'accountFrom', attributes: ['id', 'accountName']},
-          {association: 'accountTo', attributes: ['id', 'accountName']}
-        ]
-      })
-    ;
+        },
+        {association: 'user', attributes: ['id', 'displayName', 'avatar']},
+        {association: 'accountFrom', attributes: ['id', 'accountName'],},
+        {association: 'accountTo', attributes: ['id', 'accountName']}
+      ]
+    });
 
     res.status(200).send(transactions);
   } catch (e) {
@@ -97,6 +110,7 @@ router.post('/transfer', upload.single('cashierCheck'), auth, async (req, res) =
       accountToId: req.body.accountToId,
       accountFromId: req.body.accountFromId,
       sumOut: req.body.sumOut,
+      groupId: req.body.groupId,
       sumIn: req.body.sumIn,
       date: req.body.date,
       type: 'Transfer',
@@ -123,6 +137,7 @@ router.post('/expenditure', upload.single('cashierCheck'), auth, async (req, res
     const transactionData = {
       userId: req.user.id,
       date: req.body.date,
+      groupId: req.body.groupId,
       type: 'Expense',
       categoryId: req.body.categoryId,
       description: req.body.description,
@@ -153,6 +168,7 @@ router.post('/income', upload.single('cashierCheck'), auth, async (req, res) => 
       userId: req.user.id,
       categoryId: req.body.categoryId,
       date: req.body.date,
+      groupId: req.body.groupId,
       type: 'Income',
       description: req.body.description,
       cashierCheck: req.file ? req.file.filename : null,
@@ -191,7 +207,6 @@ router.put('/:id', upload.single('cashierCheck'), async (req, res) => {
             include: [{
               association: 'users',
               attributes: ['displayName', 'id'],
-              where: {id: req.body.userId},
               through: {
                 attributes: ['role'],
                 where: {

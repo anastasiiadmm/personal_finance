@@ -16,9 +16,9 @@ import FormElement from "../../components/UI/Form/FormElement";
 import Grid from "@material-ui/core/Grid";
 import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
 import {transactionPost} from "../../store/actions/transactionsActions";
-import {fetchAccountsRequest} from "../../store/actions/accountsActions";
 import {fetchCategoriesRequest} from "../../store/actions/categoriesActions";
-import CategoryTree from "../../components/UI/CategoryTree/CategoryTree";
+import ComponentTree from "../../components/UI/ComponentTree/ComponentTree";
+import {groupsRequest} from "../../store/actions/groupsActions";
 
 const useStyles = makeStyles(styles);
 
@@ -28,8 +28,8 @@ const NewTransaction = ({handleClose, open, type}) => {
   const dispatch = useDispatch();
   const error = useSelector(state => state.transactions.transactionPostError);
   const loading = useSelector(state => state.transactions.transactionPostLoading);
-  const fetchLoading = useSelector(state => state.accounts.accountsLoading);
-  const accounts = useSelector(state => state.accounts.accounts);
+  const fetchLoading = useSelector(state => state.groups.groupsLoading);
+  const groups = useSelector(state => state.groups.groups);
   const categories = useSelector(state => state.categories.categories);
 
   const categoryByType = categories.filter(obj => {
@@ -37,27 +37,33 @@ const NewTransaction = ({handleClose, open, type}) => {
   });
 
   useEffect(() => {
-    dispatch(fetchAccountsRequest());
+    dispatch(groupsRequest());
     dispatch(fetchCategoriesRequest());
   }, [dispatch]);
 
 
   const [animationStatus, setAnimationStatus] = useState(false);
   const [animationCategory, setAnimationCategory] = useState(false);
+  const [animationAccount, setAnimationAccount] = useState(false);
+
   const tempDate = new Date();
   const accountFromId = useRef('')
   const accountToId = useRef('');
   const sum = useRef('');
   const categoryId = useRef('');
+  const groupId = useRef('');
   const transactionDate = useRef(tempDate.getFullYear() + '-' + ('0' + (tempDate.getMonth() + 1)).slice(-2) + '-' + ('0' + tempDate.getDate()).slice(-2) + 'T' + ('0' + tempDate.getHours()).slice(-2) + ':' + ('0' + tempDate.getMinutes()).slice(-2));
   const description = useRef('');
+  const [group, setGroup] = useState('');
+  const [accounts, setAccounts] = useState([]);
+
 
   let cashierCheck = '';
 
 
   const primaryProps = useSpring({
     opacity: 1,
-    reset: animationStatus || animationCategory,
+    reset: animationStatus || animationCategory || animationAccount,
     from: {
       transform: 'translateX(150px)'
     },
@@ -67,7 +73,7 @@ const NewTransaction = ({handleClose, open, type}) => {
   });
 
 
-  const secondaryProps = useSpring({
+  const descriptionProps = useSpring({
     opacity: 1,
     reset: animationStatus,
     transform: 'translateX(-15px)',
@@ -80,6 +86,16 @@ const NewTransaction = ({handleClose, open, type}) => {
   const categoryProps = useSpring({
     opacity: 1,
     reset: animationCategory,
+    transform: 'translateX(-15px)',
+    from: {
+      opacity: 0,
+      transform: 'translateX(-50px)'
+    }
+  });
+
+  const accountProps = useSpring({
+    opacity: 1,
+    reset: animationAccount,
     transform: 'translateX(-15px)',
     from: {
       opacity: 0,
@@ -102,13 +118,13 @@ const NewTransaction = ({handleClose, open, type}) => {
       transaction.description = description.current.value;
     }
     transaction.categoryId = categoryId.current.id;
-    transaction.accountToId = accountToId.current.value;
+    transaction.accountToId = type === 'transfer' ? accountToId.current.value : accountToId.current.id;
     transaction.sumIn = sum.current.value;
-    transaction.accountFromId = accountFromId.current.value;
+    transaction.groupId = type === 'transfer' ? group : groupId.current.groupId;
+    transaction.accountFromId = type === 'transfer' ? accountFromId.current.value : accountFromId.current.id;
     transaction.sumOut = sum.current.value;
     transaction.type = type;
     transaction.date = new Date(transactionDate.current.value);
-    console.log(transaction)
     await dispatch(transactionPost(transaction))
     handleClose()
   };
@@ -129,6 +145,15 @@ const NewTransaction = ({handleClose, open, type}) => {
   const chooseCategory = (prop) => {
     categoryId.current = prop;
   }
+  const chooseAccount = (prop) => {
+    if (type === 'expenditure') {
+      accountFromId.current = prop;
+    } else {
+      accountToId.current = prop;
+    }
+    groupId.current = prop;
+  }
+  console.log(accounts)
 
   return (
     <div>
@@ -159,38 +184,69 @@ const NewTransaction = ({handleClose, open, type}) => {
                     <GridContainer spacing={1} direction="column">
                       {type === 'expenditure' ? <FormElement
                         label="From account"
-                        select
-                        inputRef={accountFromId}
-                        defaultValue=''
+                        size={'small'}
                         required
-                        options={accounts}
+                        disabled={animationAccount}
+                        value={accountFromId.current ? accountFromId.current.name : ''}
+                        onClick={() => {
+                          setAnimationAccount(v => !v)
+                          setAnimationStatus(v => v ? !v : v)
+                          setAnimationCategory(v => v ? !v : v)
+                        }}
                       /> : null}
                       {type === 'income' ? <FormElement
+                        size={'small'}
                         label="To account"
-                        select
                         required
-                        inputRef={accountToId}
-                        defaultValue=''
-                        options={accounts}
+                        disabled={animationAccount}
+                        value={accountToId.current ? accountToId.current.name : ''}
+                        onClick={() => {
+                          setAnimationAccount(v => !v)
+                          setAnimationStatus(v => v ? !v : v)
+                          setAnimationCategory(v => v ? !v : v)
+                        }}
                       /> : null}
                       {type === 'transfer' ? <GridContainer spacing={1}>
+                        <Grid item xs={12}>
+                          <FormElement
+                            size={'small'}
+                            label="Group"
+                            select
+                            value={group}
+                            onClick={() => {
+                              setAnimationAccount(v => v ? !v : v)
+                              setAnimationStatus(v => v ? !v : v)
+                              setAnimationCategory(v => v ? !v : v)
+                            }}
+                            required
+                            onChange={(e) => {
+                              setGroup(e.target.value)
+                              setAccounts(groups.find((group) => group.id === e.target.value).accounts)
+                            }}
+                            options={groups}
+                          />
+                        </Grid>
                         <Grid item xs={12} md={6}>
                           <FormElement
                             label="From account"
+                            size={'small'}
                             select
                             inputRef={accountFromId}
                             defaultValue=''
                             required
+                            disabled={group === ''}
                             options={accounts}
                           />
                         </Grid>
                         <Grid item xs={12} md={6}>
                           <FormElement
                             label="To account"
+                            size={'small'}
                             select
-                            required
                             inputRef={accountToId}
                             defaultValue=''
+                            required
+                            disabled={group === ''}
                             options={accounts}
                           />
                         </Grid>
@@ -198,17 +254,19 @@ const NewTransaction = ({handleClose, open, type}) => {
                       <FormElement
                         label="Category"
                         required
+                        size={'small'}
                         disabled={animationCategory}
                         value={categoryId.current ? categoryId.current.name : ''}
                         onClick={() => {
                           setAnimationCategory(v => !v)
                           setAnimationStatus(v => v ? !v : v)
-
+                          setAnimationAccount(v => v ? !v : v)
                         }}
                       />
                       <FormElement
                         label="Date"
                         required
+                        size={'small'}
                         type="datetime-local"
                         defaultValue={transactionDate.current}
                         InputLabelProps={{
@@ -220,6 +278,7 @@ const NewTransaction = ({handleClose, open, type}) => {
                         label="Amount"
                         type="number"
                         required
+                        size={'small'}
                         InputProps={{
                           step: 1.00,
                         }}
@@ -231,6 +290,7 @@ const NewTransaction = ({handleClose, open, type}) => {
                                 onClick={() => {
                                   setAnimationStatus(v => !v)
                                   setAnimationCategory(v => v ? !v : v)
+                                  setAnimationAccount(v => v ? !v : v)
                                 }}>Add
                           description</Button>
                       </Grid>
@@ -253,7 +313,7 @@ const NewTransaction = ({handleClose, open, type}) => {
             </GridItem>
             {animationStatus ?
               <GridItem xs={6}>
-                <animated.div style={secondaryProps} className={classes.animation}>
+                <animated.div style={descriptionProps} className={classes.animation}>
                   <Card>
                     <CardHeader>
                       <h3 className={classes.cardTitle}>
@@ -299,13 +359,37 @@ const NewTransaction = ({handleClose, open, type}) => {
                     <CardBody plain>
                       <GridContainer spacing={1} direction="column">
                         <Grid item xs>
-                          <CategoryTree categories={categoryByType} chooseCategory={chooseCategory}/>
+                          <ComponentTree items={categoryByType} recursive={true} chooseItem={chooseCategory}/>
                         </Grid>
                       </GridContainer>
                     </CardBody>
                     <CardFooter plain>
                       <Button color={'success'} size={'sm'} block
                               onClick={() => setAnimationCategory(v => !v)}>Choose</Button>
+                    </CardFooter>
+                  </Card>
+                </animated.div>
+              </GridItem> : null}
+            {animationAccount ?
+              <GridItem xs={6}>
+                <animated.div style={accountProps} className={classes.animation}>
+                  <Card>
+                    <CardHeader>
+                      <h3 className={classes.cardTitle}>
+                        Choose Account
+                      </h3>
+                    </CardHeader>
+                    <CardBody plain>
+                      <GridContainer spacing={1} direction="column">
+                        <Grid item xs>
+                          <ComponentTree items={groups} chooseItem={chooseAccount} recursive={false}
+                                         subName={'accounts'}/>
+                        </Grid>
+                      </GridContainer>
+                    </CardBody>
+                    <CardFooter plain>
+                      <Button color={'success'} size={'sm'} block
+                              onClick={() => setAnimationAccount(v => !v)}>Choose</Button>
                     </CardFooter>
                   </Card>
                 </animated.div>

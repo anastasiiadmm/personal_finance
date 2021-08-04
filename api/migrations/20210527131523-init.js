@@ -210,7 +210,7 @@ module.exports = {
       categoryType: {
         type: Sequelize.ENUM,
         allowNull: false,
-        values: ['income', 'expenditure','transfer']
+        values: ['income', 'expenditure', 'transfer']
       },
       category: {
         type: Sequelize.INTEGER,
@@ -242,6 +242,13 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
+      },
+      groupId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'group',
+          key: 'id'
+        }
       },
       userId: {
         type: Sequelize.INTEGER,

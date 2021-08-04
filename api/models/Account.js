@@ -53,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     Account.belongsTo(models.Group, {
       targetKey: 'id',
-      foreignKey: 'groupId'
+      foreignKey: 'groupId',
     });
   }
 

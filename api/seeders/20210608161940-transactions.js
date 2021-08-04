@@ -7,6 +7,7 @@ module.exports = {
       categoryId: 1,
       sumIn: 10000,
       accountToId: 1,
+      groupId: 1,
       type: 'Income',
       date: new Date(),
       createdAt: new Date(),
@@ -18,6 +19,7 @@ module.exports = {
       type: 'Expense',
       date: new Date(),
       accountFromId: 1,
+      groupId: 1,
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
@@ -26,6 +28,7 @@ module.exports = {
       sumIn: 1000,
       sumOut: 1000,
       accountToId: 4,
+      groupId: 2,
       type: 'Transfer',
       date: new Date(),
       accountFromId: 3,
