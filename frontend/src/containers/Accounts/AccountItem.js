@@ -62,7 +62,7 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-const AccountItem = ({accountName, preferences, balance, id, accountIcon}) => {
+const AccountItem = ({accountName, currency, balance, id, accountIcon}) => {
     const classes = useStyles();
     const [editOpen, setEditOpen] = useState(false);
     const [openListToDelete, setOpenListToDelete] = useState(false);
@@ -83,7 +83,7 @@ const AccountItem = ({accountName, preferences, balance, id, accountIcon}) => {
                     <CardContent className={classes.content}>
 
                         <p style={{paddingLeft: '100px'}}>
-                            {balance} {preferences}
+                            {balance} {currency}
                         </p>
                     </CardContent>
                     <CardActions>

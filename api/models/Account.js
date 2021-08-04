@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
        allowNull: false,
        defaultValue: 0,
      },
-     preferences: {
+      currency: {
        type: DataTypes.ENUM,
        allowNull: false,
        defaultValue: 'KGS',

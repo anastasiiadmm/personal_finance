@@ -79,7 +79,7 @@ const Accounts = (id) => {
                                 id={account.id}
                                 accountName={account.accountName}
                                 balance={account.balance}
-                                preferences={account.preferences}
+                                currency={account.currency}
                                 accountIcon={account.accountIcon}
                             />
                         )

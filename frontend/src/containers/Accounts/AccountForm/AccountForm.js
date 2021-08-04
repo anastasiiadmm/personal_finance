@@ -8,12 +8,12 @@ import {currencies} from "../../../utils";
 
 const AccountForm = ({onSubmit, loading, error, onClose}) => {
 
-    const accountPreferences = useSelector(state => state.accounts.accounts);
+    const accountCurrencies = useSelector(state => state.accounts.accounts);
 
     const [state, setState] = useState({
         accountName: '',
         balance: 0,
-        preferences: accountPreferences.preferences,
+        currency: accountCurrencies.currency,
         accountIcon: ''
     });
 
@@ -70,13 +70,13 @@ const AccountForm = ({onSubmit, loading, error, onClose}) => {
 
                 <FormElement
                     required
-                    label="Preferences"
-                    name="preferences"
-                    value={state.preferences}
+                    label="Currency"
+                    name="currency"
+                    value={state.currency}
                     select
                     options={currencies}
                     onChange={inputChangeHandler}
-                    error={getFieldError('preferences')}
+                    error={getFieldError('Currency')}
                 />
 
                 <FileInput

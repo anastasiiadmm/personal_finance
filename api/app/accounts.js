@@ -38,7 +38,7 @@ router.post('/:id', auth, upload.single('accountIcon'), async (req, res) => {
       userId: accountData.user,
       groupId: req.params.id,
       balance: req.body.balance,
-      preferences: req.body.preferences,
+      currency: req.body.currency,
       accountIcon: req.file ? req.file.filename : null,
     });
 

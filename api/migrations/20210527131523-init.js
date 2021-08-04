@@ -173,7 +173,7 @@ module.exports = {
         defaultValue: 0,
 
       },
-      preferences: {
+      currency: {
         type: Sequelize.ENUM,
         allowNull: false,
         defaultValue: 'KGS',
