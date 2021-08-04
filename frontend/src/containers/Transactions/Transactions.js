@@ -7,7 +7,6 @@ import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import {CircularProgress, InputBase, MenuItem, Select, withStyles} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import OneTransaction from "../OneTransaction/OneTransaction";
 import styles from "../../assets/jss/material-dashboard-react/components/transactionsStyle";
 import {primaryColor, whiteColor} from "../../assets/jss/material-dashboard-react";
 import DateRangeDialog from "../../components/UI/DateRangeDialog/DateRangeDialog";
@@ -17,6 +16,7 @@ import CategoryIcon from '@material-ui/icons/Category';
 import ComponentTree from "../../components/UI/ComponentTree/ComponentTree";
 import EditTransaction from "./EditTransaction/EditTransaction";
 import DialogContainer from "../../components/UI/DialogContainer/DialogContainer";
+import OneTransaction from "./OneTransaction/OneTransaction";
 
 
 const BootstrapInput = withStyles((theme) => ({
