@@ -1,8 +1,6 @@
 import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
-import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
-import LocationOn from "@material-ui/icons/LocationOn";
 import ReceiptIcon from '@material-ui/icons/Receipt';
 import Notifications from "@material-ui/icons/Notifications";
 import Login from "./containers/Login/Login";
@@ -53,30 +51,6 @@ export const appRoutes = [
         path: "/:id",
         name: "My Groups",
         component: SingleGroup,
-    },
-    {
-        layout: "/",
-        path: "/typography",
-        name: "Typography",
-        icon: LibraryBooks,
-    },
-    {
-        layout: "/",
-        path: "/icons",
-        name: "Icons",
-        icon: BubbleChart,
-    },
-    {
-        layout: "/",
-        path: "/maps",
-        name: "Maps",
-        icon: LocationOn,
-    },
-    {
-        layout: "/",
-        path: "/notifications",
-        name: "Notifications",
-        icon: Notifications,
     },
     {
         layout: "/",
