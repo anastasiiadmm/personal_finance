@@ -32,7 +32,7 @@ const dashboardStyle = {
     minHeight: "auto",
     fontWeight: "300",
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: "3px",
+    marginBottom: '0',
     textDecoration: "none",
     "& small": {
       color: grayColor[1],

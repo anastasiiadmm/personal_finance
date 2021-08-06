@@ -42,7 +42,6 @@ const NewTransaction = ({handleClose, open, type}) => {
   }, [dispatch]);
 
 
-  const [animationStatus, setAnimationStatus] = useState(false);
   const [animationCategory, setAnimationCategory] = useState(false);
   const [animationAccount, setAnimationAccount] = useState(false);
 
@@ -63,24 +62,13 @@ const NewTransaction = ({handleClose, open, type}) => {
 
   const primaryProps = useSpring({
     opacity: 1,
-    reset: animationStatus || animationCategory || animationAccount,
+    reset: animationCategory || animationAccount,
     from: {
       transform: 'translateX(150px)'
     },
     to: {
       transform: 'translateX(0)'
     },
-  });
-
-
-  const descriptionProps = useSpring({
-    opacity: 1,
-    reset: animationStatus,
-    transform: 'translateX(-15px)',
-    from: {
-      opacity: 0,
-      transform: 'translateX(-50px)'
-    }
   });
 
   const categoryProps = useSpring({
@@ -153,7 +141,6 @@ const NewTransaction = ({handleClose, open, type}) => {
     }
     groupId.current = prop;
   }
-  console.log(accounts)
 
   return (
     <div>
@@ -190,7 +177,6 @@ const NewTransaction = ({handleClose, open, type}) => {
                         value={accountFromId.current ? accountFromId.current.name : ''}
                         onClick={() => {
                           setAnimationAccount(v => !v)
-                          setAnimationStatus(v => v ? !v : v)
                           setAnimationCategory(v => v ? !v : v)
                         }}
                       /> : null}
@@ -202,7 +188,6 @@ const NewTransaction = ({handleClose, open, type}) => {
                         value={accountToId.current ? accountToId.current.name : ''}
                         onClick={() => {
                           setAnimationAccount(v => !v)
-                          setAnimationStatus(v => v ? !v : v)
                           setAnimationCategory(v => v ? !v : v)
                         }}
                       /> : null}
@@ -215,7 +200,6 @@ const NewTransaction = ({handleClose, open, type}) => {
                             value={group}
                             onClick={() => {
                               setAnimationAccount(v => v ? !v : v)
-                              setAnimationStatus(v => v ? !v : v)
                               setAnimationCategory(v => v ? !v : v)
                             }}
                             required
@@ -259,7 +243,6 @@ const NewTransaction = ({handleClose, open, type}) => {
                         value={categoryId.current ? categoryId.current.name : ''}
                         onClick={() => {
                           setAnimationCategory(v => !v)
-                          setAnimationStatus(v => v ? !v : v)
                           setAnimationAccount(v => v ? !v : v)
                         }}
                       />
@@ -275,24 +258,41 @@ const NewTransaction = ({handleClose, open, type}) => {
                         inputRef={transactionDate}
                       />
                       <FormElement
-                        label="Amount"
-                        type="number"
-                        required
-                        size={'small'}
-                        InputProps={{
-                          step: 1.00,
-                        }}
-                        inputRef={sum}
+                        label="Description"
+                        type="text"
+                        inputRef={description}
                         defaultValue=''
+                        multiline
+                        rows={2}
                       />
-                      <Grid item xs>
-                        <Button disabled={animationStatus} block size={'sm'} color={'info'}
-                                onClick={() => {
-                                  setAnimationStatus(v => !v)
-                                  setAnimationCategory(v => v ? !v : v)
-                                  setAnimationAccount(v => v ? !v : v)
-                                }}>Add
-                          description</Button>
+                      <Grid item container spacing={1}>
+                        <Grid item xs={6}>
+                          <FileInput
+                            name="cashierCheck"
+                            label="Document"
+                            buttonInput
+                            hideInput
+                            sm={12}
+                            md={12}
+                            xs={12}
+                            buttonName={'Upload check'}
+                            onChange={fileChangeHandler}
+                            error={getFieldError('cashierCheck')}
+                          />
+                        </Grid>
+                        <Grid item xs={6}>
+                          <FormElement
+                            label="Amount"
+                            type="number"
+                            required
+                            size={'small'}
+                            InputProps={{
+                              step: 1.00,
+                            }}
+                            inputRef={sum}
+                            defaultValue=''
+                          />
+                        </Grid>
                       </Grid>
                     </GridContainer>
                   </CardBody>
@@ -311,42 +311,6 @@ const NewTransaction = ({handleClose, open, type}) => {
                 </Card>
               </animated.div>
             </GridItem>
-            {animationStatus ?
-              <GridItem xs={6}>
-                <animated.div style={descriptionProps} className={classes.animation}>
-                  <Card>
-                    <CardHeader>
-                      <h3 className={classes.cardTitle}>
-                        Description
-                      </h3>
-                    </CardHeader>
-                    <CardBody plain>
-                      <GridContainer spacing={1} direction="column">
-                        <Grid item xs>
-                          <FileInput
-                            name="cashierCheck"
-                            label="Document"
-                            onChange={fileChangeHandler}
-                            error={getFieldError('cashierCheck')}
-                          />
-                        </Grid>
-                        <FormElement
-                          label="Description"
-                          type="text"
-                          inputRef={description}
-                          defaultValue=''
-                          multiline
-                          rows={7}
-                        />
-                      </GridContainer>
-                    </CardBody>
-                    <CardFooter plain>
-                      <Button color={'danger'} size={'sm'} block
-                              onClick={() => setAnimationStatus(v => !v)}>Cancel</Button>
-                    </CardFooter>
-                  </Card>
-                </animated.div>
-              </GridItem> : null}
             {animationCategory ?
               <GridItem xs={6}>
                 <animated.div style={categoryProps} className={classes.animation}>

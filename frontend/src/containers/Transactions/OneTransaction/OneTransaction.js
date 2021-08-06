@@ -51,7 +51,7 @@ const OneTransaction = ({transaction, currency, openDetails}) => {
           </Grid>
         </Grid>
         <Tooltip
-          title={transaction.group.title + ' group'}>
+          title={transaction?.group?.title + ' group'}>
           <Grid item xs={3} sm={2} className={classes.grid}>
             <Grid container>
               <Grid item xs={12}>

@@ -1,6 +1,8 @@
 import {grayColor,} from "../../material-dashboard-react";
+import dashboardStyle from "../views/dashboardStyle";
 
 const transactionsStyle = () => ({
+  ...dashboardStyle,
   table: {
     minWidth: 650,
   },
@@ -14,9 +16,6 @@ const transactionsStyle = () => ({
   navigationContainer: {
     paddingTop: 0,
     justifyContent: "flex-end",
-  },
-  criteriaContainer: {
-    padding: '5px',
   },
   progressCircle: {
     position: 'absolute',

@@ -47,8 +47,7 @@ const transactionsSlice = createSlice({
     },
     deleteTransactionRequest: () => {
     },
-    deleteTransactionSuccess: (state, {payload: id}) => {
-      state.transactions = state.transactions.filter(c => c.id !== id);
+    deleteTransactionSuccess: () => {
     }
   }
 });

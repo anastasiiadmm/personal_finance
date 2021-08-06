@@ -2,7 +2,6 @@ import {put, takeEvery} from 'redux-saga/effects';
 import axiosApi from "../../axiosApi";
 import {
   deleteTransactionRequest,
-  deleteTransactionSuccess,
   transactionPost,
   transactionPostFailure,
   transactionPostSuccess,
@@ -57,7 +56,6 @@ export function* transactionsTypeFetch({payload: data}) {
 export function* deleteTransaction({payload: id}) {
   try {
     yield axiosApi.delete(`/transactions/${id}`);
-    yield put(deleteTransactionSuccess(id));
     yield put(addNotification({message: 'Transaction deleted successful', options: {variant: 'success'}}));
   } catch (e) {
     yield put(addNotification({message: 'Delete transaction failed', options: {variant: 'error'}}));

@@ -1,8 +1,6 @@
 import React from 'react';
 import Grid from "@material-ui/core/Grid";
 import {TreeView} from "@material-ui/lab";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import StyledTreeItem from "../StyledTreeItem/StyledTreeItem";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import styles from "../../../assets/jss/material-dashboard-react/components/categoryTreeStyle";
@@ -33,8 +31,6 @@ const ComponentTree = ({items, chooseItem, recursive, subName}) => {
       <TreeView
         className={classes.treeCategory}
         defaultExpanded={['1']}
-        defaultCollapseIcon={<ArrowDropDownIcon/>}
-        defaultExpandIcon={<ArrowRightIcon/>}
       >
         {recursive ? categoryItem(items) :
           <>{items.map((itemParent) => (

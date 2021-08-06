@@ -6,9 +6,9 @@ const cardBodyStyle = {
     position: "relative",
   },
   cardBodyPlain: {
-    padding: "0",
-    paddingTop: "10px",
+    padding: "15px 15px",
     margin: "0 15px 10px",
+
   },
   cardBodyProfile: {
     marginTop: "50px",

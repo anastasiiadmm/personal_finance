@@ -2,9 +2,11 @@ import React, {useRef, useState} from 'react';
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import RegularButton from "../../../components/UI/CustomButtons/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Hidden from "@material-ui/core/Hidden";
 import {successColor, whiteColor} from "../../../assets/jss/material-dashboard-react";
+import ReceiptIcon from "@material-ui/icons/Receipt";
 
 const useStyles = makeStyles({
   input: {
@@ -23,7 +25,7 @@ const useStyles = makeStyles({
   }
 });
 
-const FileInput = ({onChange, name, label, avatar, children, display, sm, md, xs}) => {
+const FileInput = ({onChange, name, label, avatar, children, hideInput, sm, md, xs, buttonInput, buttonName}) => {
   const classes = useStyles();
   const inputRef = useRef();
 
@@ -52,7 +54,7 @@ const FileInput = ({onChange, name, label, avatar, children, display, sm, md, xs
       />
       <Grid container spacing={2} alignItems={"center"}>
         {children ? <Grid xs={6} sm={sm ? sm : 12} item onClick={activateInput}>{children}</Grid> : null}
-        <Hidden xsUp={display}>
+        <Hidden xsUp={hideInput}>
           <Hidden only="xs">
             <Grid item md={6} sm={12}>
               <TextField
@@ -71,13 +73,18 @@ const FileInput = ({onChange, name, label, avatar, children, display, sm, md, xs
                                      variant="contained"
                                      onClick={activateInput}
           >
-            Browse
-          </Button> : <Button className={classes.buttonSelected}
-                              variant="contained"
-                              onClick={activateInput}
-          >
-            Selected
-          </Button>}
+            {buttonName ? buttonName : 'Browse'}
+          </Button> : <>{buttonInput ?
+            <RegularButton block color={'grey'}
+                           inputStyled
+                           onClick={activateInput}>{filename}{<ReceiptIcon/>}</RegularButton> :
+            <Button className={classes.buttonSelected}
+                    variant="contained"
+                    onClick={activateInput}
+            >
+              Selected
+            </Button>
+          }</>}
         </Grid>
 
       </Grid>

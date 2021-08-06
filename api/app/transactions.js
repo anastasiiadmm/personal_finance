@@ -58,7 +58,6 @@ router.get('/', auth, async (req, res) => {
         {association: 'accountTo', attributes: ['id', 'accountName']}
       ]
     });
-
     res.status(200).send(transactions);
   } catch (e) {
     return res.status(400).send({message: e.message});
@@ -248,47 +247,24 @@ router.put('/:id', upload.single('cashierCheck'), async (req, res) => {
 });
 
 router.delete('/:id', auth, async (req, res) => {
-  try {
-    const transaction = await Transaction.findOne({
-        where: {id: req.params.id},
-        include: {
-          association: 'user',
-          where: {id: req.user.id},
-          include: {
-            association: 'groups',
-            through: {
-              attributes: ['userId'],
-              where: {userId: req.user.id}
-            },
-            include: [{
-              association: 'users',
-              attributes: ['displayName', 'id'],
-              where: {id: req.user.id},
-              through: {
-                attributes: ['role'],
-                where: {
-                  [Op.or]: [
-                    {role: 'admin'},
-                    {role: 'owner'}
-                  ]
-                }
-              }
-            }]
+    try {
+      const transaction = await Transaction.destroy({
+          where: {
+            [Op.and]: [{id: JSON.parse(req.params.id)}, {userId: req.user.id}]
           }
-        },
+        }
+      );
+
+      if (transaction === 0) {
+        return res.status(404).send({message: "No permission"});
       }
-    );
-
-    if (!transaction) {
-      return res.status(404).send({message: "No permission"});
+      res.status(200).send('Successfully deleted!');
+    } catch
+      (e) {
+      res.status(400).send('Not deleted!')
     }
-
-    await transaction.destroy({where: {id: req.params.id}});
-
-    res.status(200).send('Successfully deleted!');
-  } catch (e) {
-    res.status(400).send('Not deleted!')
   }
-});
+)
+;
 
 module.exports = router;

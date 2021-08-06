@@ -15,6 +15,10 @@ const cardAvatarStyle = {
       width: "100%",
       height: "auto",
     },
+    "&$cardAvatarIcon svg": {
+      width: "100%",
+      height: "auto",
+    },
     "&$cardAvatarCheck img": {
       width: '100%',
       maxHeight: 'auto',
@@ -62,6 +66,12 @@ const cardAvatarStyle = {
         hexToRgb(grayColor[0]) +
         ", 0.2)",
     }
+  },
+  cardAvatarIcon: {
+    overflow: "hidden",
+    maxWidth: "100px",
+    maxHeight: "100px",
+    borderRadius: "4%",
   },
 };
 

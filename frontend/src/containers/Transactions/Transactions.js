@@ -17,6 +17,7 @@ import ComponentTree from "../../components/UI/ComponentTree/ComponentTree";
 import EditTransaction from "./EditTransaction/EditTransaction";
 import DialogContainer from "../../components/UI/DialogContainer/DialogContainer";
 import OneTransaction from "./OneTransaction/OneTransaction";
+import {groupsRequest} from "../../store/actions/groupsActions";
 
 
 const BootstrapInput = withStyles((theme) => ({
@@ -43,6 +44,7 @@ const Transactions = () => {
   const dispatch = useDispatch();
   const transactions = useSelector(state => state.transactions.transactions);
   const categories = useSelector(state => state.categories.categories);
+  const groups = useSelector(state => state.groups.groups);
   const loading = useSelector(state => state.transactions.transactionsLoading);
   const user = useSelector(state => state.users.user);
 
@@ -66,6 +68,7 @@ const Transactions = () => {
 
   useEffect(() => {
     dispatch(fetchCategoriesRequest());
+    dispatch(groupsRequest());
   }, [dispatch])
 
 
@@ -96,10 +99,6 @@ const Transactions = () => {
     setSearch(!search);
     setClear(!clear);
   }
-  //
-  // const onDeleteTransactHandler = id => {
-  //   dispatch(deleteTransactionRequest(id));
-  // }
 
   const setTransactionPerPage = (event) => {
     setCriteria({...criteria, limit: event.target.value});
@@ -131,12 +130,7 @@ const Transactions = () => {
 
   return (
     <Grid container direction="column" spacing={2}>
-      {/*<Grid item xs>*/}
-      {/*  <Button component={Link} to='/chart-transaction' color="primary" startIcon={<DonutSmallIcon/>}>*/}
-      {/*    Show chart*/}
-      {/*  </Button>*/}
-      {/*</Grid>*/}
-      <Grid container direction='row'>
+      <Grid container item direction='row' spacing={1}>
         <Grid container item xs={3} className={classes.criteriaContainer} alignItems="center">
           <Button block color={'grey'}
                   inputStyled
@@ -209,9 +203,14 @@ const Transactions = () => {
         maxWidth: '80%', backgroundColor: whiteColor,
         boxShadow: 'none',
       }} handleClose={() => handleClose('editTransaction')}>
-        <EditTransaction transaction={transactions.rows.find(transaction => {
-          return transaction.id === openDialog.editTransaction
-        })} userId={user.id}/>
+        <EditTransaction
+          closeDialog={() => handleClose('editTransaction')}
+          transaction={transactions.rows.find(transaction => {
+            return transaction.id === openDialog.editTransaction
+          })}
+          userId={user.id}
+          groups={groups}
+        />
       </DialogContainer>
       }
       <DateRangeDialog open={openDialog.date} handleClose={() => handleClose('date')} ranges={criteria.range}
