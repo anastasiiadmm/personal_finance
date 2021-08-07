@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Category.hasMany(Category, {
       foreignKey: {
-        name: 'category',
+        name: 'parentCategory',
       },
       as: 'subCategory'
     });

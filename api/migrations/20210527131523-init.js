@@ -212,7 +212,7 @@ module.exports = {
         allowNull: false,
         values: ['income', 'expenditure', 'transfer']
       },
-      category: {
+      parentCategory: {
         type: Sequelize.INTEGER,
         references: {
           model: 'category',

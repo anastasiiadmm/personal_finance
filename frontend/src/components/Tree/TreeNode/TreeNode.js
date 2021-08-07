@@ -5,7 +5,7 @@ import './TreeNode.css';
 import Grid from "@material-ui/core/Grid";
 import Category from "../../../containers/Categories/Category/Category";
 
-const TreeNode = ({ node , handleDelete}) => {
+const TreeNode = ({ node, handleDelete, showButtons}) => {
     const [childVisibility, setChildVisibility] = useState(false);
 
     const hasChild = node.subCategory ? true : false;
@@ -22,7 +22,8 @@ const TreeNode = ({ node , handleDelete}) => {
                         <ArrowRightIcon/>
                     </div>
                 )}
-                <Category category={node} handleDelete={handleDelete}/>
+                {/*{children && children}*/}
+                <Category category={node} handleDelete={handleDelete} showButtons={showButtons}/>
                 {/*<div className="col d-tree-head">*/}
                 {/*    <i className={`mr-1 ${node.icon}`}> </i>*/}
                 {/*    {node.name}*/}
@@ -31,7 +32,7 @@ const TreeNode = ({ node , handleDelete}) => {
             {hasChild && childVisibility && (
                 <div className="d-tree-content">
                     <ul className="d-flex d-tree-container flex-column">
-                        <Tree data={node.subCategory} handleDelete={handleDelete}/>
+                        <Tree data={node.subCategory} handleDelete={handleDelete} showButtons={showButtons}/>
                     </ul>
                 </div>
             )}

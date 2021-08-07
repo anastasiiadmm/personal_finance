@@ -11,6 +11,7 @@ import {
 import FileInput from "../../../components/UI/Form/FileInput";
 import {useParams} from "react-router-dom";
 import {MenuItem, TextField} from "@material-ui/core";
+import Tree from "../../../components/Tree/Tree";
 
 const CategoryForm = () => {
 
@@ -18,12 +19,13 @@ const CategoryForm = () => {
     const categoryToUpdate = useSelector(state => state.categories.category);
     const params = useParams();
     const categories = useSelector(state => state.categories.categories);
+    const categoryType = ['income', 'expenditure', 'transfer'];
 
     const [category, setCategory] = useState({
         name: '',
         categoryType: '',
         categoryIcon: '',
-        category: ''
+        parentCategory: ''
     });
 
     const [update, setUpdate] = useState(false);
@@ -98,30 +100,36 @@ const CategoryForm = () => {
                     // error={getFieldError('accountName')}
                 />
 
-                <FormElement
+                <TextField
+                    style={{margin: '10px 0px'}}
                     required
                     label="Category type"
                     name="categoryType"
                     value={category.categoryType}
                     onChange={handleChange}
-                    // error={getFieldError('balance')}
-                />
-
-                <TextField
-                    required
-                    label="Category"
-                    name="category"
-                    value={category.category}
-                    onChange={handleChange}
                     select={true}>
-                    {categories.map(cat => (
-                        <MenuItem key={cat.id} value={cat.id}>
-                            {cat.name}
+                    {categoryType.map(catType => (
+                        <MenuItem key={catType} value={catType}>
+                            {catType}
                         </MenuItem>
                     ))}
                 </TextField>
+                {console.log(category,'----------------------------')}
+                <TextField
+                    required
+                    label="Parent category"
+                    name="parentCategory"
+                    value={category.parentCategory}
+                    onChange={handleChange}
+                    select={true}>
+                    <Tree data={categories}/>
+                    {/*{categories.map(cat => (*/}
+                    {/*    <MenuItem key={cat.id} value={cat.id}>*/}
+                    {/*        {cat.name}*/}
+                    {/*    </MenuItem>*/}
+                    {/*))}*/}
+                </TextField>
 
-                {console.log(category, ' --------------->>>>>>>>>>>>>>>')}
                 <Grid item xs>
                     <FileInput
                         name="categoryIcon"

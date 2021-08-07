@@ -15,8 +15,8 @@ router.post('/', auth, upload.single('categoryIcon'), async (req, res) => {
       userId: req.user.id,
     };
 
-    if (req.body.category !== '') {
-      categoryData.category = req.body.category;
+    if (req.body.parentCategory !== '') {
+      categoryData.parentCategory = req.body.parentCategory;
       categoryData.sub = true;
     }
     const CategoryResponse = await Category.create(categoryData);
