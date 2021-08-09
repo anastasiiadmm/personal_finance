@@ -1,7 +1,7 @@
 import {put, takeEvery} from 'redux-saga/effects';
 import axiosApi from "../../axiosApi";
 import {
-  deleteTransactionRequest,
+  deleteTransactionRequest, transactionEdit, transactionEditFailure, transactionEditSuccess,
   transactionPost,
   transactionPostFailure,
   transactionPostSuccess,
@@ -26,6 +26,17 @@ export function* postTransaction({payload: transactionData}) {
   } catch (error) {
     yield put(addNotification({message: error.response.data.message, options: {variant: 'error'}}));
     yield put(transactionPostFailure(error.response.data.message));
+  }
+}
+
+export function* editTransaction({payload: transactionData}) {
+  try {
+    yield axiosApi.put('/transactions/', transactionData);
+    yield put(transactionEditSuccess());
+    yield put(addNotification({message: "Edited successfully", options: {variant: 'success'}}));
+  } catch (error) {
+    yield put(addNotification({message: error.response.data.message, options: {variant: 'error'}}));
+    yield put(transactionEditFailure(error.response.data.message));
   }
 }
 
@@ -64,6 +75,8 @@ export function* deleteTransaction({payload: id}) {
 
 const transactionsSagas = [
   takeEvery(transactionPost, postTransaction),
+  takeEvery(transactionEdit, editTransaction),
+
   takeEvery(transactionsFetchRequest, transactionsFetch),
   takeEvery(deleteTransactionRequest, deleteTransaction),
   takeEvery(transactionsTypeRequest, transactionsTypeFetch)

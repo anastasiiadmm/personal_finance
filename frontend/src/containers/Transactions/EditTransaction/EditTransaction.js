@@ -21,7 +21,7 @@ import StyleIcon from '@material-ui/icons/Style';
 import {fetchCategoriesRequest} from "../../../store/actions/categoriesActions";
 import ComponentTree from "../../../components/UI/ComponentTree/ComponentTree";
 import CategoryIcon from "@material-ui/icons/Category";
-import {deleteTransactionRequest} from "../../../store/actions/transactionsActions";
+import {deleteTransactionRequest, transactionEdit} from "../../../store/actions/transactionsActions";
 
 
 const useStyles = makeStyles(styles);
@@ -34,6 +34,18 @@ const EditTransaction = ({transaction, closeDialog, userId, groups}) => {
   const categories = useSelector(state => state.categories.categories);
   const [dialog, setDialog] = React.useState({image: false, category: false});
   const transactionCreator = transaction.userId === userId;
+
+  const transactionShortened = {
+    categoryName: transaction.category.name,
+    cashierCheck: transaction?.cashierCheck,
+    description: transaction.description ? transaction.description : '',
+    date: date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2) + 'T' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2),
+    groupId: transaction.groupId,
+    categoryId: transaction.categoryId,
+    sum: transaction.sumIn ? transaction.sumIn : transaction.sumOut,
+    accountFromId: transaction?.accountFromId,
+    accountToId: transaction?.accountToId,
+  };
 
   const [state, setState] = useState({
     categoryName: transaction.category.name,
@@ -55,7 +67,30 @@ const EditTransaction = ({transaction, closeDialog, userId, groups}) => {
 
   const onDeleteTransactHandler = id => {
     dispatch(deleteTransactionRequest(id));
-  }
+  };
+
+  const submitFormHandler = e => {
+    e.preventDefault();
+    const data = new FormData();
+    data.append('id', transaction.id);
+    Object.keys(state).forEach((key) => {
+      if (transactionShortened[key] !== state[key]) {
+        if (key === 'sum') {
+          if (transaction.type === 'Expense') {
+            data.append('sumOut', state[key]);
+          } else if (transaction.type === 'Income') {
+            data.append('sumIn', state[key]);
+          } else {
+            data.append('sumIn', state[key]);
+            data.append('sumOut', state[key]);
+          }
+        } else {
+          data.append(key, state[key]);
+        }
+      }
+    });
+    dispatch(transactionEdit(data));
+  };
 
   const handleChange = (type) => {
     setDialog({...dialog, [type]: !dialog[type]});
@@ -79,7 +114,7 @@ const EditTransaction = ({transaction, closeDialog, userId, groups}) => {
 
 
   return (
-    <GridContainer item component="form" noValidate>
+    <GridContainer item component="form" onSubmit={submitFormHandler} noValidate>
       <Card plain>
         <CardHeader stats color="primary">
           <h4 className={classes.cardTitleWhite}>{transactionCreator ? 'Edit Transaction' : 'Transaction details'}</h4>
@@ -284,6 +319,8 @@ const EditTransaction = ({transaction, closeDialog, userId, groups}) => {
                 <Button
                   block
                   color={'success'}
+                  disabled={JSON.stringify(state) === JSON.stringify(transactionShortened)}
+                  type="submit"
                 >
                   Update
                 </Button>

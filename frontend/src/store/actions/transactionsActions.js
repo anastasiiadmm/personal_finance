@@ -11,6 +11,9 @@ export const {
   transactionPostSuccess,
   transactionPostFailure,
   deleteTransactionRequest,
-  deleteTransactionSuccess
+  deleteTransactionSuccess,
+  transactionEdit,
+  transactionEditSuccess,
+  transactionEditFailure,
 } = transactionsSlice.actions;
 

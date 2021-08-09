@@ -5,6 +5,8 @@ export const initialState = {
   transactionsError: null,
   transactionPostLoading: false,
   transactionPostError: null,
+  transactionEditLoading: false,
+  transactionEditError: null,
   transactions: {count: null, rows: []},
 };
 
@@ -44,6 +46,16 @@ const transactionsSlice = createSlice({
     transactionPostFailure: (state, {payload: error}) => {
       state.transactionPostLoading = false;
       state.transactionPostError = error;
+    },
+    transactionEdit: (state) => {
+      state.transactionEditLoading = true;
+    },
+    transactionEditSuccess: (state) => {
+      state.transactionEditLoading = false;
+    },
+    transactionEditFailure: (state, {payload: error}) => {
+      state.transactionEditLoading = false;
+      state.transactionEditError = error;
     },
     deleteTransactionRequest: () => {
     },

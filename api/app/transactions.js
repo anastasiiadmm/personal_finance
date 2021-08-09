@@ -3,6 +3,7 @@ const {Op} = require('sequelize');
 const upload = require('../multer').cashierCheck;
 const auth = require("../middleware/auth");
 const {Transaction, Account} = require('../models');
+const {tryToDeleteFile} = require("../utils");
 
 const router = express.Router();
 
@@ -101,6 +102,35 @@ router.get('/transactionType', auth, async (req, res) => {
     return res.status(400).send({message: e.message});
   }
 });
+
+router.put('/', upload.single('cashierCheck'), auth, async (req, res) => {
+    try {
+      const transaction = await Transaction.findOne({where: {id: req.body.id}});
+
+      if (!!req.file) {
+        if (!!transaction.cashierCheck) {
+          await tryToDeleteFile(transaction.cashierCheck, 'cashierCheck');
+        }
+        transaction.cashierCheck = req.file.filename;
+      }
+
+      Object.keys(req.body).forEach((key) => {
+        transaction[key] = req.body[key];
+        console.log(transaction[key])
+      });
+
+
+      await transaction.save();
+      res.status(200).send('Edited transaction');
+    } catch
+      (e) {
+      if (!!req.file) {
+        await tryToDeleteFile(req.file.filename, 'cashierCheck');
+      }
+      return res.status(400).send({errors: e.errors});
+    }
+  }
+);
 
 router.post('/transfer', upload.single('cashierCheck'), auth, async (req, res) => {
   try {
