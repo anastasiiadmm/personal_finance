@@ -20,11 +20,12 @@ router.get('/', auth, async (req, res) => {
     if (criteria.category?.id) {
       category = {id: criteria.category.id}
     }
-
-    if (criteria.range[0].startDate && criteria.range[0].endDate) {
-      range = {
-        date: {
-          [Op.between]: [criteria.range[0].startDate, criteria.range[0].endDate]
+    if (criteria.range) {
+      if (criteria.range[0].startDate && criteria.range[0].endDate) {
+        range = {
+          date: {
+            [Op.between]: [criteria.range[0].startDate, criteria.range[0].endDate]
+          }
         }
       }
     }

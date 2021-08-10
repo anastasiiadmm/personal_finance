@@ -26,7 +26,6 @@ import Grid from "@material-ui/core/Grid";
 import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
 import 'react-sortable-tree/style.css';
 import Tree from "../../components/Tree/Tree";
-import Category from "./Category/Category";
 
 const useStyles = makeStyles(styles);
 

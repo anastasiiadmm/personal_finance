@@ -90,6 +90,7 @@ const EditTransaction = ({transaction, closeDialog, userId, groups}) => {
       }
     });
     dispatch(transactionEdit(data));
+    closeDialog()
   };
 
   const handleChange = (type) => {
