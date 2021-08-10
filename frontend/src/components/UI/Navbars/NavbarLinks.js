@@ -10,15 +10,11 @@ import Hidden from "@material-ui/core/Hidden";
 import Poppers from "@material-ui/core/Popper";
 import Divider from "@material-ui/core/Divider";
 import Person from "@material-ui/icons/Person";
-import ReceiptIcon from '@material-ui/icons/Receipt';
 import Button from "../CustomButtons/Button";
 import styles from "../../../assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 import {logoutRequest} from "../../../store/actions/usersActions";
 import {useDispatch} from "react-redux";
 import {Avatar} from "@material-ui/core";
-import NewTransaction from "../../../containers/NewTransaction/NewTransaction";
-import Typography from "@material-ui/core/Typography";
-import Primary from "../Typography/Primary";
 import {historyPush} from "../../../store/actions/historyActions";
 
 const useStyles = makeStyles(styles);
@@ -26,30 +22,7 @@ const useStyles = makeStyles(styles);
 const NavbarLinks = ({user}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [openMenu, setOpenMenu] = useState(null);
   const [openProfile, setOpenProfile] = useState(null);
-  const [openDialog, setOpenDialog] = useState({open: false, type: null});
-
-  const handleCloseDialog = () => {
-    setOpenDialog({...openDialog, open: false});
-  };
-
-  const handleClickMenu = (event) => {
-    if (openMenu && openMenu.contains(event.target)) {
-      setOpenMenu(null);
-    } else {
-      setOpenMenu(event.currentTarget);
-    }
-  };
-
-  const handleCloseMenuAndOpenDialog = (dialog) => {
-    setOpenMenu(null);
-    setOpenDialog({...openDialog, open: true, type: dialog});
-  };
-
-  const handleCloseMenu = () => {
-    setOpenMenu(null);
-  };
 
   const handleClickProfile = (event) => {
     if (openProfile && openProfile.contains(event.target)) {
@@ -63,72 +36,6 @@ const NavbarLinks = ({user}) => {
   };
   return (
     <div>
-      <div className={classes.manager}>
-        <Typography variant="overline">Hello, <b>{user.displayName}</b></Typography>
-        <Button
-          color={"transparent"}
-          justIcon
-          aria-owns={openMenu ? "menu-list-grow" : null}
-          aria-haspopup="true"
-          onClick={handleClickMenu}
-          className={classes.buttonLink}
-        >
-          <Primary><ReceiptIcon className={classes.icons}/></Primary>
-          <span className={classes.notifications}>+</span>
-          <Hidden mdUp implementation="css">
-            <p onClick={handleCloseMenu} className={classes.linkText}>
-              Add Transaction
-            </p>
-          </Hidden>
-        </Button>
-        <Poppers
-          open={Boolean(openMenu)}
-          anchorEl={openMenu}
-          transition
-          disablePortal
-          className={
-            classNames({[classes.popperClose]: !openMenu}) +
-            " " +
-            classes.popperNav
-          }
-        >
-          {({TransitionProps, placement}) => (
-            <Grow
-              {...TransitionProps}
-              id="menu-list-grow"
-              style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom",
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleCloseMenu}>
-                  <MenuList role="menu">
-                    <MenuItem
-                      onClick={() => handleCloseMenuAndOpenDialog('expenditure')}
-                      className={classes.dropdownItem}
-                    >
-                      Add expense
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => handleCloseMenuAndOpenDialog('income')}
-                      className={classes.dropdownItem}
-                    >
-                      Add income
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => handleCloseMenuAndOpenDialog("transfer")}
-                      className={classes.dropdownItem}
-                    >
-                      Transfer
-                    </MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Poppers>
-      </div>
       <div className={classes.manager}>
         <Button
           color={"transparent"}
@@ -182,12 +89,6 @@ const NavbarLinks = ({user}) => {
                     >
                       Profile
                     </MenuItem>
-                    <MenuItem
-                      onClick={handleCloseProfile}
-                      className={classes.dropdownItem}
-                    >
-                      Settings
-                    </MenuItem>
                     <Divider light/>
                     <MenuItem
                       onClick={() => dispatch(logoutRequest())}
@@ -202,9 +103,6 @@ const NavbarLinks = ({user}) => {
           )}
         </Poppers>
       </div>
-      {openDialog.open ?
-        <NewTransaction open={openDialog.open} type={openDialog.type} handleClose={handleCloseDialog}/> : null
-      }
     </div>
   );
 }

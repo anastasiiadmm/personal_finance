@@ -10,8 +10,10 @@ import {
   whiteColor,
   grayColor,
 } from "../../material-dashboard-react";
+import headerLinksStyle from "./headerLinksStyle";
 
-const headerStyle = () => ({
+const headerStyle = (theme) => ({
+  ...headerLinksStyle(theme),
   appBar: {
     backgroundColor: "transparent",
     boxShadow: "none",

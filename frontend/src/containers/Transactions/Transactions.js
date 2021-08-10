@@ -18,6 +18,10 @@ import EditTransaction from "./EditTransaction/EditTransaction";
 import DialogContainer from "../../components/UI/DialogContainer/DialogContainer";
 import OneTransaction from "./OneTransaction/OneTransaction";
 import {groupsRequest} from "../../store/actions/groupsActions";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import SyncAltIcon from "@material-ui/icons/SyncAlt";
+import NewTransaction from "../NewTransaction/NewTransaction";
 
 
 const BootstrapInput = withStyles((theme) => ({
@@ -128,8 +132,23 @@ const Transactions = () => {
     setOpenDialog({...openDialog, [type]: !openDialog[type]})
   }
 
+  const handleCloseDialog = () => {
+    setOpenDialog({...openDialog, open: false});
+  };
+  const handleOpenDialog = (dialog) => {
+    setOpenDialog({...openDialog, open: true, type: dialog});
+  };
+
   return (
     <Grid container direction="column" spacing={2}>
+      <Grid item>
+        <Button justIcon onClick={() => handleOpenDialog('income')}
+                size={"sm"} color={"success"}><ArrowDownwardIcon className={classes.icons}/></Button>
+        <Button justIcon size={"sm"} onClick={() => handleOpenDialog('transfer')}
+                color={"info"}><SyncAltIcon className={classes.icons}/></Button>
+        <Button justIcon onClick={() => handleOpenDialog('expenditure')}
+                size={"sm"} color={"danger"}><ArrowUpwardIcon className={classes.icons}/></Button>
+      </Grid>
       <Grid container item direction='row' spacing={1}>
         <Grid container item xs={3} className={classes.criteriaContainer} alignItems="center">
           <Button block color={'grey'}
@@ -199,24 +218,29 @@ const Transactions = () => {
         <ComponentTree items={categories} chooseItem={(prop) => setCriteria({...criteria, category: prop})}
                        recursive={true}/>
       </DialogContainer>
-      {!!openDialog?.editTransaction && <DialogContainer open={!!openDialog.editTransaction} style={{
-        maxWidth: '80%', backgroundColor: whiteColor,
-        boxShadow: 'none',
-      }} handleClose={() => handleClose('editTransaction')}>
-        <EditTransaction
-          closeDialog={() => handleClose('editTransaction')}
-          transaction={transactions.rows.find(transaction => {
-            return transaction.id === openDialog.editTransaction
-          })}
-          userId={user.id}
-          groups={groups}
-        />
-      </DialogContainer>
+      {
+        !!openDialog?.editTransaction && <DialogContainer open={!!openDialog.editTransaction} style={{
+          maxWidth: '80%', backgroundColor: whiteColor,
+          boxShadow: 'none',
+        }} handleClose={() => handleClose('editTransaction')}>
+          <EditTransaction
+            closeDialog={() => handleClose('editTransaction')}
+            transaction={transactions.rows.find(transaction => {
+              return transaction.id === openDialog.editTransaction
+            })}
+            userId={user.id}
+            groups={groups}
+          />
+        </DialogContainer>
       }
       <DateRangeDialog open={openDialog.date} handleClose={() => handleClose('date')} ranges={criteria.range}
                        setCriteria={(prop) => setCriteria({...criteria, range: [prop]})}/>
+      {openDialog.open ?
+        <NewTransaction open={openDialog.open} type={openDialog.type} handleClose={handleCloseDialog}/> : null
+      }
     </Grid>
-  );
+  )
+    ;
 };
 
 export default Transactions;

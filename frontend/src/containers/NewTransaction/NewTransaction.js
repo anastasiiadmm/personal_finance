@@ -22,6 +22,28 @@ import {groupsRequest} from "../../store/actions/groupsActions";
 
 const useStyles = makeStyles(styles);
 
+function getWindowDimensions() {
+  const {innerWidth: width, innerHeight: height} = window;
+  return {
+    width,
+    height
+  };
+}
+
+function useWindowDimensions() {
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return windowDimensions;
+}
 
 const NewTransaction = ({handleClose, open, type}) => {
   const classes = useStyles();
@@ -31,6 +53,8 @@ const NewTransaction = ({handleClose, open, type}) => {
   const fetchLoading = useSelector(state => state.groups.groupsLoading);
   const groups = useSelector(state => state.groups.groups);
   const categories = useSelector(state => state.categories.categories);
+
+  const {width} = useWindowDimensions();
 
   const categoryByType = categories.filter(obj => {
     return obj.categoryType === type
@@ -74,7 +98,7 @@ const NewTransaction = ({handleClose, open, type}) => {
   const categoryProps = useSpring({
     opacity: 1,
     reset: animationCategory,
-    transform: 'translateX(-15px)',
+    transform: 'translateX(0px)',
     from: {
       opacity: 0,
       transform: 'translateX(-50px)'
@@ -84,7 +108,7 @@ const NewTransaction = ({handleClose, open, type}) => {
   const accountProps = useSpring({
     opacity: 1,
     reset: animationAccount,
-    transform: 'translateX(-15px)',
+    transform: 'translateX(0px)',
     from: {
       opacity: 0,
       transform: 'translateX(-50px)'
@@ -157,9 +181,10 @@ const NewTransaction = ({handleClose, open, type}) => {
         {fetchLoading ? <Grid container justify="center" alignItems="stretch">
             <GridItem xs={1}><CircularProgress/></GridItem>
           </Grid> :
-          <Grid container justify="center" alignItems="stretch" component="form"
+          <Grid container justify="center" alignItems="stretch" direction={width > 700 ? "row" : "column-reverse"}
+                component="form"
                 onSubmit={submitFormHandler}>
-            <GridItem xs={6}>
+            <GridItem xs={width > 700 ? 6 : 12}>
               <animated.div style={primaryProps} className={classes.animation}>
                 <Card>
                   <CardHeader>
@@ -312,7 +337,7 @@ const NewTransaction = ({handleClose, open, type}) => {
               </animated.div>
             </GridItem>
             {animationCategory ?
-              <GridItem xs={6}>
+              <GridItem xs={width > 700 ? 6 : 12}>
                 <animated.div style={categoryProps} className={classes.animation}>
                   <Card>
                     <CardHeader>
@@ -335,7 +360,7 @@ const NewTransaction = ({handleClose, open, type}) => {
                 </animated.div>
               </GridItem> : null}
             {animationAccount ?
-              <GridItem xs={6}>
+              <GridItem xs={width > 700 ? 6 : 12}>
                 <animated.div style={accountProps} className={classes.animation}>
                   <Card>
                     <CardHeader>
