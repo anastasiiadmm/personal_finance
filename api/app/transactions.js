@@ -114,9 +114,27 @@ router.put('/', upload.single('cashierCheck'), auth, async (req, res) => {
         transaction.cashierCheck = req.file.filename;
       }
 
+      if (transaction.type === 'Expense' && req.body.sumOut) {
+        const account = await Account.findOne({where: {id: transaction.accountFromId}});
+        account.balance = parseInt(account.balance) + parseInt(transaction.sumOut) - parseInt(req.body.sumOut);
+        account.save();
+      }
+      if (transaction.type === 'Income' && req.body.sumIn) {
+        const account = await Account.findOne({where: {id: transaction.accountToId}});
+        account.balance = parseInt(account.balance) - parseInt(transaction.sumIn) - parseInt(req.body.sumIn);
+        account.save();
+      }
+      if (transaction.type === 'Transfer' && req.body.sumIn) {
+        const accountFrom = await Account.findOne({where: {id: transaction.accountFromId}});
+        accountFrom.balance = parseInt(accountFrom.balance) + parseInt(transaction.sumIn) - parseInt(req.body.sumIn);
+        accountFrom.save();
+        const accountTo = await Account.findOne({where: {id: transaction.accountToId}});
+        accountTo.balance = parseInt(accountTo.balance) - parseInt(transaction.sumIn) + parseInt(req.body.sumIn);
+        accountTo.save();
+      }
+
       Object.keys(req.body).forEach((key) => {
         transaction[key] = req.body[key];
-        console.log(transaction[key])
       });
 
 
@@ -278,17 +296,29 @@ router.put('/:id', upload.single('cashierCheck'), async (req, res) => {
 
 router.delete('/:id', auth, async (req, res) => {
     try {
-      const transaction = await Transaction.destroy({
+      const transaction = await Transaction.findOne({
           where: {
             [Op.and]: [{id: JSON.parse(req.params.id)}, {userId: req.user.id}]
           }
         }
       );
 
-      if (transaction === 0) {
+      if (transaction) {
+        const accountTo = await Account.findOne({where: {id: transaction.accountToId}});
+        const accountFrom = await Account.findOne({where: {id: transaction.accountFromId}});
+        if (accountFrom) {
+          accountFrom.balance = parseInt(accountFrom.balance) + parseInt(transaction.sumOut);
+          accountFrom.save();
+        }
+        if (accountTo) {
+          accountTo.balance = parseInt(accountTo.balance) - parseInt(transaction.sumIn);
+          accountTo.save();
+        }
+        transaction.destroy();
+      } else {
         return res.status(404).send({message: "No permission"});
       }
-      res.status(200).send('Successfully deleted!');
+      res.status(200).send('Deleted successfully');
     } catch
       (e) {
       res.status(400).send('Not deleted!')
