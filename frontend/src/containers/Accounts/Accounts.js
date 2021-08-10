@@ -38,7 +38,7 @@ const Accounts = (id) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const params = useParams();
-    const accounts = useSelector(state => state.accounts.accounts)
+    const accounts = useSelector(state => state.accounts.accounts);
     const error = useSelector(state => state.accounts.createAccountError);
     const loading = useSelector(state => state.accounts.createAccountLoading);
     const [open, setOpen] = useState(false);
