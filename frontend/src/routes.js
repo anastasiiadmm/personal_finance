@@ -3,6 +3,8 @@ import Person from "@material-ui/icons/Person";
 import BubbleChart from "@material-ui/icons/BubbleChart";
 import ReceiptIcon from '@material-ui/icons/Receipt';
 import Notifications from "@material-ui/icons/Notifications";
+import CategoryIcon from '@material-ui/icons/Category';
+import GroupIcon from '@material-ui/icons/Group';
 import Login from "./containers/Login/Login";
 import Register from "./containers/Register/Register";
 import Groups from "./containers/Groups/Groups";
@@ -33,7 +35,7 @@ export const appRoutes = [
     {
         layout: "/",
         path: "/transactions-tabs",
-        name: "TabsMenu",
+        name: "Tabs Menu",
         icon: BubbleChart,
         component: TransactionsTabs
     },
@@ -41,7 +43,7 @@ export const appRoutes = [
         layout: "/",
         path: "/groups",
         name: "My Groups",
-        icon: BubbleChart,
+        icon: GroupIcon,
         component: Groups,
     },
     {
@@ -54,7 +56,7 @@ export const appRoutes = [
         layout: "/",
         path: "/categories",
         name: "Categories",
-        icon: Notifications,
+        icon: CategoryIcon,
         component: Categories
     },
     {
