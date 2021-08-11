@@ -79,7 +79,7 @@ export function* inviteFriend({payload: inviteData}) {
         yield put(addNotification({message: 'Invite successful', options: {variant: 'success'}}));
     } catch (e) {
         yield put(inviteFriendFailure(e.response.data));
-        yield put(addNotification({message: 'Invite failed', options: {variant: 'error'}}));
+        yield put(addNotification({message: 'Invite failed!', options: {variant: 'error'}}));
     }
 }
 
