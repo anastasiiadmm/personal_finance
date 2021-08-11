@@ -3,6 +3,7 @@ const {Op} = require('sequelize');
 const upload = require('../multer').cashierCheck;
 const auth = require("../middleware/auth");
 const {Transaction, Account} = require('../models');
+const {tryToDeleteFile} = require("../utils");
 
 const router = express.Router();
 
@@ -19,14 +20,16 @@ router.get('/', auth, async (req, res) => {
     if (criteria.category?.id) {
       category = {id: criteria.category.id}
     }
-
-    if (criteria.range[0].startDate && criteria.range[0].endDate) {
-      range = {
-        date: {
-          [Op.between]: [criteria.range[0].startDate, criteria.range[0].endDate]
+    if (criteria.range) {
+      if (criteria.range[0].startDate && criteria.range[0].endDate) {
+        range = {
+          date: {
+            [Op.between]: [criteria.range[0].startDate, criteria.range[0].endDate]
+          }
         }
       }
     }
+
 
     const transactions = await Transaction.findAndCountAll({
       where: range,
@@ -57,7 +60,6 @@ router.get('/', auth, async (req, res) => {
         {association: 'accountTo', attributes: ['id', 'accountName']}
       ]
     });
-
     res.status(200).send(transactions);
   } catch (e) {
     return res.status(400).send({message: e.message});
@@ -116,6 +118,53 @@ router.get('/transactionType', auth, async (req, res) => {
   }
 });
 
+router.put('/', upload.single('cashierCheck'), auth, async (req, res) => {
+    try {
+      const transaction = await Transaction.findOne({where: {id: req.body.id}});
+
+      if (!!req.file) {
+        if (!!transaction.cashierCheck) {
+          await tryToDeleteFile(transaction.cashierCheck, 'cashierCheck');
+        }
+        transaction.cashierCheck = req.file.filename;
+      }
+
+      if (transaction.type === 'Expense' && req.body.sumOut) {
+        const account = await Account.findOne({where: {id: transaction.accountFromId}});
+        account.balance = parseInt(account.balance) + parseInt(transaction.sumOut) - parseInt(req.body.sumOut);
+        account.save();
+      }
+      if (transaction.type === 'Income' && req.body.sumIn) {
+        const account = await Account.findOne({where: {id: transaction.accountToId}});
+        account.balance = parseInt(account.balance) - parseInt(transaction.sumIn) - parseInt(req.body.sumIn);
+        account.save();
+      }
+      if (transaction.type === 'Transfer' && req.body.sumIn) {
+        const accountFrom = await Account.findOne({where: {id: transaction.accountFromId}});
+        accountFrom.balance = parseInt(accountFrom.balance) + parseInt(transaction.sumIn) - parseInt(req.body.sumIn);
+        accountFrom.save();
+        const accountTo = await Account.findOne({where: {id: transaction.accountToId}});
+        accountTo.balance = parseInt(accountTo.balance) - parseInt(transaction.sumIn) + parseInt(req.body.sumIn);
+        accountTo.save();
+      }
+
+      Object.keys(req.body).forEach((key) => {
+        transaction[key] = req.body[key];
+      });
+
+
+      await transaction.save();
+      res.status(200).send('Edited transaction');
+    } catch
+      (e) {
+      if (!!req.file) {
+        await tryToDeleteFile(req.file.filename, 'cashierCheck');
+      }
+      return res.status(400).send({errors: e.errors});
+    }
+  }
+);
+
 router.post('/transfer', upload.single('cashierCheck'), auth, async (req, res) => {
   try {
     const transactionData = {
@@ -141,6 +190,9 @@ router.post('/transfer', upload.single('cashierCheck'), auth, async (req, res) =
     const transaction = await Transaction.create(transactionData);
     res.status(200).send(transaction.toJSON());
   } catch (e) {
+    if (!!req.file) {
+      await tryToDeleteFile(req.file.filename, 'cashierCheck');
+    }
     return res.status(400).send({message: e.message});
   }
 });
@@ -171,6 +223,9 @@ router.post('/expenditure', upload.single('cashierCheck'), auth, async (req, res
     const transaction = await Transaction.create(transactionData);
     res.status(200).send(transaction.toJSON());
   } catch (e) {
+    if (!!req.file) {
+      await tryToDeleteFile(req.file.filename, 'cashierCheck');
+    }
     return res.status(400).send({message: e.message});
   }
 });
@@ -200,108 +255,45 @@ router.post('/income', upload.single('cashierCheck'), auth, async (req, res) => 
     const transaction = await Transaction.create(transactionData);
     res.status(200).send(transaction.toJSON());
   } catch (e) {
+    if (!!req.file) {
+      await tryToDeleteFile(req.file.filename, 'cashierCheck');
+    }
     return res.status(400).send({message: e.message});
   }
 });
 
-router.put('/:id', upload.single('cashierCheck'), async (req, res) => {
-  try {
-    const transaction = await Transaction.findOne({
-        where: {id: req.params.id},
-        include: {
-          association: 'user',
-          where: {id: req.body.userId},
-          include: {
-            association: 'groups',
-            through: {
-              attributes: ['userId'],
-              where: {userId: req.body.userId}
-            },
-            include: [{
-              association: 'users',
-              attributes: ['displayName', 'id'],
-              through: {
-                attributes: ['role'],
-                where: {
-                  [Op.or]: [
-                    {role: 'admin'},
-                    {role: 'owner'}
-                  ]
-                }
-              }
-            }]
-          }
-        },
-      }
-    );
-
-    if (!transaction) {
-      return res.status(404).send({message: "No permission"});
-    }
-
-    await Transaction.update({
-        categoryId: req.body.categoryId,
-        sumIn: req.body.sumIn,
-        sumOut: req.body.sumOut,
-        description: req.body.description,
-      },
-      {where: {id: req.params.id}});
-
-
-    if (req.file) {
-      await transaction.update({
-        cashierCheck: req.file.filename
-      })
-    }
-
-    res.status(200).send('Success');
-  } catch (e) {
-    res.status(400).send({message: e.message});
-  }
-});
-
 router.delete('/:id', auth, async (req, res) => {
-  try {
-    const transaction = await Transaction.findOne({
-        where: {id: req.params.id},
-        include: {
-          association: 'user',
-          where: {id: req.user.id},
-          include: {
-            association: 'groups',
-            through: {
-              attributes: ['userId'],
-              where: {userId: req.user.id}
-            },
-            include: [{
-              association: 'users',
-              attributes: ['displayName', 'id'],
-              where: {id: req.user.id},
-              through: {
-                attributes: ['role'],
-                where: {
-                  [Op.or]: [
-                    {role: 'admin'},
-                    {role: 'owner'}
-                  ]
-                }
-              }
-            }]
+    try {
+      const transaction = await Transaction.findOne({
+          where: {
+            [Op.and]: [{id: JSON.parse(req.params.id)}, {userId: req.user.id}]
           }
-        },
+        }
+      );
+
+      if (transaction) {
+        await tryToDeleteFile(transaction.cashierCheck, 'cashierCheck');
+        const accountTo = await Account.findOne({where: {id: transaction.accountToId}});
+        const accountFrom = await Account.findOne({where: {id: transaction.accountFromId}});
+        if (accountFrom) {
+          accountFrom.balance = parseInt(accountFrom.balance) + parseInt(transaction.sumOut);
+          accountFrom.save();
+        }
+        if (accountTo) {
+          accountTo.balance = parseInt(accountTo.balance) - parseInt(transaction.sumIn);
+          accountTo.save();
+        }
+        transaction.destroy();
+      } else {
+        return res.status(404).send({message: "No permission"});
       }
-    );
-
-    if (!transaction) {
-      return res.status(404).send({message: "No permission"});
+      res.status(200).send('Deleted successfully');
+    } catch
+      (e) {
+      res.status(400).send('Not deleted!')
     }
-
-    await transaction.destroy({where: {id: req.params.id}});
-
-    res.status(200).send('Successfully deleted!');
-  } catch (e) {
-    res.status(400).send('Not deleted!')
   }
-});
+)
+;
 
 module.exports = router;

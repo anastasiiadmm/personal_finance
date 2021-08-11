@@ -51,7 +51,7 @@ router.post('/signup/', upload.single('avatar'), async (req, res) => {
     });
   } catch (e) {
     if (!!req.file) {
-      await tryToDeleteFile(req.file.filename, 'avatar');
+      await tryToDeleteFile(req.file.filename, 'avatarImages');
     }
     return res.status(400).send({errors: e.errors});
   }
@@ -113,7 +113,7 @@ router.put('/sessions/', upload.single('avatar'), auth, async (req, res) => {
 
       if (!!req.file) {
         if (!!user.avatar) {
-          await tryToDeleteFile(req.user.avatar.replace(config.URL, ''), 'avatar');
+          await tryToDeleteFile(req.user.avatar.replace(config.URL, ''), 'avatarImages');
         }
         user.avatar = config.URL + req.file.filename;
       }
@@ -140,7 +140,7 @@ router.put('/sessions/', upload.single('avatar'), auth, async (req, res) => {
     } catch
       (e) {
       if (!!req.file) {
-        await tryToDeleteFile(req.file.filename, 'avatar');
+        await tryToDeleteFile(req.file.filename, 'avatarImages');
       }
       return res.status(400).send({errors: e.errors});
     }

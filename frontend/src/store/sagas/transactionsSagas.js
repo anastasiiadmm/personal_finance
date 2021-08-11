@@ -84,7 +84,6 @@ export function* deleteTransaction({payload: id}) {
 const transactionsSagas = [
   takeEvery(transactionPost, postTransaction),
   takeEvery(transactionEdit, editTransaction),
-
   takeEvery(transactionsFetchRequest, transactionsFetch),
   takeEvery(deleteTransactionRequest, deleteTransaction),
   takeEvery(transactionsTypeRequest, transactionsTypeFetch)
