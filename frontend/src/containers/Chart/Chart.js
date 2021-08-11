@@ -7,21 +7,38 @@ import FormElement from "../../components/UI/Form/FormElement";
 import {categoryTypes} from "../../utils";
 
 import Grid from "@material-ui/core/Grid";
-// import Button from "../../template/CustomButtons/Button";
+import Button from "../../components/UI/CustomButtons/Button";
+import DateRangeIcon from "@material-ui/icons/DateRange";
+import {primaryColor} from "../../assets/jss/material-dashboard-react";
+import {makeStyles} from "@material-ui/core/styles";
+import styles from "../../assets/jss/material-dashboard-react/components/transactionsStyle";
+import DateRangeDialog from "../../components/UI/DateRangeDialog/DateRangeDialog";
+
+const useStyles = makeStyles(styles);
 
 const Chart = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector(state => state.users.user);
   const transactions = useSelector(state => state.transactions.transactions.rows);
-  const [state, setState] = useState('Expense');
+  const [openDialog, setOpenDialog] = useState({date: false, categoryType: false});
+  const [criteria, setCriteria] = useState({
+    categoryType: "Expense",
+    range: [{
+      startDate: new Date(),
+      endDate: null,
+      key: 'selection',
+      color: primaryColor[1]
+    }],
+  });
+
+  const [clear, setClear] = useState(true);
+  const [search, setSearch] = useState(true);
 
   useEffect(() => {
-    dispatch(transactionsTypeRequest({categoryType: state}));
-  }, [dispatch, state]);
-
-  // const handleSearch = () => {
-  //     dispatch(transactionsTypeRequest({categoryType: state}));
-  // }
+    dispatch(transactionsTypeRequest(criteria));
+    setSearch(!search);
+  }, [dispatch, criteria, search]);
 
   const holder = {};
 
@@ -43,21 +60,87 @@ const Chart = () => {
     obj2.push({category: prop, sum: holder[prop]});
   }
 
+  const handleDialogOpen = (type) => {
+    setOpenDialog({...openDialog, [type]: !openDialog[type]})
+  };
+
+  const handleClose = (type) => {
+    setOpenDialog({...openDialog, [type]: false});
+    if (!clear) {
+      setClear(!clear)
+    }
+  };
+
+  const handleSearch = () => {
+    setSearch(!search);
+    setClear(!clear);
+  }
+
+  const handleClearSearch = () => {
+    setCriteria({
+      ...criteria, range: [{
+        startDate: new Date(),
+        endDate: null,
+        key: 'selection',
+        color: primaryColor[1]
+      }]
+    })
+    setSearch(!search);
+    setClear(!clear);
+  }
+
+  const inputChangeHandler = e => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setCriteria(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  // const today = new Date(new Date().toDateString());
+  // const weekStart = new Date(new Date(new Date().setDate(new Date().getDate() - (new Date().getDay() + 7) % 7)).toDateString());
+  // const weekEnd = new Date(new Date(new Date().setDate(new Date(new Date().setDate((new Date().getDate()
+  //   - (new Date().getDay() + 7) % 7))).getDate() + 6)).toDateString());
+  // const monthStart = new Date(new Date(new Date().setDate(1)).toDateString());
+  // const monthEnd = new Date(new Date(new Date(new Date().setMonth(new Date().getMonth() + 1)).setDate(0)).toDateString());
+  // const lastStart = new Date(new Date(new Date(new Date().setMonth(new Date().getMonth() - 1)).setDate(1)).toDateString());
+  // const lastEnd = new Date(new Date(new Date().setDate(0)).toDateString());
+  // const yearStart = new Date(new Date(new Date().getFullYear() - 1, 0, 1).toDateString());
+  // const yearEnd = new Date(new Date(new Date().getFullYear() - 1, 11, 31).toDateString());
+
   return (
     <Grid item container direction="column">
-      <Grid item container direction='row' spacing={2} style={{width: '40%'}}>
-        <FormElement
-          required
-          label="Filter by category type"
-          name="categoryType"
-          value={state}
-          select
-          options={categoryTypes}
-          onChange={e => setState(e.target.value)}
-        />
-        {/*<Grid item xs>*/}
-        {/*    <Button color='primary' onClick={handleSearch}>Search</Button>*/}
-        {/*</Grid>*/}
+      <Grid item container direction='row' justify='center' alignItems='center' spacing={2}>
+        <Grid item xs={5}>
+          <FormElement
+            required
+            name="categoryType"
+            value={criteria.categoryType}
+            select
+            options={categoryTypes}
+            onChange={inputChangeHandler}
+            onClick={() => handleDialogOpen('categoryType')}
+          />
+        </Grid>
+        <Grid container item xs={4} alignItems="center">
+          <Button block color={'grey'}
+                  inputStyled
+                  onClick={() => handleDialogOpen('date')}>
+            {criteria.range[0].endDate ? ('0' + criteria.range[0].startDate?.getDate()).slice(-2) + '.' + ('0' + (criteria.range[0].startDate?.getMonth() + 1)).slice(-2) + '.' + criteria.range[0].startDate?.getFullYear() : 'Start date'}
+            {'  -  '}
+            {criteria.range[0].endDate ? ('0' + criteria.range[0].endDate?.getDate()).slice(-2) + '.' + ('0' + (criteria.range[0].endDate?.getMonth() + 1)).slice(-2) + '.' + criteria.range[0].endDate?.getFullYear() : 'End date'}
+
+            {<DateRangeIcon/>}
+          </Button>
+        </Grid>
+        <Grid container item xs={3} className={classes.criteriaContainer} alignItems="center">
+          {clear ? <Button block color='success'
+                           disabled={!criteria.range[0].endDate && !criteria.type}
+                           onClick={handleSearch}>Search</Button> :
+            <Button block color='rose' onClick={handleClearSearch}>Clear all</Button>}
+        </Grid>
       </Grid>
       <Grid item xs>
         <Doughnut
@@ -99,6 +182,9 @@ const Chart = () => {
           }}
         />
       </Grid>
+
+      <DateRangeDialog open={openDialog.date} handleClose={() => handleClose('date')} ranges={criteria.range}
+                       setCriteria={(prop) => setCriteria({...criteria, range: [prop]})}/>
     </Grid>
   );
 };

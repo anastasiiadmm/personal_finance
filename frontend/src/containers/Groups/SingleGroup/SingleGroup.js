@@ -9,7 +9,7 @@ import EditUsersGroupForm from "./SingleGroupForms/EditUsersGroupForm";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Grid from "@material-ui/core/Grid";
-import {Avatar, Backdrop, CircularProgress, Fade, Modal, Typography} from "@material-ui/core";
+import {Avatar, Backdrop, CircularProgress, Fade, Modal, Tooltip, Typography} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
@@ -17,6 +17,7 @@ import EditIcon from '@material-ui/icons/Edit';
 
 import GroupIcon from "../../../assets/images/group-icon.jpeg";
 import Button from "../../../components/UI/CustomButtons/Button";
+import IconButton from "@material-ui/core/IconButton";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -46,13 +47,13 @@ const useStyles = makeStyles(theme => ({
     width: theme.spacing(15),
     height: theme.spacing(15),
   },
+  avatarButton: {
+    padding: 0
+  },
   small: {
     width: theme.spacing(5),
     height: theme.spacing(5),
-    position: 'relative',
-    '&:hover': {
-      cursor: 'pointer'
-    }
+    position: 'relative'
   },
   button: {
     width: theme.spacing(1),
@@ -72,8 +73,10 @@ const SingleGroup = ({match}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const group = useSelector(state => state.groups.singleGroup);
+  const userLogin = useSelector(state => state.users.user);
   const loading = useSelector(state => state.groups.singleGroupLoading);
   const [user, setUser] = useState({});
+  const permissions = useState(true);
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [modal, setModal] = useState(false);
@@ -86,8 +89,8 @@ const SingleGroup = ({match}) => {
     dispatch(deleteGroupRequest(params));
   }
 
-  const userEditHandler = id => {
-    setUser(id);
+  const userEditHandler = userInfo => {
+    setUser(userInfo);
     setModal(true);
   }
 
@@ -95,6 +98,46 @@ const SingleGroup = ({match}) => {
 
   if (group.title === 'Personal') {
     disableButtonHandler = true;
+  }
+
+  let adminPanel = null;
+
+  if (permissions) {
+    adminPanel = (
+
+      <Grid item sm={6} md={6}>
+        <Grid item container direction='row' spacing={1} alignItems='center'
+              justify='flex-end'>
+          <Grid item>
+            <Button id="add-button" color="primary" justIcon
+                    onClick={() => setOpen(true)}>
+              <GroupAddIcon/>
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button id="edit-button" color="primary" justIcon
+                    onClick={() => setModalOpen(true)}
+            >
+              <EditIcon/>
+            </Button>
+          </Grid>
+          {group.title !== 'Personal' && (
+            <Grid item>
+              <Button id="delete-button" color="primary" justIcon
+                      onClick={onDeleteGroupHandler}>
+                <DeleteForeverIcon/>
+              </Button>
+            </Grid>
+          )}
+        </Grid>
+      </Grid>
+    )
+  }
+
+  const renderAdminPanel = () => {
+    return group?.users && group.users.find(user => {
+      return user.id === userLogin.id ? (user.GroupUsers.role === 'owner' || user.GroupUsers.role === 'admin') ? true : false : false
+    });
   }
 
   return (
@@ -127,57 +170,26 @@ const SingleGroup = ({match}) => {
               <Grid item sm={6} md={6}>
                 <Typography variant="h4">{group.title}</Typography>
               </Grid>
-              <>
-                {group.users && group.users.map(user => (
-                  <Grid item sm={6} md={6} key={user.id}>
-                    {user.GroupUsers.role === 'owner' && (
-                      <Grid item container direction='row' spacing={1} alignItems='center'
-                            justify='flex-end'>
-                        <Grid item>
-                          <Button id="add-button" color="primary" justIcon
-                                  onClick={() => setOpen(true)}>
-                            <GroupAddIcon/>
-                          </Button>
-                        </Grid>
-                        <Grid item>
-                          <Button id="edit-button" color="primary" justIcon
-                                  onClick={() => setModalOpen(true)}
-                          >
-                            <EditIcon/>
-                          </Button>
-                        </Grid>
-                        {group.title !== 'Personal' && (
-                          <Grid item>
-                            <Button id="delete-button" color="primary" justIcon
-                                    onClick={onDeleteGroupHandler}>
-                              <DeleteForeverIcon/>
-                            </Button>
-                          </Grid>
-                        )}
-                      </Grid>
-                    )}
-                  </Grid>
-                ))}
-              </>
+              {renderAdminPanel() ? adminPanel : null}
             </Grid>
-            {group.nameGroup !== 'personal' && (
-              <Grid item container spacing={2} alignItems="center">
-                {group.users && group.users.map(user => (
-                  <div key={user.id}>
-                    {user.GroupUsers.role !== 'owner' && (
-                      <Grid item>
-                        <Avatar alt={user.displayName}
-                                id="info-button"
-                                src={user.avatar}
-                                className={classes.small}
-                                onClick={() => userEditHandler(user)}
-                        />
-                      </Grid>
-                    )}
-                  </div>
-                ))}
-              </Grid>
-            )}
+            <Grid item container spacing={2} alignItems="center">
+              {group.users && group.users.map(user => (
+                <Tooltip title={user.GroupUsers.role} key={user.id}>
+                  <Grid item>
+                    <IconButton
+                      className={classes.avatarButton}
+                      onClick={() => userEditHandler(user)}
+                    >
+                      <Avatar alt={user.displayName}
+                              id="info-button"
+                              src={user.avatar}
+                              className={classes.small}
+                      />
+                    </IconButton>
+                  </Grid>
+                </Tooltip>
+              ))}
+            </Grid>
           </Grid>
         )}
         <Grid item container spacing={2} justify="center" alignItems="center">
