@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Transactions from "../Transactions";
+import Chart from "../../Chart/Chart";
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {AppBar, Box} from "@material-ui/core";
@@ -13,7 +14,6 @@ import SyncAltIcon from '@material-ui/icons/SyncAlt';
 import DonutSmallIcon from '@material-ui/icons/DonutSmall';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import Tabs from "@material-ui/core/Tabs";
-import Chart from "../../Chart/Chart";
 
 const useStyles = makeStyles((theme) => ({
   root: {

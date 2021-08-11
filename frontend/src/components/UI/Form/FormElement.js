@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Grid, MenuItem, TextField} from "@material-ui/core";
 
-
 const FormElement = ({error, select, options, hide, ...props}) => {
   let inputChildren = null;
 

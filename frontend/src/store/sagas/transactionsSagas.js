@@ -64,7 +64,7 @@ export function* transactionsFetch({payload: data}) {
 
 export function* transactionsTypeFetch({payload: data}) {
   try {
-    const response = yield axiosApi.get(`/transactions/transactionType?type=${data.categoryType}`);
+    const response = yield axiosApi.get(`/transactions/transactionType`, {params: {data: data}});
     yield put(transactionsTypeSuccess(response.data));
   } catch (err) {
     yield put(transactionsTypeFailure());
