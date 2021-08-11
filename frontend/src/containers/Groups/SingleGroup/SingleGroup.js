@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {apiURL} from "../../../config";
 import {deleteGroupRequest, singleGroupRequest} from "../../../store/actions/groupsActions";
 import InviteFriendForm from "./SingleGroupForms/InviteFriendForm";
 import Accounts from "../../Accounts/Accounts";
@@ -10,12 +9,10 @@ import EditUsersGroupForm from "./SingleGroupForms/EditUsersGroupForm";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Grid from "@material-ui/core/Grid";
 import {Avatar, Backdrop, CircularProgress, Fade, Modal, Tooltip, Typography} from "@material-ui/core";
-import AddIcon from '@material-ui/icons/Add';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
 
-import GroupIcon from "../../../assets/images/group-icon.jpeg";
 import Button from "../../../components/UI/CustomButtons/Button";
 import IconButton from "@material-ui/core/IconButton";
 
@@ -105,7 +102,7 @@ const SingleGroup = ({match}) => {
   if (permissions) {
     adminPanel = (
 
-      <Grid item sm={6} md={6}>
+      <Grid container item sm={3} md={3}>
         <Grid item container direction='row' spacing={1} alignItems='center'
               justify='flex-end'>
           <Grid item>
@@ -151,31 +148,28 @@ const SingleGroup = ({match}) => {
           </Grid>
         ) : (
           <Grid item container direction='column' spacing={2} style={{marginBottom: 30}}>
-            <Grid item container justify='flex-end'>
-              <Grid item>
-                {group.avatar ? (
-                  <Avatar alt={group.title}
-                          src={apiURL + '/' + group.avatar}
-                          className={classes.large}
-                  />
-                ) : (
-                  <Avatar alt={group.title}
-                          src={GroupIcon}
-                          className={classes.large}
-                  />
-                )}
-              </Grid>
-            </Grid>
-            <Grid container direction='row' alignItems='center' spacing={2}>
-              <Grid item sm={6} md={6}>
+            {/*<Grid item container justify='flex-end'>*/}
+            {/*  <Grid item>*/}
+            {/*    {group.avatar ? (*/}
+            {/*      <Avatar alt={group.title}*/}
+            {/*              src={apiURL + '/' + group.avatar}*/}
+            {/*              className={classes.large}*/}
+            {/*      />*/}
+            {/*    ) : (*/}
+            {/*      <Avatar alt={group.title}*/}
+            {/*              src={GroupIcon}*/}
+            {/*              className={classes.large}*/}
+            {/*      />*/}
+            {/*    )}*/}
+            {/*  </Grid>*/}
+            {/*</Grid>*/}
+            <Grid container direction='row' alignItems='center' spacing={2} justify='space-between'>
+              <Grid container item sm={3} md={3}>
                 <Typography variant="h4">{group.title}</Typography>
               </Grid>
-              {renderAdminPanel() ? adminPanel : null}
-            </Grid>
-            <Grid item container spacing={2} alignItems="center">
               {group.users && group.users.map(user => (
-                <Tooltip title={user.GroupUsers.role} key={user.id}>
-                  <Grid item>
+                <Grid container item sm={6} md={6}>
+                  <Tooltip title={user.GroupUsers.role} key={user.id}>
                     <IconButton
                       className={classes.avatarButton}
                       onClick={() => userEditHandler(user)}
@@ -186,19 +180,17 @@ const SingleGroup = ({match}) => {
                               className={classes.small}
                       />
                     </IconButton>
-                  </Grid>
-                </Tooltip>
+                  </Tooltip>
+
+                </Grid>
               ))}
+              {renderAdminPanel() ? adminPanel : null}
             </Grid>
           </Grid>
         )}
         <Grid item container spacing={2} justify="center" alignItems="center">
           <Accounts/>
         </Grid>
-
-        <Button justIcon className={classes.addBtn} color="primary">
-          <AddIcon/>
-        </Button>
       </Grid>
 
       <Modal
