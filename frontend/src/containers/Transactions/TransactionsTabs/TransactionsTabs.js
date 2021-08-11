@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     backgroundColor: theme.palette.background.paper,
   },
+  tabs: {
+    backgroundColor: "#9c27b0"
+  }
 }));
 
 const TransactionsTabs = () => {
@@ -60,20 +63,20 @@ const TransactionsTabs = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="default">
+      <AppBar position="static">
         <Tabs
           value={value}
-          onChange={handleChange}
-          variant="scrollable"
           scrollButtons="on"
+          onChange={handleChange}
+          indicatorColor="secondary"
+          textColor="inherit"
           centered
-          indicatorColor="primary"
-          textColor="primary"
-          aria-label="scrollable force tabs example"
+          className={classes.tabs}
+          aria-label="scrollable prevent tabs example"
         >
-          <Tab label="Transactions" icon={<SyncAltIcon />} {...a11yProps(0)} />
-          <Tab label="Chart" icon={<DonutSmallIcon />} {...a11yProps(1)} />
-          <Tab label="Summary" icon={<AttachMoneyIcon />} {...a11yProps(2)} />
+          <Tab icon={<SyncAltIcon />} {...a11yProps(0)} />
+          <Tab icon={<DonutSmallIcon />} {...a11yProps(1)} />
+          <Tab icon={<AttachMoneyIcon />} {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>

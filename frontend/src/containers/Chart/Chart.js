@@ -38,7 +38,7 @@ const Chart = () => {
   useEffect(() => {
     dispatch(transactionsTypeRequest(criteria));
     setSearch(!search);
-  }, [dispatch, criteria, search]);
+  }, [dispatch, criteria]);
 
   const holder = {};
 
@@ -99,22 +99,12 @@ const Chart = () => {
     }));
   };
 
-  // const today = new Date(new Date().toDateString());
-  // const weekStart = new Date(new Date(new Date().setDate(new Date().getDate() - (new Date().getDay() + 7) % 7)).toDateString());
-  // const weekEnd = new Date(new Date(new Date().setDate(new Date(new Date().setDate((new Date().getDate()
-  //   - (new Date().getDay() + 7) % 7))).getDate() + 6)).toDateString());
-  // const monthStart = new Date(new Date(new Date().setDate(1)).toDateString());
-  // const monthEnd = new Date(new Date(new Date(new Date().setMonth(new Date().getMonth() + 1)).setDate(0)).toDateString());
-  // const lastStart = new Date(new Date(new Date(new Date().setMonth(new Date().getMonth() - 1)).setDate(1)).toDateString());
-  // const lastEnd = new Date(new Date(new Date().setDate(0)).toDateString());
-  // const yearStart = new Date(new Date(new Date().getFullYear() - 1, 0, 1).toDateString());
-  // const yearEnd = new Date(new Date(new Date().getFullYear() - 1, 11, 31).toDateString());
-
   return (
     <Grid item container direction="column">
       <Grid item container direction='row' justify='center' alignItems='center' spacing={2}>
         <Grid item xs={5}>
           <FormElement
+            size={'small'}
             required
             name="categoryType"
             value={criteria.categoryType}
