@@ -142,8 +142,8 @@ const Chart = () => {
               label: 'My Chart',
               data: obj2.map(o => (o.sum)),
               backgroundColor: [
-                '#9c27b0',
                 '#4caf50',
+                '#9c27b0',
                 '#00acc1',
                 '#f44336',
                 '#4caf50',
