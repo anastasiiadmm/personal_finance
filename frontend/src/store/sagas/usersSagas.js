@@ -3,6 +3,7 @@ import axiosApi from "../../axiosApi";
 import {
   cleanUserErrors,
   cleanUserErrorsRequest,
+  deleteUserRequest, deleteUserSuccess,
   googleLoginRequest,
   loginFailure,
   loginRequest,
@@ -83,10 +84,22 @@ export function* logout() {
   }
 }
 
+export function* deleteUser() {
+  try {
+    yield axiosApi.delete('/users/');
+    yield put(deleteUserSuccess());
+    yield put(historyPush('/'));
+    yield put(addNotification({message: 'Account Deleted', options: {variant: 'success'}}));
+  } catch (e) {
+    yield put(addNotification({message: 'Could not Delete', options: {variant: 'error'}}));
+  }
+}
+
 const usersSagas = [
   takeEvery(registerRequest, registerUser),
   takeEvery(loginRequest, loginUser),
   takeEvery(googleLoginRequest, googleLogin),
+  takeEvery(deleteUserRequest, deleteUser),
   takeEvery(logoutRequest, logout),
   takeEvery(updateRequest, updateUser),
   takeEvery(cleanUserErrorsRequest, function* () {

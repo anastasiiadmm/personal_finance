@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
+      onDelete: 'SET NULL',
       references: {
         model: 'User',
         key: 'id'
@@ -18,8 +19,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    accountFromId: DataTypes.INTEGER,
-    accountToId: DataTypes.INTEGER,
+    accountFromId: {
+      type: DataTypes.INTEGER,
+      onDelete: 'CASCADE',
+      hooks: true,
+    },
+    accountToId: {
+      type: DataTypes.INTEGER,
+      onDelete: 'CASCADE',
+      hooks: true,
+    },
     groupId: DataTypes.INTEGER,
     sumOut: {
       type: DataTypes.DECIMAL,
@@ -68,15 +77,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     });
     Transaction.belongsTo(models.Group, {
-      as: 'group'
+      as: 'group',
     });
 
     Transaction.belongsTo(models.Account, {
-      as: 'accountFrom'
+      as: 'accountFrom',
     });
 
     Transaction.belongsTo(models.Account, {
-      as: 'accountTo'
+      as: 'accountTo',
     });
 
   };

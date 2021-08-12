@@ -63,6 +63,11 @@ const usersSlice = createSlice({
     },
     logoutSuccess: state => {
       state.user = null;
+    },
+    deleteUserRequest: () => {
+    },
+    deleteUserSuccess: state => {
+      state.user = null;
     }
   }
 });

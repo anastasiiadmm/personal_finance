@@ -33,14 +33,16 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {
         name: 'userId'
       },
-      as: 'user'
+      as: 'user',
+      onDelete: 'CASCADE'
     });
 
     Category.hasMany(Category, {
       foreignKey: {
         name: 'parentCategory',
       },
-      as: 'subCategory'
+      as: 'subCategory',
+      onDelete: 'CASCADE'
     });
 
     Category.hasMany(models.Transaction, {
@@ -48,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
         name: 'categoryId',
         allowNull: false,
       },
-      as: 'transactions'
+      as: 'transactions',
     });
   };
 

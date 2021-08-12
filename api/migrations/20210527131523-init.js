@@ -46,6 +46,7 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        onDelete: 'CASCADE',
         references: {
           model: 'user',
           key: 'id'
@@ -108,11 +109,11 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
           model: 'user',
           key: 'id'
         },
+        allowNull: false,
         onDelete: 'cascade',
         onUpdate: 'cascade',
         hooks: true,
@@ -123,14 +124,14 @@ module.exports = {
       },
       groupId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
           model: 'group',
           key: 'id'
         },
+        hooks: true,
+        allowNull: false,
         onDelete: 'cascade',
         onUpdate: 'cascade',
-        hooks: true,
       },
       createdAt: {
         allowNull: false,
@@ -151,17 +152,21 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        onDelete: 'CASCADE',
         references: {
           model: 'user',
           key: 'id'
-        }
+        },
       },
       groupId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'group',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE',
+        hooks: true
       },
       accountName: {
         allowNull: false,
@@ -214,6 +219,8 @@ module.exports = {
       },
       parentCategory: {
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        hooks: true,
         references: {
           model: 'category',
           key: 'id'
@@ -221,6 +228,8 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        hooks: true,
         allowNull: false,
         references: {
           model: 'user',
@@ -252,7 +261,8 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
+        onDelete: 'SET NULL',
         references: {
           model: 'user',
           key: 'id'
@@ -268,6 +278,8 @@ module.exports = {
       },
       accountToId: {
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        hooks: true,
         references: {
           model: 'account',
           key: 'id'
@@ -275,6 +287,8 @@ module.exports = {
       },
       accountFromId: {
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        hooks: true,
         references: {
           model: 'account',
           key: 'id'

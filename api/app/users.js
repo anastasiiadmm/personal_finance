@@ -7,15 +7,36 @@ const {OAuth2Client} = require('google-auth-library')
 const geoip = require('geoip-lite');
 const auth = require("../middleware/auth");
 const {tryToDeleteFile} = require('../utils');
+const {Op} = require("sequelize");
 
 
 const googleClient = new OAuth2Client(config.google.clientId)
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.delete('/', auth, async (req, res) => {
   try {
-    const users = await User.findAll({include: {model: Token, as: 'tokens'}});
-    res.status(200).send({users});
+    const user = await User.findOne({
+      where: {id: req.user.id},
+      include: [{
+        association: 'groups',
+        attributes: ['id'],
+        through: {
+          attributes: ['role'],
+          where: {
+            [Op.or]: [
+              {role: 'owner'}
+            ]
+          }
+        },
+      }],
+    });
+
+
+    await Group.destroy({where: {id: user.groups.map(group => group.id)}})
+
+    user.destroy();
+
+    res.status(200).send('success');
   } catch (e) {
     return res.status(400).send({message: e.message});
   }
