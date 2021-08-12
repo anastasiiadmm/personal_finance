@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
     height: theme.spacing(15),
   },
   avatarButton: {
-    padding: 0
+    padding: 7
   },
   small: {
     width: theme.spacing(5),
@@ -87,8 +87,10 @@ const SingleGroup = ({match}) => {
   }
 
   const userEditHandler = userInfo => {
-    setUser(userInfo);
-    setModal(true);
+    if (userInfo.GroupUsers.role !== 'owner') {
+      setUser(userInfo);
+      setModal(true);
+    }
   }
 
   let disableButtonHandler = false;
@@ -101,7 +103,6 @@ const SingleGroup = ({match}) => {
 
   if (permissions) {
     adminPanel = (
-
       <Grid container item sm={3} md={3}>
         <Grid item container direction='row' spacing={1} alignItems='center'
               justify='flex-end'>
@@ -167,8 +168,8 @@ const SingleGroup = ({match}) => {
               <Grid container item sm={3} md={3}>
                 <Typography variant="h4">{group.title}</Typography>
               </Grid>
-              {group.users && group.users.map(user => (
-                <Grid container item sm={6} md={6}>
+              <Grid container item sm={6} md={6}>
+                {group.users && group.users.map(user => (
                   <Tooltip title={user.GroupUsers.role} key={user.id}>
                     <IconButton
                       className={classes.avatarButton}
@@ -181,9 +182,8 @@ const SingleGroup = ({match}) => {
                       />
                     </IconButton>
                   </Tooltip>
-
-                </Grid>
-              ))}
+                ))}
+              </Grid>
               {renderAdminPanel() ? adminPanel : null}
             </Grid>
           </Grid>
