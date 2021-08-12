@@ -33,10 +33,9 @@ const EditTransaction = ({transaction, closeDialog, userId, groups}) => {
 
   const categories = useSelector(state => state.categories.categories);
   const [dialog, setDialog] = React.useState({image: false, category: false});
-  const transactionCreator = transaction.userId === userId;
-
+  const transactionCreator = (transaction.userId === userId || transaction.group.users[0].GroupUsers.role === 'owner');
   const transactionShortened = {
-    categoryName: transaction.category.name,
+    categoryName: transaction.category?.name ? transaction.category.name : '',
     cashierCheck: transaction?.cashierCheck,
     description: transaction.description ? transaction.description : '',
     date: date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2) + 'T' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2),
@@ -48,7 +47,7 @@ const EditTransaction = ({transaction, closeDialog, userId, groups}) => {
   };
 
   const [state, setState] = useState({
-    categoryName: transaction.category.name,
+    categoryName: transaction.category?.name ? transaction.category.name : '',
     cashierCheck: transaction?.cashierCheck,
     description: transaction.description ? transaction.description : '',
     date: date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2) + 'T' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2),

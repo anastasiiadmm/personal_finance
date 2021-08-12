@@ -16,8 +16,8 @@ import Hidden from "@material-ui/core/Hidden";
 
 const useStyles = makeStyles(styles);
 
-
 const OneTransaction = ({transaction, currency, openDetails}) => {
+
   const classes = useStyles();
   const date = new Date(transaction.date);
   const truncate = (source, size) => {
@@ -29,8 +29,8 @@ const OneTransaction = ({transaction, currency, openDetails}) => {
         <Grid item xs={5} sm={3} md={2} className={classes.grid}>
           <Grid container>
             <Grid item xs={12} className={classes.iconContainer}>
-              <Tooltip title={transaction.user.displayName}>
-                {transaction.user.avatar ?
+              <Tooltip title={transaction.user?.displayName ? transaction.user.displayName : 'Deleted user'}>
+                {transaction.user?.avatar ?
                   <Avatar
                     src={transaction.user.avatar}
                     className={classes.avatar}
@@ -62,7 +62,7 @@ const OneTransaction = ({transaction, currency, openDetails}) => {
               </Grid>
               <Grid item xs={12}>
                 {transaction.type === 'Transfer' ?
-                  <Danger>{transaction.accountFrom.accountName}</Danger> : transaction.category.name}
+                  <Danger>{transaction.accountFrom.accountName}</Danger> : transaction.category?.name}
               </Grid>
             </Grid>
           </Grid>

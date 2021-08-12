@@ -38,7 +38,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     categoryId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
+      onDelete: 'SET NULL',
       references: {
         model: 'Category',
         key: 'id'

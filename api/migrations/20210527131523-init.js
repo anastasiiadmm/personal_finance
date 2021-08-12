@@ -302,7 +302,12 @@ module.exports = {
       },
       categoryId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        references: {
+          model: 'category',
+          key: 'id'
+        },
+        allowNull: true,
+        onDelete: 'SET NULL',
       },
       description: {
         type: Sequelize.STRING

@@ -30,7 +30,6 @@ router.get('/', auth, async (req, res) => {
       }
     }
 
-
     const transactions = await Transaction.findAndCountAll({
       where: range,
       limit: criteria.limit,
@@ -41,7 +40,6 @@ router.get('/', auth, async (req, res) => {
           association: 'category',
           attributes: ['id', 'name', 'icon'],
           where: category,
-          required: true
         },
         {
           association: 'group', required: true,
@@ -266,7 +264,7 @@ router.delete('/:id', auth, async (req, res) => {
     try {
       const transaction = await Transaction.findOne({
           where: {
-            [Op.and]: [{id: JSON.parse(req.params.id)}, {userId: req.user.id}]
+            [Op.and]: [{id: JSON.parse(req.params.id)}]
           }
         }
       );
