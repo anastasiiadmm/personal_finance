@@ -59,7 +59,7 @@ const DeleteAccount = ({id}) => {
    return (
      <Grid container direction="column" spacing={2}>
         <form onSubmit={onDeleteFormSubmit}>
-           <b>Введите название счета для удаления</b>
+           <b>Enter account title to delete</b>
            <FormElement
              required
              label="Account title"
