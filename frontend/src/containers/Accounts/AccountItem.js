@@ -1,11 +1,7 @@
 import React, {useState} from 'react';
 import {
   Avatar, Backdrop,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader, Fade,
-  Grid,
+  Fade, Grid,
   IconButton,
   makeStyles, Modal
 } from "@material-ui/core";
@@ -15,52 +11,15 @@ import Edit from "@material-ui/icons/Edit";
 import EditAccount from "./EditAccount/EditAccount";
 import {useSelector} from "react-redux";
 import DeleteAccount from "./DeleteAccount/DeleteAccount";
+import CardFooter from "../../components/UI/Card/CardFooter";
+import Card from "../../components/UI/Card/Card";
+import GridItem from "../../components/UI/Grid/GridItem";
+import CardIcon from "../../components/UI/Card/CardIcon";
+import styles from "../../assets/jss/material-dashboard-react/views/dashboardStyle";
+import CardBody from "../../components/UI/Card/CardBody";
+import CardHeader from "../../components/UI/Card/CardHeader";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    position: 'relative'
-  },
-  progress: {
-    height: 200
-  },
-  card: {
-    height: '100%',
-    width: '70%',
-    display: "flex",
-    justifyContent: 'space-between'
-  },
-  content: {
-    display: 'flex',
-    alignItems: 'center'
-  },
-  avatar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingLeft: "30px"
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%',
-  },
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  palette: {
-    color: 'purple',
-  },
-  paper: {
-    width: 500,
-    backgroundColor: theme.palette.background.paper,
-    border: '1px solid #000',
-    boxShadow: theme.shadows[4],
-    padding: theme.spacing(2, 4, 3),
-  },
-
-
-}));
+const useStyles = makeStyles(styles);
 
 const AccountItem = ({accountName, currency, balance, id, accountIcon}) => {
   const classes = useStyles();
@@ -79,11 +38,11 @@ const AccountItem = ({accountName, currency, balance, id, accountIcon}) => {
   if (permissions) {
     ownerPanel = (
       <>
-        <IconButton className={classes.palette} onClick={() => setEditOpen(true)}>
-          <Edit/>
+        <IconButton className={classes.linkButton} onClick={() => setEditOpen(true)}>
+          <span>Edit <Edit/></span>
         </IconButton>
-        <IconButton className={classes.palette} onClick={() => setOpenListToDelete(true)}>
-          <Delete/>
+        <IconButton className={classes.linkButton} onClick={() => setOpenListToDelete(true)}>
+         <span>Delete <Delete/></span>
         </IconButton>
       </>
     )
@@ -95,22 +54,22 @@ const AccountItem = ({accountName, currency, balance, id, accountIcon}) => {
   }
   return (
     <>
-      <Grid item>
-        <Card className={classes.card}>
-          <div className={classes.avatar}>
-            <Avatar alt={accountName} src={apiURL + '/' + accountIcon}/>
-          </div>
-          <CardHeader title={accountName}/>
-
-          <CardContent className={classes.content}>
-
-            <p style={{paddingLeft: '100px'}}>
-              {balance} {currency}
-            </p>
-          </CardContent>
-          <CardActions>
+      <Grid item xs={12} sm={6} md={5} key={id} className={classes.marginCard}>
+        <Card>
+          <CardHeader color="warning" stats icon>
+            <CardIcon circle color="warning">
+                  <div>
+                    <Avatar alt={accountName} src={apiURL + '/' + accountIcon} className={classes.small} />
+                  </div>
+            </CardIcon>
+            <h3 className={classes.cardTitle}>{accountName}</h3>
+          </CardHeader>
+          <CardBody stats>
+          <b>{balance} {currency} </b>
+          </CardBody>
+          <CardFooter stats>
             {renderOwnerPanel() ? ownerPanel : null}
-          </CardActions>
+          </CardFooter>
         </Card>
       </Grid>
       <Modal

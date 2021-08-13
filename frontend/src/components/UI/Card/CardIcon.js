@@ -14,9 +14,10 @@ const useStyles = makeStyles(styles);
 
 export default function CardIcon(props) {
   const classes = useStyles();
-  const { className, children, color, ...rest } = props;
+  const { className, children, color, circle, ...rest } = props;
   const cardIconClasses = classNames({
     [classes.cardIcon]: true,
+    [classes.circleIcon]:circle,
     [classes[color + "CardHeader"]]: color,
     [className]: className !== undefined,
   });
@@ -39,4 +40,5 @@ CardIcon.propTypes = {
     "transparent",
   ]),
   children: PropTypes.node,
+  circle:PropTypes.bool
 };

@@ -42,7 +42,7 @@ const dashboardStyle = {
   },
   small: {
     width: 100,
-    height: 100
+    height: 100,
   },
   avatar: {
     width: 40,
@@ -63,6 +63,9 @@ const dashboardStyle = {
   linkButton: {
     fontSize: 16,
     color: "#9c27b0",
+  },
+  marginCard: {
+    margin: '15px 0 !important',
   }
 };
 

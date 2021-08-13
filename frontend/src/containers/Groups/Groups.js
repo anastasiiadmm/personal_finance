@@ -46,7 +46,7 @@ const Groups = () => {
         </Grid>
         <Grid item container spacing={2}>
           {groups && (groups.map(group => (
-            <GridItem item xs={12} sm={6} md={5} key={group.id}>
+            <Grid item xs={12} sm={6} md={5} key={group.id} className={classes.marginCard}>
               <Card>
                 <CardHeader color="warning" stats icon>
                   <CardIcon color="warning">
@@ -66,7 +66,7 @@ const Groups = () => {
                   <Link to={`/groups/${group.id}`} className={classes.linkButton}>More info</Link>
                 </CardFooter>
               </Card>
-            </GridItem>
+            </Grid>
           )))}
         </Grid>
       </Grid>
