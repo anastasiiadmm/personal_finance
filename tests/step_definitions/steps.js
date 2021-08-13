@@ -124,10 +124,9 @@ When('редактирую данные в форме профиля', () => {
     I.click('//input[contains(@name, "preferences")]');
     I.click('//ul//li[contains(.,"Euro")]');
     I.attachFile('form input[name=avatar]', '.././api/public/uploads/fixtures/group-icon2.webp');
-    I.wait(5);
 });
 
 When('нажимаю нажимаю на кнопку Update profile', () => {
     I.click('//button//*[contains(text(),"Update profile")]/..');
-    I.wait(5);
+    I.wait(2);
 });
