@@ -50,7 +50,7 @@ Then('попадаю на страницу группы New group', () => {
     I.amOnPage('/groups/3');
 });
 
-Then('я попадаю на страницу группы Test4', num => {
+Then('я попадаю на страницу группы Test4', () => {
     I.amOnPage('/groups/4');
 });
 
@@ -106,10 +106,28 @@ When('нажимаю на кнопку {string}', str => {
     I.click(`//button//*[contains(text(),"${str}")]/..`);
 });
 
-When('нажимаю на кнопку Update user', str => {
+When('нажимаю на кнопку Update user', () => {
     I.click(`//button//*[contains(text(),"Update user")]/..`);
 });
 
 When('я нажимаю на кнопку удаления пользователя из группы', () => {
     I.click(`//button[contains(@id,"deleted-button")]`);
+});
+
+Then('попадаю на страницу редактирования профиля у залогиненного пользователя', () => {
+    I.amOnPage('/user');
+});
+
+When('редактирую данные в форме профиля', () => {
+    I.click('//input[contains(@name, "displayName")]');
+    I.fillField('//input[contains(@name, "displayName")]', 'John Test');
+    I.click('//input[contains(@name, "preferences")]');
+    I.click('//ul//li[contains(.,"Euro")]');
+    I.attachFile('form input[name=avatar]', '.././api/public/uploads/fixtures/group-icon2.webp');
+    I.wait(5);
+});
+
+When('нажимаю нажимаю на кнопку Update profile', () => {
+    I.click('//button//*[contains(text(),"Update profile")]/..');
+    I.wait(5);
 });

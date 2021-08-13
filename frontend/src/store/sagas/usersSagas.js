@@ -45,6 +45,7 @@ export function* updateUser({payload: userData}) {
     });
     const response = yield axiosApi.put('/users/sessions', data);
     yield put(updateSuccess(response.data));
+    yield put(addNotification({message: 'Update profile successful', options: {variant: 'success'}}));
   } catch (error) {
     yield put(updateFailure(error.response.data));
   }
