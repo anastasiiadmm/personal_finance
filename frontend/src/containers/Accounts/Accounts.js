@@ -61,7 +61,7 @@ const Accounts = (id) => {
 
   if (permissions) {
     ownerPanel = (
-      <Button className={classes.palette} onClick={() => setOpen(true)}>
+      <Button className={classes.linkButton} onClick={() => setOpen(true)}>
         Add new account
       </Button>
     )

@@ -13,7 +13,6 @@ import {useSelector} from "react-redux";
 import DeleteAccount from "./DeleteAccount/DeleteAccount";
 import CardFooter from "../../components/UI/Card/CardFooter";
 import Card from "../../components/UI/Card/Card";
-import GridItem from "../../components/UI/Grid/GridItem";
 import CardIcon from "../../components/UI/Card/CardIcon";
 import styles from "../../assets/jss/material-dashboard-react/views/dashboardStyle";
 import CardBody from "../../components/UI/Card/CardBody";
