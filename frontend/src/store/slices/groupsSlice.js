@@ -8,7 +8,8 @@ export const initialState = {
     inviteFriendError: null,
     singleGroupLoading: false,
     createGroupLoading: false,
-    createGroupError: null
+    createGroupError: null,
+    groupEditError: null
 };
 
 const name = 'groups';
@@ -73,6 +74,9 @@ const groupsSlice = createSlice({
         },
         editRoleFriendRequest: () => {},
         editRoleFriendSuccess: () => {},
+        editRoleFriendFailure: (state, {payload: error}) => {
+            state.groupEditError = error;
+        },
         deleteFriendRequest: () => {},
         deleteFriendSuccess: () => {}
     }

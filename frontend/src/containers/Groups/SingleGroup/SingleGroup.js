@@ -168,23 +168,23 @@ const SingleGroup = ({match}) => {
               <Grid container item sm={3} md={3}>
                 <Typography variant="h4">{group.title}</Typography>
               </Grid>
-              <Grid container item sm={6} md={6}>
-                {group.users && group.users.map(user => (
-                  <Tooltip title={user.GroupUsers.role} key={user.id}>
-                    <IconButton
-                      className={classes.avatarButton}
-                      onClick={() => userEditHandler(user)}
-                    >
-                      <Avatar alt={user.displayName}
-                              id="info-button"
-                              src={user.avatar}
-                              className={classes.small}
-                      />
-                    </IconButton>
-                  </Tooltip>
-                ))}
-              </Grid>
               {renderAdminPanel() ? adminPanel : null}
+            </Grid>
+            <Grid container item sm={6} md={6}>
+              {group.users && group.users.map(user => (
+                <Tooltip title={user.GroupUsers.role} key={user.id}>
+                  <IconButton
+                    className={classes.avatarButton}
+                    onClick={() => userEditHandler(user)}
+                  >
+                    <Avatar alt={user.displayName}
+                            id="info-button"
+                            src={user.avatar}
+                            className={classes.small}
+                    />
+                  </IconButton>
+                </Tooltip>
+              ))}
             </Grid>
           </Grid>
         )}

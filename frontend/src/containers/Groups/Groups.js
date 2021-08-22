@@ -11,7 +11,6 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 import styles from "../../assets/jss/material-dashboard-react/views/dashboardStyle.js";
 
-import GridItem from "../../components/UI/Grid/GridItem";
 import Card from "../../components/UI/Card/Card";
 import CardHeader from "../../components/UI/Card/CardHeader";
 import CardIcon from "../../components/UI/Card/CardIcon";

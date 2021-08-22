@@ -18,6 +18,7 @@ export const {
     inviteFriendFailure,
     editRoleFriendRequest,
     editRoleFriendSuccess,
+    editRoleFriendFailure,
     deleteGroupRequest,
     deleteGroupSuccess,
     deleteFriendRequest,

@@ -21,6 +21,7 @@ import {
 } from "../actions/groupsActions";
 import {addNotification} from "../actions/notifierActions";
 import {historyPush} from "../actions/historyActions";
+import {transactionEditFailure} from "../actions/transactionsActions";
 
 export function* fetchGroups() {
     try {
@@ -90,7 +91,8 @@ export function* editRoleFriend({payload: data}) {
         yield put(singleGroupRequest(data.groupId));
         yield put(addNotification({message: 'Update role successful', options: {variant: 'success'}}));
     } catch (e) {
-        yield put(addNotification({message: 'Edit role failed', options: {variant: 'error'}}));
+        yield put(transactionEditFailure(e.response.data.message));
+        yield put(addNotification({message: e.response.data.message, options: {variant: 'error'}}));
     }
 }
 

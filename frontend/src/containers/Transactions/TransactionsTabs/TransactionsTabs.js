@@ -12,7 +12,6 @@ import Typography from "@material-ui/core/Typography";
 
 import SyncAltIcon from '@material-ui/icons/SyncAlt';
 import DonutSmallIcon from '@material-ui/icons/DonutSmall';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import Tabs from "@material-ui/core/Tabs";
 
 const useStyles = makeStyles((theme) => ({
@@ -76,7 +75,6 @@ const TransactionsTabs = () => {
         >
           <Tab icon={<SyncAltIcon />} {...a11yProps(0)} />
           <Tab icon={<DonutSmallIcon />} {...a11yProps(1)} />
-          <Tab icon={<AttachMoneyIcon />} {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
@@ -84,9 +82,6 @@ const TransactionsTabs = () => {
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Chart />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
       </TabPanel>
     </div>
   );
