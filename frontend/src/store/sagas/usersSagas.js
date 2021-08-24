@@ -3,7 +3,8 @@ import axiosApi from "../../axiosApi";
 import {
   cleanUserErrors,
   cleanUserErrorsRequest,
-  deleteUserRequest, deleteUserSuccess,
+  deleteUserRequest,
+  deleteUserSuccess,
   googleLoginRequest,
   loginFailure,
   loginRequest,
@@ -74,12 +75,19 @@ export function* googleLogin({payload: {tokenId, googleId}}) {
   }
 }
 
-export function* logout() {
+export function* logout({payload: type}) {
   try {
     yield axiosApi.delete('/users/sessions');
     yield put(logoutSuccess());
-    yield put(historyPush('/'));
-    yield put(addNotification({message: 'Logged out', options: {variant: 'success'}}));
+    if (type === 'outdated') {
+      yield put(historyPush('/login'));
+
+      yield put(addNotification({message: 'Token expired, please login', options: {variant: 'error'}}));
+
+    } else {
+      yield put(historyPush('/'));
+      yield put(addNotification({message: 'Logged out', options: {variant: 'success'}}));
+    }
   } catch (e) {
     yield put(addNotification({message: 'Could not logout', options: {variant: 'error'}}));
   }

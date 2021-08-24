@@ -5,6 +5,7 @@ import createSagaMiddleware from 'redux-saga';
 import rootSaga from "./rootSaga";
 import {configureStore} from "@reduxjs/toolkit";
 import rootReducer from "./rootReducer";
+import {logoutRequest} from "./actions/usersActions";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -40,7 +41,9 @@ axiosApi.interceptors.response.use(res => res, e => {
   if (!e.response) {
     e.response = {data: {global: 'No internet'}};
   }
-
+  if (e.response.data.error === 'Outdated token') {
+      store.dispatch(logoutRequest('outdated'))
+  }
   throw e;
 })
 

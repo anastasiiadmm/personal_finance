@@ -57,7 +57,6 @@ export function* transactionsFetch({payload: data}) {
     }
     yield put(transactionsFetchSuccess(transactionsResponse.data));
   } catch (err) {
-    console.log(err.response.data)
     yield put(transactionsFetchFailure(err.response.data.message));
   }
 }
