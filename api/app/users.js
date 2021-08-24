@@ -1,5 +1,5 @@
 const express = require('express');
-const {User, Group, Token} = require('../models');
+const {User, Group, Token, Category} = require('../models');
 const upload = require('../multer').avatar;
 const config = require('../config/config');
 const {nanoid} = require('nanoid');
@@ -8,10 +8,13 @@ const geoip = require('geoip-lite');
 const auth = require("../middleware/auth");
 const {tryToDeleteFile} = require('../utils');
 const {Op} = require("sequelize");
+const {categoryDefault} = require('../defaultCategories');
 
 
 const googleClient = new OAuth2Client(config.google.clientId)
 const router = express.Router();
+
+
 
 router.delete('/', auth, async (req, res) => {
   try {
@@ -63,6 +66,8 @@ router.post('/signup/', upload.single('avatar'), async (req, res) => {
     const group = await Group.create({
       title: 'Personal',
     });
+
+    await Category.bulkCreate(categoryDefault(user.id));
 
     await user.addGroup(group.id, {through: {role: 'owner'}});
     const userData = user.toJSON();
@@ -211,6 +216,7 @@ router.post('/googleLogin', async (req, res) => {
       });
 
       await user.addGroup(group.id, {through: {role: 'owner'}});
+      await Category.bulkCreate(categoryDefault(user.id));
     } else {
       const newToken = {
         userId: user.id,
