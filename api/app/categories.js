@@ -6,14 +6,6 @@ const upload = require('../multer').categoryIcon;
 const router = express.Router();
 
 
-router.get('/ok', async (req, res) => {
-  const CategoryResponse = await Category.findAll()
-
-  res.status(200).send(CategoryResponse);
-
-
-})
-
 router.post('/', auth, upload.single('categoryIcon'), async (req, res) => {
   try {
 
@@ -40,7 +32,7 @@ router.get('/', auth, async (req, res) => {
 
   try {
     const CategoryResponse = await Category.findAll({
-      where: {userId: req.user.id, sub: 0},
+      where: {userId: req.user.id, sub: null},
       include: {model: Category, as: 'subCategory'}
     });
 

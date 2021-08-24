@@ -24,7 +24,7 @@ module.exports = {
       updatedAt: new Date()
     }, {
       userId: 2,
-      categoryId: 5,
+      categoryId: 41,
       sumIn: 1000,
       sumOut: 1000,
       accountToId: 4,
