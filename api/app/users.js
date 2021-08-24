@@ -54,10 +54,11 @@ router.post('/signup/', upload.single('avatar'), async (req, res) => {
     const token = await Token.create({
       userId: user.id,
       token: nanoid(),
-      expirationDate: new Date(new Date().getTime() + config.tokenDuration),
+      expirationDate: new Date(new Date().setDate(new Date().getDate() + config.tokenDurationDays)),
       location: req.ip === '::1' ? geoip.lookup('92.62.73.100').country : geoip.lookup(req.ip).country,
       device: req.headers['user-agent']
     });
+
 
     const group = await Group.create({
       title: 'Personal',
@@ -97,7 +98,7 @@ router.post('/sessions/', async (req, res) => {
       const newToken = {
         userId: user.id,
         token: nanoid(),
-        expirationDate: new Date(new Date().getTime() + config.tokenDuration),
+        expirationDate: new Date(new Date().setDate(new Date().getDate() + config.tokenDurationDays)),
         location: req.ip === '::1' ? geoip.lookup('92.62.73.100').country : geoip.lookup(req.ip).country,
         device: req.headers['user-agent']
       };
@@ -200,7 +201,7 @@ router.post('/googleLogin', async (req, res) => {
       token = await Token.create({
         userId: user.id,
         token: nanoid(),
-        expirationDate: new Date(new Date().getTime() + config.tokenDuration),
+        expirationDate: new Date(new Date().setDate(new Date().getDate() + config.tokenDurationDays)),
         location: req.ip === '::1' ? geoip.lookup('92.62.73.100').country : geoip.lookup(req.ip).country,
         device: req.headers['user-agent']
       });
@@ -214,7 +215,7 @@ router.post('/googleLogin', async (req, res) => {
       const newToken = {
         userId: user.id,
         token: nanoid(),
-        expirationDate: new Date(new Date().getTime() + config.tokenDuration),
+        expirationDate: new Date(new Date().setDate(new Date().getDate() + config.tokenDurationDays)),
         location: req.ip === '::1' ? geoip.lookup('92.62.73.100').country : geoip.lookup(req.ip).country,
         device: req.headers['user-agent']
       };
