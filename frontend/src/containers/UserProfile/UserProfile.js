@@ -22,7 +22,7 @@ import {whiteColor} from "../../assets/jss/material-dashboard-react";
 import {transactionsFetchRequest} from "../../store/actions/transactionsActions";
 import {groupsRequest} from "../../store/actions/groupsActions";
 import {Checkbox, FormControlLabel} from "@material-ui/core";
-import {apiURL, domain} from "../../config";
+import {apiURL} from "../../config";
 
 const styles = {
   cardCategoryWhite: {
