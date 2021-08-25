@@ -33,7 +33,7 @@ const OneTransaction = ({transaction, currency, openDetails}) => {
               <Tooltip title={transaction.user?.displayName ? transaction.user.displayName : 'Deleted user'}>
                 {transaction.user?.avatar ?
                   <Avatar
-                    src={apiURL + '/' + transaction.user.avatar}
+                    src={transaction.user.avatar.substring(0, 8) === 'https://' ? transaction.user.avatar : apiURL + '/' + transaction.user.avatar}
                     className={classes.avatar}
                   />
                   :

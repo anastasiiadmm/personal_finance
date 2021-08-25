@@ -48,7 +48,7 @@ const NavbarLinks = ({user}) => {
         >
           {user.avatar ?
             <Avatar
-              src={apiURL + '/' + user.avatar}
+              src={user.avatar.substring(0, 8) === 'https://' ? user.avatar : apiURL + '/' + user.avatar}
               className={classes.avatar}
             />
             :

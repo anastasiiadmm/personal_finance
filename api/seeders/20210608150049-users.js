@@ -1,5 +1,4 @@
 'use strict';
-const config = require('../config/config');
 const bcrypt = require("bcrypt");
 const SALT_WORK_FACTOR = 10;
 

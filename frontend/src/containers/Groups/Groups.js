@@ -50,7 +50,9 @@ const Groups = () => {
                 <CardHeader color="warning" stats icon>
                   <CardIcon color="warning">
                     {group.avatar ? (
-                      <Avatar alt={group.title} src={apiURL + '/' + group.avatar}
+                      <Avatar alt={group.title}
+
+                              src={apiURL + '/' + group.avatar}
                               className={classes.small}/>
                     ) : (
                       <Avatar alt={group.title}

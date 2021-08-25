@@ -22,7 +22,7 @@ import {whiteColor} from "../../assets/jss/material-dashboard-react";
 import {transactionsFetchRequest} from "../../store/actions/transactionsActions";
 import {groupsRequest} from "../../store/actions/groupsActions";
 import {Checkbox, FormControlLabel} from "@material-ui/core";
-import {apiURL} from "../../config";
+import {apiURL, domain} from "../../config";
 
 const styles = {
   cardCategoryWhite: {
@@ -142,7 +142,9 @@ const UserProfile = () => {
                 error={getFieldError('avatar')}
               >
                 <CardAvatar plain>
-                  {user.avatar ? <img src={apiURL + '/' + user.avatar} alt="avatar"/> :
+                  {user.avatar ?
+                    <img src={user.avatar.substring(0, 8) === 'https://' ? user.avatar : apiURL + '/' + user.avatar}
+                         alt="avatar"/> :
                     <img src={unknownUser} alt="avatar"/>
                   }
                 </CardAvatar>

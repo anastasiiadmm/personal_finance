@@ -180,7 +180,7 @@ const SingleGroup = ({match}) => {
                   >
                     <Avatar alt={user.displayName}
                             id="info-button"
-                            src={apiURL + '/' + user.avatar}
+                            src={user.avatar.substring(0, 8) === 'https://' ? user.avatar : apiURL + '/' + user.avatar}
                             className={classes.small}
                     />
                   </IconButton>
