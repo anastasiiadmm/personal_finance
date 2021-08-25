@@ -12,7 +12,7 @@ if (env === 'test') {
   databaseUrl = process.env.DB_TEST_NAME;
   port = 8010;
 } else if (env === 'production') {
-  domain = '178.62.206.204:8000';
+  domain = '178.62.206.204:';
 }
 
 module.exports = {
