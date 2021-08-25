@@ -150,7 +150,7 @@ const Transactions = () => {
                 size={"sm"} color={"danger"}><ArrowUpwardIcon className={classes.icons}/></Button>
       </Grid>
       <Grid container item direction='row' spacing={1}>
-        <Grid container item xs={3} className={classes.criteriaContainer} alignItems="center">
+        <Grid container item xs={4} sm={3} className={classes.criteriaContainer} alignItems="center">
           <Button block color={'grey'}
                   inputStyled
                   onClick={() => handleDialogOpen('category')}>
@@ -158,7 +158,7 @@ const Transactions = () => {
             {<CategoryIcon/>}
           </Button>
         </Grid>
-        <Grid container item xs={6} className={classes.criteriaContainer} alignItems="center">
+        <Grid container item xs={8} sm={6} className={classes.criteriaContainer} alignItems="center">
           <Button block color={'grey'}
                   inputStyled
                   onClick={() => handleDialogOpen('date')}>
@@ -169,7 +169,7 @@ const Transactions = () => {
             {<DateRangeIcon/>}
           </Button>
         </Grid>
-        <Grid container item xs={3} className={classes.criteriaContainer} alignItems="center">
+        <Grid container item xs={12} sm={3} className={classes.criteriaContainer} alignItems="center">
           {clear ? <Button block color='success'
                            disabled={!criteria.range[0].endDate && !criteria.category.id}
                            onClick={handleSearch}>Search</Button> :
