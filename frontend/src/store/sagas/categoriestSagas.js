@@ -57,7 +57,7 @@ export function* fetchCategory({payload: categoryId}) {
 
 export function* updateCategory({payload: data}) {
     try {
-        yield axiosApi.put('/categories/' + data.id, data.category);
+        yield axiosApi.put('/categories/' + data.id, data.formData);
         yield put(updateCategorySuccess());
         yield put(historyPush('/categories'));
         yield fetchCategories();

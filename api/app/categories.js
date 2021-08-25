@@ -23,8 +23,7 @@ router.post('/', auth, upload.single('categoryIcon'), async (req, res) => {
       categoryType: req.body.categoryType,
       userId: req.user.id,
     };
-
-    if (req.body.parentCategory !== '') {
+    if (req.body.parentCategory && req.body.parentCategory !== '') {
       categoryData.parentCategory = req.body.parentCategory;
       categoryData.sub = true;
     }
@@ -41,7 +40,23 @@ router.get('/', auth, async (req, res) => {
   try {
     const CategoryResponse = await Category.findAll({
       where: {userId: req.user.id, sub: false},
-      include: {model: Category, as: 'subCategory'}
+      include: {
+        model: Category,
+        as: 'subCategory',
+        include: {
+          model: Category,
+          as: 'subCategory',
+          include: {
+            model: Category,
+            as: 'subCategory',
+            include: {
+              model: Category,
+              as: 'subCategory',
+              include: {model: Category, as: 'subCategory', include: {model: Category, as: 'subCategory'}}
+            }
+          }
+        }
+      }
     });
 
     res.status(200).send(CategoryResponse);
@@ -63,12 +78,17 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', upload.single('categoryIcon'), async (req, res) => {
 
   try {
+
     await Category.update(req.body, {where: {id: req.params.id}});
 
     const categoryResponse = await Category.findOne({where: {id: req.params.id}, include: ['subCategory']});
+    if (req.body.parentCategory !== '') {
+      categoryResponse.sub = true;
+      await categoryResponse.save();
+    }
     res.status(200).send(categoryResponse);
 
   } catch (e) {

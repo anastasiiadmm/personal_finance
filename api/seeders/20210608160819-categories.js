@@ -305,7 +305,7 @@ module.exports = {
       userId: 1,
       sub: true,
       parentCategory: 30,
-      name: "Alcohol and/or bars",
+      name: "Bars",
       categoryType: 'expenditure',
       createdAt: new Date(),
       updatedAt: new Date()
@@ -314,7 +314,7 @@ module.exports = {
       userId: 2,
       sub: true,
       parentCategory: 31,
-      name: "Alcohol and/or bars",
+      name: "Bars",
       categoryType: 'expenditure',
       createdAt: new Date(),
       updatedAt: new Date()

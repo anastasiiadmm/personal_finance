@@ -4,13 +4,11 @@ import './Tree.css';
 
 const Tree = ({ data = [], handleDelete, showButtons}) => {
     return (
-        <div>
             <ul className="d-flex d-tree-container flex-column">
                 {data.map((tree) => (
                     <TreeNode node={tree} handleDelete={handleDelete} key={tree.id} showButtons={showButtons}/>
                 ))}
             </ul>
-        </div>
     );
 };
 
