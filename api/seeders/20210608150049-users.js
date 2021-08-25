@@ -10,7 +10,7 @@ module.exports = {
       email: 'johndoe@test.com',
       displayName: 'John Doe',
       password: await bcrypt.hashSync('1qaz@WSX29', bcrypt.genSaltSync(SALT_WORK_FACTOR)),
-      avatar: config.URL + 'fixtures/avatar1.jpg',
+      avatar: 'fixtures/avatar1.jpg',
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -18,7 +18,7 @@ module.exports = {
         email: 'johnsmith@test.com',
         displayName: 'John Smith',
         password: await bcrypt.hashSync('1qaz@WSX29', bcrypt.genSaltSync(SALT_WORK_FACTOR)),
-        avatar: config.URL + 'fixtures/avatar2.jpg',
+        avatar: 'fixtures/avatar2.jpg',
         createdAt: new Date(),
         updatedAt: new Date()
       }]);

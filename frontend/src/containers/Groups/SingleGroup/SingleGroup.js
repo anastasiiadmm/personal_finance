@@ -15,6 +15,7 @@ import EditIcon from '@material-ui/icons/Edit';
 
 import Button from "../../../components/UI/CustomButtons/Button";
 import IconButton from "@material-ui/core/IconButton";
+import {apiURL} from "../../../config";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -179,7 +180,7 @@ const SingleGroup = ({match}) => {
                   >
                     <Avatar alt={user.displayName}
                             id="info-button"
-                            src={user.avatar}
+                            src={apiURL + '/' + user.avatar}
                             className={classes.small}
                     />
                   </IconButton>

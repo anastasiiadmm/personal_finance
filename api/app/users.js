@@ -51,7 +51,7 @@ router.post('/signup/', upload.single('avatar'), async (req, res) => {
       email: req.body.email,
       displayName: req.body.displayName ? req.body.displayName : null,
       password: req.body.password ? req.body.password : null,
-      avatar: req.file ? config.URL + req.file.filename : null,
+      avatar: req.file ?  req.file.filename : null,
     });
 
     const token = await Token.create({
@@ -140,9 +140,9 @@ router.put('/sessions/', upload.single('avatar'), auth, async (req, res) => {
 
       if (!!req.file) {
         if (!!user.avatar) {
-          await tryToDeleteFile(req.user.avatar.replace(config.URL, ''), 'avatarImages');
+          await tryToDeleteFile(req.user.avatar, 'avatarImages');
         }
-        user.avatar = config.URL + req.file.filename;
+        user.avatar = req.file.filename;
       }
       req.body.displayName ? user.displayName = req.body.displayName : null;
       req.body.preferences ? user.preferences = req.body.preferences : null;

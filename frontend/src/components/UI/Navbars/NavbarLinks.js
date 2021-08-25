@@ -16,6 +16,7 @@ import {logoutRequest} from "../../../store/actions/usersActions";
 import {useDispatch} from "react-redux";
 import {Avatar} from "@material-ui/core";
 import {historyPush} from "../../../store/actions/historyActions";
+import {apiURL} from "../../../config";
 
 const useStyles = makeStyles(styles);
 
@@ -47,7 +48,7 @@ const NavbarLinks = ({user}) => {
         >
           {user.avatar ?
             <Avatar
-              src={user.avatar}
+              src={apiURL + '/' + user.avatar}
               className={classes.avatar}
             />
             :

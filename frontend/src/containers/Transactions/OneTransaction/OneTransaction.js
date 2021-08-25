@@ -12,6 +12,7 @@ import Danger from "../../../components/UI/Typography/Danger";
 import Info from "../../../components/UI/Typography/Info";
 import Muted from "../../../components/UI/Typography/Muted";
 import Hidden from "@material-ui/core/Hidden";
+import {apiURL} from "../../../config";
 
 
 const useStyles = makeStyles(styles);
@@ -32,7 +33,7 @@ const OneTransaction = ({transaction, currency, openDetails}) => {
               <Tooltip title={transaction.user?.displayName ? transaction.user.displayName : 'Deleted user'}>
                 {transaction.user?.avatar ?
                   <Avatar
-                    src={transaction.user.avatar}
+                    src={apiURL + '/' + transaction.user.avatar}
                     className={classes.avatar}
                   />
                   :
