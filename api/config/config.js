@@ -6,14 +6,17 @@ const env = process.env.NODE_ENV;
 
 let databaseUrl = process.env.DB_NAME;
 let port = 8000;
+let domain = 'http://localhost:'
 
 if (env === 'test') {
   databaseUrl = process.env.DB_TEST_NAME;
   port = 8010;
+} else if (env === 'production') {
+  domain = '178.62.206.204:8000';
 }
 
 module.exports = {
-  URL: `http://localhost:${port}/`,
+  URL: domain + port+'/',
   port,
   rootPath,
   uploadPath: path.join(rootPath, 'public/uploads'),
