@@ -58,16 +58,6 @@ const AccountForm = ({onSubmit, loading, error, onClose}) => {
                     onChange={inputChangeHandler}
                     error={getFieldError('accountName')}
                 />
-
-                {/*<FormElement*/}
-                {/*    required*/}
-                {/*    label="Balance"*/}
-                {/*    name="balance"*/}
-                {/*    value={state.balance}*/}
-                {/*    onChange={inputChangeHandler}*/}
-                {/*    error={getFieldError('balance')}*/}
-                {/*/>*/}
-
                 <FormElement
                     required
                     label="Currency"

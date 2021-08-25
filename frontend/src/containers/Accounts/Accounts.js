@@ -11,29 +11,6 @@ import AccountItem from "./AccountItem";
 import AccountForm from "./AccountForm/AccountForm";
 import styles from "../../assets/jss/material-dashboard-react/views/dashboardStyle";
 
-// const useStyles = makeStyles(theme => ({
-//   root: {
-//     position: 'relative'
-//   },
-//   progress: {
-//     height: 200
-//   },
-//   palette: {
-//     color: 'purple'
-//   },
-//   modal: {
-//     display: 'flex',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   paper: {
-//     width: 500,
-//     backgroundColor: theme.palette.background.paper,
-//     border: '1px solid #000',
-//     boxShadow: theme.shadows[4],
-//     padding: theme.spacing(2, 4, 3),
-//   }
-// }));
 const useStyles = makeStyles(styles);
 
 const Accounts = (id) => {
