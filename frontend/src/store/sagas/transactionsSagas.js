@@ -16,6 +16,7 @@ import {
   transactionsTypeSuccess
 } from "../actions/transactionsActions";
 import {addNotification} from "../actions/notifierActions";
+import {fetchAccountsRequest} from "../actions/accountsActions";
 
 
 export function* postTransaction({payload: transactionData}) {
@@ -28,7 +29,7 @@ export function* postTransaction({payload: transactionData}) {
     yield axiosApi.post('/transactions/' + transactionData.type, data);
     yield put(transactionPostSuccess());
     yield put(transactionsFetchRequest());
-
+    yield put(fetchAccountsRequest(transactionData.groupId));
   } catch (error) {
     yield put(addNotification({message: error.response.data.message, options: {variant: 'error'}}));
     yield put(transactionPostFailure(error.response.data.message));
