@@ -57,7 +57,6 @@
       | title | Test 2 |
     Затем загружаю картинку
     И нажимаю на кнопку "Update group"
-    То вижу "Group update successful"
 
   @deleteGroup
   Сценарий: удаление группы у залогиненного пользователя
