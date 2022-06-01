@@ -23,7 +23,6 @@ import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import SyncAltIcon from "@material-ui/icons/SyncAlt";
 import NewTransaction from "../NewTransaction/NewTransaction";
 
-
 const BootstrapInput = withStyles((theme) => ({
   root: {
     'label + &': {
@@ -69,7 +68,6 @@ const Transactions = () => {
   const [search, setSearch] = useState(true);
   const [clear, setClear] = useState(true);
 
-
   useEffect(() => {
     dispatch(fetchCategoriesRequest());
     dispatch(groupsRequest());
@@ -108,6 +106,7 @@ const Transactions = () => {
     setCriteria({...criteria, limit: event.target.value});
     setSearch(!search);
   };
+
   const setNext = (next) => {
     if (next && criteria.offset + criteria.limit < transactions.count) {
       setCriteria({...criteria, offset: criteria.offset + criteria.limit});
@@ -239,8 +238,7 @@ const Transactions = () => {
         <NewTransaction open={openDialog.open} type={openDialog.type} handleClose={handleCloseDialog}/> : null
       }
     </Grid>
-  )
-    ;
+  );
 };
 
 export default Transactions;

@@ -9,8 +9,6 @@ router.get('/ok', async (req, res) => {
   const CategoryResponse = await Category.findAll()
 
   res.status(200).send(CategoryResponse);
-
-
 })
 
 

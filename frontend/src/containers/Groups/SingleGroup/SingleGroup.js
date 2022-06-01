@@ -172,7 +172,7 @@ const SingleGroup = ({match}) => {
               {renderAdminPanel() ? adminPanel : null}
             </Grid>
             <Grid container item sm={6} md={6}>
-              {group.users && group.users.map(user => (
+              {group.users && group.uses.map(user => (
                 <Tooltip title={user.GroupUsers.role} key={user.id}>
                   <IconButton
                     className={classes.avatarButton}

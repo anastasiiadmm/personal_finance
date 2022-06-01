@@ -49,6 +49,7 @@ export function* editTransaction({payload: transactionData}) {
 }
 
 export function* transactionsFetch({payload: data}) {
+  console.log(data)
   try {
     let transactionsResponse;
     if (data) {
